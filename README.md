@@ -2,6 +2,7 @@
 
 **linked-list** provides minimalistic [linked](http://blog.millermedeiros.com/linked-lists) [lists](http://wikipedia.org/wiki/Linked_list) in JavaScript. No dependencies. NodeJS, AMD, browser. Lots of tests (70+). 653 Bytes minified and gzipped.
 
+[![browser support](https://ci.testling.com/wooorm/linked-list.png)](https://ci.testling.com/wooorm/linked-list)
 
 ## Example
 
