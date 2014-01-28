@@ -223,7 +223,6 @@ list.tail === null; // true, see note.
 
 list.append(item_);
 list.tail === item_; // true
-
 ```
 
 The last item in a list, and `null` otherwise. Note that a list with only one item has **no tail**, only a head.
