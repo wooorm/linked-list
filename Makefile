@@ -1,4 +1,4 @@
-LICENSE_COMMENT="/*! linked-list 0.0.1 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */"
+LICENSE_COMMENT="/*! linked-list 0.0.2 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */"
 
 test:
 	@./node_modules/.bin/mocha --reporter spec spec/*.spec.js

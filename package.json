@@ -2,7 +2,7 @@
   "name": "linked-list",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "description": "Minimalistic linked lists.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [
     "linked",
     "list",
@@ -44,8 +44,11 @@
       "safari/4.0",
       "safari/latest",
       "iphone/6.0",
+      "iphone/latest",
       "ipad/6.0",
-      "android-browser/4.2"
+      "ipad/latest",
+      "android-browser/4.2",
+      "android-browser/latest"
     ]
   }
 }

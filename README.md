@@ -184,24 +184,6 @@ array[1].prev === item // true
 Returns the items in the list in an array.
 
 
-#### LinkedList#asArray()
-```js
-var item = new LinkedList.Item(),
-    item_ = new LinkedList.Item(),
-    list = new LinkedList(item, item_),
-    array = list.asArray();
-
-array[0] === item // true
-array[1] === item_ // true
-array[0].next === null // true
-array[1].prev === null // true
-array[0].list === null // true
-list.head === null // true
-```
-
-Empties the list, and returns the detached items as an array.
-
-
 #### LinkedList#head
 ```js
 var item = new LinkedList.Item(),
