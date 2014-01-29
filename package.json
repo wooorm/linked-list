@@ -2,7 +2,7 @@
   "name": "linked-list",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "description": "Minimalistic linked lists.",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [
     "linked",
     "list",

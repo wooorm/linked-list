@@ -1,0 +1,16 @@
+{
+  "name": "linked-list",
+  "repo": "wooorm/linked-list",
+  "description": "Minimalistic linked lists.",
+  "version": "0.0.3",
+  "keywords": [
+    "linked",
+    "list"
+  ],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "./_destination/linked-list.max.js"
+  ]
+}

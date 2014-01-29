@@ -1,0 +1,20 @@
+{
+  "name": "linked-list",
+  "main": "./_destination/linked-list.max.js",
+  "version": "0.0.3",
+  "homepage": "https://github.com/wooorm/linked-list",
+  "authors": [
+    "wooorm <tituswormer@gmail.com>"
+  ],
+  "description": "Minimalistic linked lists.",
+  "keywords": [
+    "linked",
+    "list"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "spec"
+  ]
+}
