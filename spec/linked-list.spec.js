@@ -1,15 +1,7 @@
 
-var List, Item, assert;
-
-try {
-    List = require('linked-list');
-} catch (e) {
-    List = require('..');
-}
-
-Item = List.Item;
-
-assert = require('assert');
+var List = require('..'),
+    Item = List.Item,
+    assert = require('assert');
 
 assert.isArray = function (result) {
     return assert(Object.prototype.toString.call(result) === '[object Array]');
