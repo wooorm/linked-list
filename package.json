@@ -30,14 +30,22 @@
     "files": "spec/*.js",
     "harness": "mocha",
     "browsers": [
+      "iexplore/6.0",
       "iexplore/latest",
+      "chrome/4.0",
       "chrome/latest",
+      "chrome/canary",
+      "firefox/3.0",
       "firefox/latest",
-      "opera/latest",
-      "safari/latest",
       "firefox/nightly",
+      "opera/10",
+      "opera/latest",
       "opera/next",
-      "chrome/canary"
+      "safari/4.0",
+      "safari/latest",
+      "iphone/6.0",
+      "ipad/6.0",
+      "android-browser/4.2"
     ]
   }
 }
