@@ -1,7 +1,7 @@
 {
   "name": "linked-list",
   "main": "./_destination/linked-list.max.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/wooorm/linked-list",
   "authors": [
     "wooorm <tituswormer@gmail.com>"
