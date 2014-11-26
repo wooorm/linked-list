@@ -1,26 +1,35 @@
 'use strict';
 
-module.exports = List;
+/**
+ * Constants.
+ */
+
+var errorMessage;
+
+errorMessage = 'An argument without append, prepend, ' +
+    'or detach methods was given to `List';
 
 /**
  * Creates a new List: A linked list is a bit like an Array, but
  * knows nothing about how many items are in it, and knows only about its
  * first (`head`) and last (`tail`) items. Each item (e.g. `head`, `tail`,
- * &c.) knows which item comes before or after it (its more like the 
+ * &c.) knows which item comes before or after it (its more like the
  * implementation of the DOM in JavaScript).
  * @global
  * @private
  * @constructor
  * @class Represents an instance of List.
  */
+
 function List(/*items...*/) {
     if (arguments.length) {
         return List.from(arguments);
     }
 }
 
-var ListPrototype = List.prototype,
-    errorMessage = 'An argument without append, prepend, or detach methods was given to `List';
+var ListPrototype;
+
+ListPrototype = List.prototype;
 
 /**
  * Creates a new list from the arguments (each a list item) passed in.
@@ -28,28 +37,28 @@ var ListPrototype = List.prototype,
  * @param {...ListItem} [items] - Zero or more items to attach.
  * @returns {list} - A new instance of List.
  */
+
 List.of = function (/*items...*/) {
     return List.from.call(this, arguments);
 };
 
-
 /**
- * Creates a new list from the given array-like object (each a list item) 
+ * Creates a new list from the given array-like object (each a list item)
  * passed in.
  * @name List.from
  * @param {ListItem[]} [items] - The items to append.
  * @returns {list} - A new instance of List.
  */
 List.from = function (items) {
-
     var list = new this(), length, iterator, item;
 
     if (items && (length = items.length)) {
         iterator = -1;
 
         while (++iterator < length) {
-            /*jshint eqnull:true */
-            if (null != (item = items[iterator])) {
+            item = items[iterator];
+
+            if (item !== null && item !== undefined) {
                 list.append(item);
             }
         }
@@ -58,20 +67,17 @@ List.from = function (items) {
     return list;
 };
 
-
 /**
  * List#head
  * Default to `null`.
  */
 ListPrototype.head = null;
 
-
 /**
  * List#tail
  * Default to `null`.
  */
 ListPrototype.tail = null;
-
 
 /**
  * Returns the list's items as an array. This does *not* detach the items.
@@ -98,7 +104,6 @@ ListPrototype.toArray = function () {
  * @returns {ListItem} - An instance of ListItem (the given item).
  */
 ListPrototype.prepend = function (item) {
-
     if (!item) {
         return false;
     }
@@ -112,10 +117,11 @@ ListPrototype.prepend = function (item) {
     // Cache self.
     self = this;
 
-    // If self has a first item, defer prepend to the first items prepend 
+    // If self has a first item, defer prepend to the first items prepend
     // method, and return the result.
-    /*jshint boss:true */
-    if (head = self.head) {
+    head = self.head;
+
+    if (head) {
         return head.prepend(item);
     }
 
@@ -128,12 +134,13 @@ ListPrototype.prepend = function (item) {
     item.list = self;
 
     // Set self's first item to the prependee, and return the item.
-    return self.head = item;
+    self.head = item;
+
+    return item;
 };
 
-
 /**
- * Appends the given item to the list: Item will be the new last item (`tail`) 
+ * Appends the given item to the list: Item will be the new last item (`tail`)
  * if the list had a first item, and its first item (`head`) otherwise.
  * @name List#append
  * @param {ListItem} item - The item to append.
@@ -141,7 +148,6 @@ ListPrototype.prepend = function (item) {
  */
 
 ListPrototype.append = function (item) {
-
     if (!item) {
         return false;
     }
@@ -155,17 +161,19 @@ ListPrototype.append = function (item) {
     // Cache self.
     self = this;
 
-    // If self has a last item, defer appending to the last items append 
+    // If self has a last item, defer appending to the last items append
     // method, and return the result.
-    /*jshint boss:true */
-    if (tail = self.tail) {
+    tail = self.tail;
+
+    if (tail) {
         return tail.append(item);
     }
 
-    // If self has a first item, defer appending to the first items append 
+    // If self has a first item, defer appending to the first items append
     // method, and return the result.
-    /*jshint boss:true */
-    if (head = self.head) {
+    head = self.head;
+
+    if (head) {
         return head.append(item);
     }
 
@@ -178,7 +186,9 @@ ListPrototype.append = function (item) {
     item.list = self;
 
     // Set self's first item to the appendee, and return the item.
-    return self.head = item;
+    self.head = item;
+
+    return item;
 };
 
 /**
@@ -191,15 +201,17 @@ ListPrototype.append = function (item) {
  * @class Represents an instance of ListItem.
  */
 
-function ListItem() {
-
-}
+function ListItem() {}
 
 List.Item = ListItem;
 
 var ListItemPrototype = ListItem.prototype;
 
-ListItemPrototype.next = ListItemPrototype.prev = ListItemPrototype.list = null;
+ListItemPrototype.next = null;
+
+ListItemPrototype.prev = null;
+
+ListItemPrototype.list = null;
 
 /**
  * Detaches the item operated on from its parent list.
@@ -207,7 +219,6 @@ ListItemPrototype.next = ListItemPrototype.prev = ListItemPrototype.list = null;
  * @returns {ListItem} - The item operated on.
  */
 ListItemPrototype.detach = function () {
-
     // Cache self, the parent list, and the previous and next items.
     var self = this,
         list = self.list,
@@ -219,20 +230,20 @@ ListItemPrototype.detach = function () {
         return self;
     }
 
-    // If self is the last item in the parent list, link the lists last item 
+    // If self is the last item in the parent list, link the lists last item
     // to the previous item.
     if (list.tail === self) {
         list.tail = prev;
     }
 
-    // If self is the first item in the parent list, link the lists first item 
+    // If self is the first item in the parent list, link the lists first item
     // to the next item.
     if (list.head === self) {
         list.head = next;
     }
 
-    // If both the last and first items in the parent list are the same, remove 
-    // the link to the last item.
+    // If both the last and first items in the parent list are the same,
+    // remove the link to the last item.
     if (list.tail === list.head) {
         list.tail = null;
     }
@@ -247,7 +258,7 @@ ListItemPrototype.detach = function () {
         next.prev = prev;
     }
 
-    // Remove links from self to both the next and previous items, and to the 
+    // Remove links from self to both the next and previous items, and to the
     // parent list.
     self.prev = self.next = self.list = null;
 
@@ -255,16 +266,14 @@ ListItemPrototype.detach = function () {
     return self;
 };
 
-
 /**
  * Prepends the given item *before* the item operated on.
  * @name ListItem#prepend
  * @param {ListItem} item - The item to prepend.
- * @returns {ListItem} - The item operated on, or false when that item is not 
+ * @returns {ListItem} - The item operated on, or false when that item is not
  * attached.
  */
 ListItemPrototype.prepend = function (item) {
-
     if (!item || !item.append || !item.prepend || !item.detach) {
         throw new Error(errorMessage + 'Item#prepend`.');
     }
@@ -284,7 +293,6 @@ ListItemPrototype.prepend = function (item) {
 
     // If self has a previous item...
     if (prev) {
-
         // ...link the prependees previous item, to selfs previous item.
         item.prev = prev;
 
@@ -301,22 +309,21 @@ ListItemPrototype.prepend = function (item) {
     // Set the previous item of self to the prependee.
     self.prev = item;
 
-    // If self is the first item in the parent list, link the lists first item 
+    // If self is the first item in the parent list, link the lists first item
     // to the prependee.
     if (self === list.head) {
         list.head = item;
     }
 
-    // If the the parent list has no last item, link the lists last item to 
+    // If the the parent list has no last item, link the lists last item to
     // self.
     if (!list.tail) {
-        list.tail = self; 
+        list.tail = self;
     }
 
     // Return the prependee.
     return item;
 };
-
 
 /**
  * Appends the given item *after* the item operated on.
@@ -326,7 +333,6 @@ ListItemPrototype.prepend = function (item) {
  * attached.
  */
 ListItemPrototype.append = function (item) {
-
     // If item is falsey, return false.
     if (!item || !item.append || !item.prepend || !item.detach) {
         throw new Error(errorMessage + 'Item#append`.');
@@ -363,7 +369,7 @@ ListItemPrototype.append = function (item) {
     // Set the next item of self to the appendee.
     self.next = item;
 
-    // If the the parent list has no last item or if self is the parent lists 
+    // If the the parent list has no last item or if self is the parent lists
     // last item, link the lists last item to the appendee.
     if (self === list.tail || !list.tail) {
         list.tail = item;
@@ -372,3 +378,9 @@ ListItemPrototype.append = function (item) {
     // Return the appendee.
     return item;
 };
+
+/**
+ * Expose `List`.
+ */
+
+module.exports = List;

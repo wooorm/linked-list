@@ -23,9 +23,9 @@
   "scripts": {
     "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports test.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- test.js",
-    "lint-api": "node_modules/.bin/eslint index.js",
+    "lint-api": "node_modules/.bin/eslint index.js _source/linked-list.js",
     "lint-test": "node_modules/.bin/eslint test.js --env mocha",
-    "lint-style": "node_modules/.bin/jscs index.js test.js --reporter=inline",
+    "lint-style": "node_modules/.bin/jscs index.js _source/linked-list.js test.js --reporter=inline",
     "lint": "npm run lint-api && npm run lint-test && npm run lint-style"
   }
 }
