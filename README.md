@@ -4,8 +4,6 @@
 
 [![browser support](https://ci.testling.com/wooorm/linked-list.png#bust)](https://ci.testling.com/wooorm/linked-list)
 
-[![Build Status](https://travis-ci.org/wooorm/linked-list.png?branch=master)](https://travis-ci.org/wooorm/linked-list)
-
 ## Example
 
 ### “Simple”

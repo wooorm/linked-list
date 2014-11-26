@@ -25,30 +25,5 @@
   },
   "engines": {
     "node": ">=0.6"
-  },
-  "testling": {
-    "files": "spec/*.js",
-    "harness": "mocha",
-    "browsers": [
-      "iexplore/6.0",
-      "iexplore/latest",
-      "chrome/4.0",
-      "chrome/latest",
-      "chrome/canary",
-      "firefox/3.0",
-      "firefox/latest",
-      "firefox/nightly",
-      "opera/10",
-      "opera/latest",
-      "opera/next",
-      "safari/4.0",
-      "safari/latest",
-      "iphone/6.0",
-      "iphone/latest",
-      "ipad/6.0",
-      "ipad/latest",
-      "android-browser/4.2",
-      "android-browser/latest"
-    ]
   }
 }
