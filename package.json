@@ -1,29 +1,23 @@
 {
   "name": "linked-list",
-  "author": "Titus Wormer <tituswormer@gmail.com>",
-  "description": "Minimalistic linked lists.",
   "version": "0.0.4",
+  "description": "Minimalistic linked lists",
+  "license": "MIT",
   "keywords": [
     "linked",
-    "list",
-    "linked-list"
+    "list"
   ],
-  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "http://github.com/wooorm/linked-list"
+    "url": "https://github.com/wooorm/linked-list.git"
   },
-  "main": "./index.js",
-  "scripts": {
-    "test": "make test"
-  },
-  "dependencies": {},
+  "author": "Titus Wormer <tituswormer@gmail.com>",
   "devDependencies": {
     "mocha": "^2.0.0",
     "uglify-js": "^2.0.0",
     "jshint": "^2.0.0"
   },
-  "engines": {
-    "node": ">=0.6"
+  "scripts": {
+    "test": "make test"
   }
 }
