@@ -1,3 +1,4 @@
+'use strict';
 
 var List = require('./'),
     Item = List.Item,
