@@ -1,8 +1,5 @@
 LICENSE_COMMENT="/*! linked-list 0.0.3 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */"
 
-test:
-	@./node_modules/.bin/mocha --reporter spec test.js
-
 clean:
 	@rm -rf _destination
 	@mkdir -p _destination
@@ -33,6 +30,6 @@ _destination/linked-list.amd.js:
 build: clean _destination/linked-list.js _destination/linked-list.globals.js _destination/linked-list.amd.js
 
 lint:
-	@./node_modules/.bin/jshint _source/*.js test.js
+	@./node_modules/.bin/jshint _source/*.js
 
-.PHONY: lint test clean
+.PHONY: lint clean
