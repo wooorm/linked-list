@@ -1,5 +1,5 @@
 
-var List = require('..'),
+var List = require('./'),
     Item = List.Item,
     assert = require('assert');
 
