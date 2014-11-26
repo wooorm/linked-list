@@ -18,6 +18,7 @@
     ".*",
     "*.log",
     "*.md",
+    "_source",
     "build/",
     "node_modules/",
     "test.js",

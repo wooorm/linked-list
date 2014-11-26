@@ -1,5 +1,6 @@
 .*
 *.log
+_destination/
 build/
 coverage/
 node_modules/
