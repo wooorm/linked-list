@@ -1,4 +1,4 @@
-/*! linked-list 0.0.3 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */
+/*! linked-list 0.1.0 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */
 (function(root){var module={}, exports = module.exports = {};
 'use strict';
 

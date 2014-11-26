@@ -1,4 +1,4 @@
-LICENSE_COMMENT="/*! linked-list 0.0.3 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */"
+LICENSE_COMMENT="/*! linked-list 0.1.0 Original author Titus Wormer <tituswormer@gmail.com>. Released under the MIT license. @preserve */"
 
 clean:
 	@rm -rf _destination
