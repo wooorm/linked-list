@@ -21,7 +21,7 @@
   "devDependencies": {
     "mocha": "^2.0.0",
     "uglify-js": "^2.0.0",
-    "jshint": "~2.5.1"
+    "jshint": "^2.0.0"
   },
   "engines": {
     "node": ">=0.6"
