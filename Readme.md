@@ -1,18 +1,44 @@
-# Linked List
+# linked-list [![Build Status](https://img.shields.io/travis/wooorm/linked-list.svg?style=flat)](https://travis-ci.org/wooorm/linked-list) [![Coverage Status](https://img.shields.io/coveralls/wooorm/linked-list.svg?style=flat)](https://coveralls.io/r/wooorm/linked-list?branch=master)
 
-**linked-list** provides minimalistic [linked](http://blog.millermedeiros.com/linked-lists) [lists](http://wikipedia.org/wiki/Linked_list) in JavaScript. No dependencies. NodeJS, AMD, browser. Lots of tests (70+). 653 Bytes minified and gzipped.
+Minimalistic [linked](http://blog.millermedeiros.com/linked-lists) [lists](http://wikipedia.org/wiki/Linked_list).
 
-[![browser support](https://ci.testling.com/wooorm/linked-list.png#bust)](https://ci.testling.com/wooorm/linked-list)
+## Installation
 
-## Example
+npm:
+```sh
+$ npm install linked-list
+```
+
+Component:
+```sh
+$ component install wooorm/linked-list
+```
+
+Bower:
+```sh
+$ bower install linked-list
+```
+
+Standalone library:
+
+```html
+<script src="/your/js/path/linked-list.globals.js"></script>
+```
+
+Download the latest minified standalone [release](https://raw.github.com/wooorm/linked-list/master/_destination/linked-list.globals.js) and add it to your project.
+Include the above snippet in your HTML. This makes the `LinkedList` module available in the global namespace (`window` in the browser).
+
+## Usage
 
 ### “Simple”
 
 ```js
-var item = new LinkedList.Item(),
-    item_ = new LinkedList.Item(),
-    item__ = new LinkedList.Item(),
-    list = new LinkedList(item, item_, item__);
+var LinkedList = require('linked-list'); // or use AMD, or globals.
+
+var item = new LinkedList.Item();
+var item_ = new LinkedList.Item();
+var item__ = new LinkedList.Item();
+var list = new LinkedList(item, item_, item__);
 
 list.head // => item
 list.head.next // => item_
@@ -22,12 +48,12 @@ list.tail // => item__
 list.tail.next // => `null`
 ```
 
-### Extending (a more usefull example)
+### Subclassing
 
 ```js
-var extend = require( 'some-extending-method...' ), // e.g. assimilate.
-    List = require( 'linked-list' ),
-    Item = List.Item;
+var extend = require('some-extending-method...'); // e.g. assimilate.
+var List = require('linked-list');
+var Item = List.Item;
 
 function Tokens() {
     List.apply(this, arguments);
@@ -49,10 +75,10 @@ extend(Token.prototype, Item.prototype, {
     }
 });
 
-var dogs = new Token('dogs'),
-    and = new Token('&'),
-    cats = new Token('cats'),
-    tokens = new Tokens(dogs, and, cats);
+var dogs = new Token('dogs');
+var and = new Token('&');
+var cats = new Token('cats');
+var tokens = new Tokens(dogs, and, cats);
 
 tokens.join(' '); // "dogs & cats"
 
@@ -60,64 +86,7 @@ and.prepend(cats);
 and.append(dogs);
 
 tokens.join(' ') + '!'; // "cats & dogs!"
-
 ```
-
-## Installation
-
-### With NPM
-
-```sh
-$ npm install linked-list
-```
-
-### Git
-
-```sh
-git clone https://github.com/wooorm/linked-list.git
-cd linked-list
-npm install
-make && make build
-```
-
-### With component
-
-```sh
-component install wooorm/linked-list
-```
-
-[Learn more about component](https://github.com/component/component).
-
-### With bower
-
-```sh
-bower install linked-list
-```
-
-[Learn more about bower](https://github.com/twitter/bower).
-
-### With a CommonJS module loader
-
-Download the latest minified CommonJS [release](https://raw.github.com/wooorm/linked-list/master/_destination/linked-list.js) and add it to your project.
-
-[Learn more about CommonJS modules](http://wiki.commonjs.org/wiki/Modules/1.1).
-
-
-### With an AMD module loader
-
-Download the latest minified AMD [release](https://raw.github.com/wooorm/linked-list/master/_destination/linked-list.amd.js) and add it to your project.
-
-[Learn more about AMD modules](http://requirejs.org/docs/whyamd.html).
-
-### As a standalone library
-
-Download the latest minified standalone [release](https://raw.github.com/wooorm/linked-list/master/_destination/linked-list.globals.js) and add it to your project.
-
-```html
-<script src="/your/js/path/linked-list.globals.js"></script>
-```
-
-This makes the `LinkedList` module available in the global namespace (`window` in the browser).
 
 ## API
 
@@ -344,26 +313,6 @@ item.list === null // true
 
 The items parent list, and `null` otherwise.
 
-## Build
-
-Run Mocha tests and JSHint
-```sh
-$ make
-```
-
-Build files (AMD, globals, and CommonJS)
-```sh
-$ make build
-```
-
 ## Licence
 
-(The MIT License)
-
-Copyright (c) 2014 Titus Wormer <tituswormer@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT © [Titus Wormer](http://wooorm.com)
