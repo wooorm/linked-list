@@ -1,20 +1,27 @@
 {
   "name": "linked-list",
-  "main": "./_destination/linked-list.max.js",
-  "version": "0.0.4",
-  "homepage": "https://github.com/wooorm/linked-list",
-  "authors": [
-    "wooorm <tituswormer@gmail.com>"
-  ],
-  "description": "Minimalistic linked lists.",
+  "main": "_destination/linked-list.max.js",
+  "description": "Minimalistic linked lists",
+  "license": "MIT",
   "keywords": [
     "linked",
     "list"
   ],
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wooorm/linked-list.git"
+  },
+  "authors": [
+    "Titus Wormer <tituswormer@gmail.com>"
+  ],
   "ignore": [
-    "**/.*",
-    "node_modules",
-    "spec"
+    ".*",
+    "*.log",
+    "*.md",
+    "build/",
+    "node_modules/",
+    "test.js",
+    "component.json",
+    "package.json"
   ]
 }
