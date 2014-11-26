@@ -19,7 +19,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "~1.20.1",
+    "mocha": "^2.0.0",
     "uglify-js": "~2.4.13",
     "jshint": "~2.5.1"
   },
