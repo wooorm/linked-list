@@ -19,6 +19,7 @@
     "uglify-js": "^2.0.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports test.js"
+    "test": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports test.js",
+    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- test.js"
   }
 }
