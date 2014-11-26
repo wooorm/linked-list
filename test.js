@@ -1,155 +1,225 @@
 'use strict';
 
-var List = require('./'),
-    Item = List.Item,
-    assert = require('assert');
+/**
+ * Dependencies.
+ */
+
+var LinkedList,
+    assert;
+
+LinkedList = require('./');
+assert = require('assert');
+
+/**
+ * Cache.
+ */
+
+var Item;
+
+Item = LinkedList.Item;
+
+/**
+ * Utilities.
+ */
 
 assert.isArray = function (result) {
-    return assert(Object.prototype.toString.call(result) === '[object Array]');
+    return assert(
+        Object.prototype.toString.call(result) === '[object Array]'
+    );
 };
 
-describe('List [List]', function () {
+/**
+ * Tests.
+ */
 
+describe('LinkedList [LinkedList]', function () {
     describe('@constructor', function () {
         it('should have an `Item` method', function () {
-            assert(typeof List.Item === 'function');
+            assert(typeof LinkedList.Item === 'function');
         });
 
         it('should have an `of` method', function () {
-            assert(typeof List.of === 'function');
+            assert(typeof LinkedList.of === 'function');
         });
 
         it('should have a `from` method', function () {
-            assert(typeof List.from === 'function');
+            assert(typeof LinkedList.from === 'function');
         });
 
-        describe('of [List.of]', function () {
+        describe('of [LinkedList.of]', function () {
+            function C() {}
+            C.prototype.append = LinkedList.prototype.append;
+            C.of = LinkedList.of;
 
-            var C = function () {};
-            C.prototype.append = List.prototype.append;
-            C.of = List.of;
-
-            it('should return an instance of self when *no* arguments are given', function () {
-                assert((List.of()) instanceof List);
-            });
+            it('should return an instance of self ' +
+                'when *no* arguments are given',
+                function () {
+                    assert((LinkedList.of()) instanceof LinkedList);
+                }
+            );
 
             it('should ignore `null` or `undefined` values', function () {
-                assert(!List.of(null).hasOwnProperty('head'));
-                assert(!List.of(undefined).hasOwnProperty('head'));
+                assert(!LinkedList.of(null).hasOwnProperty('head'));
+                assert(!LinkedList.of(undefined).hasOwnProperty('head'));
             });
 
-            it('should return an instance of self when arguments are given', function () {
-                assert((List.of(new Item())) instanceof List);
-                assert((C.of(new Item())) instanceof C);
-            });
+            it('should return an instance of self when ' +
+                'arguments are given',
+                function () {
+                    assert((LinkedList.of(new Item())) instanceof LinkedList);
+                    assert((C.of(new Item())) instanceof C);
+                }
+            );
 
-            it('should throw an error when an invalid item is given', function () {
-                assert.throws(function () { List.of({}); });
-            });
+            it('should throw an error when an invalid ' +
+                'item is given',
+                function () {
+                    assert.throws(function () {
+                        LinkedList.of({});
+                    });
+                }
+            );
 
-            it('should add ("append") items in the order they were given', function () {
-                var item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item(),
-                    list = List.of(item, item_, item__);
+            it('should add ("append") items in the ' +
+                'order they were given',
+                function () {
+                    var item,
+                        item1,
+                        item2,
+                        list;
 
-                assert(list.head === item);
-                assert(list.head.next === item_);
-                assert(list.head.next.next === item__);
+                    item = new Item();
+                    item1 = new Item();
+                    item2 = new Item();
+                    list = LinkedList.of(item, item1, item2);
 
-                assert(list.tail === item__);
-                assert(list.tail.prev === item_);
-                assert(list.tail.prev.prev === item);
-            });
+                    assert(list.head === item);
+                    assert(list.head.next === item1);
+                    assert(list.head.next.next === item2);
+
+                    assert(list.tail === item2);
+                    assert(list.tail.prev === item1);
+                    assert(list.tail.prev.prev === item);
+                }
+            );
         });
 
-        describe('from [List.from]', function () {
+        describe('from [LinkedList.from]', function () {
+            function C() {}
+            C.prototype.append = LinkedList.prototype.append;
+            C.from = LinkedList.from;
 
-            var C = function () {};
-            C.prototype.append = List.prototype.append;
-            C.from = List.from;
-
-            it('should return an instance of self when *no* arguments are given', function () {
-                assert((List.from()) instanceof List);
-                assert((C.from()) instanceof C);
-            });
+            it('should return an instance of self when ' +
+                '*no* arguments are given',
+                function () {
+                    assert((LinkedList.from()) instanceof LinkedList);
+                    assert((C.from()) instanceof C);
+                }
+            );
 
             it('should ignore `null` or `undefined` values', function () {
-                assert(!List.from([null]).hasOwnProperty('head'));
-                assert(!List.from([undefined]).hasOwnProperty('head'));
+                assert(!LinkedList.from([null]).hasOwnProperty('head'));
+                assert(!LinkedList.from([undefined]).hasOwnProperty('head'));
             });
 
-            it('should return an instance of self when items are given', function () {
-                assert((List.from([new Item()])) instanceof List);
-                assert((C.from([new Item()])) instanceof C);
-            });
+            it('should return an instance of ' +
+                'self when items are given',
+                function () {
+                    assert(
+                        LinkedList.from([new Item()]) instanceof LinkedList
+                    );
 
-            it('should throw an error when an invalid item is given', function () {
-                assert.throws(function () { List.from([{}]); });
-            });
+                    assert(C.from([new Item()]) instanceof C);
+                }
+            );
 
-            it('should add ("append") items in the order they were given', function () {
-                var item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item(),
-                    list = List.from([item, item_, item__]);
+            it('should throw an error when an invalid ' +
+                'item is given',
+                function () {
+                    assert.throws(function () {
+                        LinkedList.from([{}]);
+                    });
+                }
+            );
 
-                assert(list.head === item);
-                assert(list.head.next === item_);
-                assert(list.head.next.next === item__);
+            it('should add ("append") items in the ' +
+                'order they were given',
+                function () {
+                    var item,
+                        item1,
+                        item2,
+                        list;
 
-                assert(list.tail === item__);
-                assert(list.tail.prev === item_);
-                assert(list.tail.prev.prev === item);
-            });
+                    item = new Item();
+                    item1 = new Item();
+                    item2 = new Item();
+                    list = LinkedList.from([item, item1, item2]);
+
+                    assert(list.head === item);
+                    assert(list.head.next === item1);
+                    assert(list.head.next.next === item2);
+
+                    assert(list.tail === item2);
+                    assert(list.tail.prev === item1);
+                    assert(list.tail.prev.prev === item);
+                }
+            );
         });
-
     });
 
     describe('@instance', function () {
         it('should have a `head` property set to `null`', function () {
-            assert((new List()).head === null);
+            assert((new LinkedList()).head === null);
         });
 
         it('should have a `tail` property set to `null`', function () {
-            assert((new List()).tail === null);
+            assert((new LinkedList()).tail === null);
         });
 
         it('should have a `prepend` method', function () {
-            assert(typeof (new List()).prepend === 'function');
+            assert(typeof (new LinkedList()).prepend === 'function');
         });
 
         it('should have an `append` method', function () {
-            assert(typeof (new List()).append === 'function');
+            assert(typeof (new LinkedList()).append === 'function');
         });
 
         it('should have an `toArray` method', function () {
-            assert(typeof (new List()).toArray === 'function');
+            assert(typeof (new LinkedList()).toArray === 'function');
         });
 
-        describe('prepend [List#prepend]', function () {
-
+        describe('prepend [LinkedList#prepend]', function () {
             it('should return false when no item is given', function () {
-                assert(false === (new List()).prepend());
+                assert((new LinkedList()).prepend() === false);
             });
 
             it('should return the given item', function () {
-                var item = new Item();
+                var item;
 
-                assert(item === (new List()).prepend(item));
+                item = new Item();
+
+                assert(item === (new LinkedList()).prepend(item));
             });
 
-            it('should throw an error when an invalid item is given', function () {
-                var list = new List();
+            it('should throw an error when an ' +
+                'invalid item is given',
+                function () {
+                    var list;
 
-                assert.throws(function () {
-                    list.prepend({});
-                });
-            });
+                    list = new LinkedList();
+
+                    assert.throws(function () {
+                        list.prepend({});
+                    });
+                }
+            );
 
             it('should set `@head` to the first prependee', function () {
-                var list = new List(),
-                    item = new Item();
+                var list,
+                    item;
+
+                list = new LinkedList();
+                item = new Item();
 
                 list.prepend(item);
 
@@ -157,8 +227,11 @@ describe('List [List]', function () {
             });
 
             it('shouldn\'t set `@tail` to the first prependee', function () {
-                var list = new List(),
-                    item = new Item();
+                var list,
+                    item;
+
+                list = new LinkedList();
+                item = new Item();
 
                 list.prepend(item);
 
@@ -166,89 +239,124 @@ describe('List [List]', function () {
             });
 
             it('should set `@head` to further prependees', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                var list,
+                    item,
+                    item1;
+
+                list = new LinkedList();
+                item = new Item();
+                item1 = new Item();
 
                 list.prepend(new Item());
 
                 list.prepend(item);
                 assert(list.head === item);
 
-                list.prepend(item_);
-                assert(list.head === item_);
+                list.prepend(item1);
+                assert(list.head === item1);
             });
 
-            it('should set `@tail` to the first prependee when further items are prepended', function () {
-                var list = new List(),
+            it('should set `@tail` to the first ' +
+                'prependee when further items are ' +
+                'prepended',
+                function () {
+                    var list,
+                        item;
+
+                    list = new LinkedList();
                     item = new Item();
 
-                list.prepend(item);
-                list.prepend(new Item());
+                    list.prepend(item);
+                    list.prepend(new Item());
 
-                assert(list.tail === item);
-            });
+                    assert(list.tail === item);
+                }
+            );
 
             it('shouldn\'t set `@tail` to further prependees', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                var list,
+                    item,
+                    item1;
+
+                list = new LinkedList();
+                item = new Item();
+                item1 = new Item();
 
                 list.prepend(new Item());
 
                 list.prepend(item);
                 assert(list.tail !== item);
 
-                list.prepend(item_);
-                assert(list.tail !== item_);
+                list.prepend(item1);
+                assert(list.tail !== item1);
             });
 
-            it('should detach the previous parent list of a prependee', function () {
-                var list = new List(),
-                    list_ = new List(),
+            it('should detach the previous parent ' +
+                'list of a prependee',
+                function () {
+                    var list,
+                        list1,
+                        item;
+
+                    list = new LinkedList();
+                    list1 = new LinkedList();
                     item = new Item();
 
-                list.prepend(item);
-                list_.prepend(item);
+                    list.prepend(item);
+                    list1.prepend(item);
 
-                assert(list.head !== item);
-            });
+                    assert(list.head !== item);
+                }
+            );
 
             it('should attach a prependee to a new list', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item();
+                var list,
+                    list1,
+                    item;
+
+                list = new LinkedList();
+                list1 = new LinkedList();
+                item = new Item();
 
                 list.prepend(item);
-                list_.prepend(item);
+                list1.prepend(item);
 
-                assert(list_.head === item);
+                assert(list1.head === item);
             });
         });
 
-        describe('append [List#append]', function () {
-
+        describe('append [LinkedList#append]', function () {
             it('should return false when no item is given', function () {
-                assert(false === (new List()).append());
+                assert((new LinkedList()).append() === false);
             });
 
             it('should return the given item', function () {
-                var item = new Item();
+                var item;
 
-                assert(item === (new List()).append(item));
+                item = new Item();
+
+                assert(item === (new LinkedList()).append(item));
             });
 
-            it('should throw an error when an invalid item is given', function () {
-                var list = new List();
+            it('should throw an error when an ' +
+                'invalid item is given',
+                function () {
+                    var list;
 
-                assert.throws(function () {
-                    list.append({});
-                });
-            });
+                    list = new LinkedList();
+
+                    assert.throws(function () {
+                        list.append({});
+                    });
+                }
+            );
 
             it('should set `@head` to the first appendee', function () {
-                var list = new List(),
-                    item = new Item();
+                var list,
+                    item;
+
+                list = new LinkedList();
+                item = new Item();
 
                 list.append(item);
 
@@ -256,8 +364,11 @@ describe('List [List]', function () {
             });
 
             it('shouldn\'t set `@tail` to the first appendee', function () {
-                var list = new List(),
-                    item = new Item();
+                var list,
+                    item;
+
+                list = new LinkedList();
+                item = new Item();
 
                 list.append(item);
 
@@ -265,106 +376,141 @@ describe('List [List]', function () {
             });
 
             it('should set `@tail` to further appendees', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                var list,
+                    item,
+                    item1;
+
+                list = new LinkedList();
+                item = new Item();
+                item1 = new Item();
 
                 list.append(new Item());
 
                 list.append(item);
                 assert(list.tail === item);
 
-                list.append(item_);
-                assert(list.tail === item_);
+                list.append(item1);
+                assert(list.tail === item1);
             });
 
-            it('shouldn\'t set `@head` to further appendees', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+            it('shouldn\'t set `@head` to further ' +
+                'appendees',
+                function () {
+                    var list,
+                        item,
+                        item1;
 
-                list.append(new Item());
+                    list = new LinkedList();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item);
-                assert(list.head !== item);
+                    list.append(new Item());
 
-                list.append(item_);
-                assert(list.head !== item_);
-            });
+                    list.append(item);
+                    assert(list.head !== item);
 
-            it('should detach the previous parent list of an appendee', function () {
-                var list = new List(),
-                    list_ = new List(),
+                    list.append(item1);
+                    assert(list.head !== item1);
+                }
+            );
+
+            it('should detach the previous parent ' +
+                'list of an appendee',
+                function () {
+                    var list,
+                        list1,
+                        item;
+
+                    list = new LinkedList();
+                    list1 = new LinkedList();
                     item = new Item();
 
-                list.append(item);
-                list_.append(item);
+                    list.append(item);
+                    list1.append(item);
 
-                assert(list.head !== item);
-            });
+                    assert(list.head !== item);
+                }
+            );
 
             it('should attach an appendee to a new list', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item();
+                var list,
+                    list1,
+                    item;
+
+                list = new LinkedList();
+                list1 = new LinkedList();
+                item = new Item();
 
                 list.append(item);
-                list_.append(item);
+                list1.append(item);
 
-                assert(list_.head === item);
+                assert(list1.head === item);
             });
         });
 
-        describe('toArray [List#toArray]', function () {
-
-            it('should return an array, even when the operated on list has no items', function () {
-                assert.isArray((new List()).toArray());
-            });
+        describe('toArray [LinkedList#toArray]', function () {
+            it('should return an array, even when ' +
+                'the operated on list has no items',
+                function () {
+                    assert.isArray((new LinkedList()).toArray());
+                }
+            );
 
             it('should return an array', function () {
-                assert.isArray((new List(new Item())).toArray());
+                assert.isArray((new LinkedList(new Item())).toArray());
             });
 
-            it('should return an array sorted in the order of the items', function () {
-                var item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item(),
-                    array = (new List(item, item_, item__)).toArray();
+            it('should return an array sorted in ' +
+                'the order of the items',
+                function () {
+                    var item,
+                        item1,
+                        item2,
+                        array;
 
-                assert(array[0] === item);
-                assert(array[1] === item_);
-                assert(array[2] === item__);
-            });
+                    item = new Item();
+                    item1 = new Item();
+                    item2 = new Item();
+                    array = (new LinkedList(item, item1, item2)).toArray();
+
+                    assert(array[0] === item);
+                    assert(array[1] === item1);
+                    assert(array[2] === item2);
+                }
+            );
 
             it('shouldn\'t detach the returned items', function () {
-                var item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item(),
-                    list = new List(item, item_, item__),
-                    array = list.toArray();
+                var item,
+                    item1,
+                    item2,
+                    list,
+                    array;
 
-                assert(array[0].next === item_);
-                assert(array[1].next === item__);
+                item = new Item();
+                item1 = new Item();
+                item2 = new Item();
+                list = new LinkedList(item, item1, item2);
+                array = list.toArray();
+
+                assert(array[0].next === item1);
+                assert(array[1].next === item2);
 
                 assert(array[1].prev === item);
-                assert(array[2].prev === item_);
+                assert(array[2].prev === item1);
 
                 assert(array[0].list === list);
                 assert(array[1].list === list);
                 assert(array[2].list === list);
 
                 assert(list.head === item);
-                assert(list.tail === item__);
+                assert(list.tail === item2);
             });
         });
-
     });
 });
 
-describe('Item [List.Item]', function () {
-
+describe('Item [LinkedList.Item]', function () {
     describe('@instance', function () {
-
         it('should have a `list` property set to `null`', function () {
             assert((new Item()).list === null);
         });
@@ -389,334 +535,550 @@ describe('Item [List.Item]', function () {
             assert(typeof (new Item()).detach === 'function');
         });
 
-        describe('prepend [List.Item#prepend]', function () {
+        describe('prepend [LinkedList.Item#prepend]', function () {
+            it('should throw an error when an ' +
+                'invalid item is given',
+                function () {
+                    var item,
+                        list;
 
-            it('should throw an error when an invalid item is given', function () {
-                var item = new Item(),
-                    list = new List(item);
+                    item = new Item();
+                    list = new LinkedList(item);
 
-                assert.throws(function () {
-                    item.prepend(null);
-                });
+                    assert(item.list === list);
 
-                assert.throws(function () {
-                    item.prepend({});
-                });
-            });
+                    assert.throws(function () {
+                        item.prepend(null);
+                    });
 
-            it('should return false when the operated on instance is not attached', function () {
-                var item = new Item(),
-                    item_ = new Item();
+                    assert.throws(function () {
+                        item.prepend({});
+                    });
+                }
+            );
 
-                assert(false === item.prepend(item_));
-            });
+            it('should return false when the operated ' +
+                'on instance is not attached',
+                function () {
+                    var item,
+                        item1;
 
-            it('should return the given item when the operated on instance is attached', function () {
-                var item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                (new List()).append(item);
+                    assert(item.prepend(item1) === false);
+                }
+            );
 
-                assert(item_ === item.prepend(item_));
-            });
+            it('should return the given item when ' +
+                'the operated on instance is ' +
+                'attached',
+                function () {
+                    var item,
+                        item1;
 
-            it('should detach the previous parent list of a given item', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item);
-                list_.append(item_);
+                    (new LinkedList()).append(item);
 
-                item.prepend(item_);
-                assert(item_.list !== list_);
-            });
+                    assert(item1 === item.prepend(item1));
+                }
+            );
 
-            it('should attach the given item to the operated on item\'s list', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+            it('should detach the previous ' +
+                'parent list of a given item',
+                function () {
+                    var item,
+                        item1,
+                        list,
+                        list1;
 
-                list.append(item);
-                list_.append(item_);
+                    item = new Item();
+                    item1 = new Item();
 
-                item.prepend(item_);
-                assert(item_.list === list);
-            });
+                    list = new LinkedList();
+                    list1 = new LinkedList();
 
-            it('should set the given item as the parent list\'s `head` when the operated on item is the current `head`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    list.append(item);
+                    list1.append(item1);
 
-                list.append(item);
+                    item.prepend(item1);
+                    assert(item1.list !== list1);
+                }
+            );
 
-                item.prepend(item_);
-                assert(item_ === list.head);
-            });
+            it('should attach the given item to the ' +
+                'operated on item\'s list',
+                function () {
+                    var item,
+                        item1,
+                        list,
+                        list1;
 
-            it('should set the operated on item as the parent list\'s `tail` when the operated on item is the current `head`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item);
+                    list = new LinkedList();
+                    list1 = new LinkedList();
 
-                item.prepend(item_);
-                assert(item === list.tail);
-            });
+                    list.append(item);
+                    list1.append(item1);
 
-            it('should set the operated on item\'s `prev` property to the given item', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item.prepend(item1);
+                    assert(item1.list === list);
+                }
+            );
 
-                list.append(item);
-                item.prepend(item_);
+            it('should set the given item as the ' +
+                'parent list\'s `head` when the ' +
+                'operated on item is the current ' +
+                '`head`',
+                function () {
+                    var item,
+                        item1,
+                        list;
 
-                assert(item.prev === item_);
-            });
+                    item = new Item();
+                    item1 = new Item();
 
-            it('should set the given item\'s `next` property to the operated on item', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    list = new LinkedList();
 
-                list.append(item);
-                item.prepend(item_);
+                    list.append(item);
 
-                assert(item_.next === item);
-            });
+                    item.prepend(item1);
+                    assert(item1 === list.head);
+                }
+            );
+
+            it('should set the operated on item as ' +
+                'the parent list\'s `tail` when the ' +
+                'operated on item is the current ' +
+                '`head`',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+
+                    item.prepend(item1);
+                    assert(item === list.tail);
+                }
+            );
+
+            it('should set the operated on item\'s ' +
+                '`prev` property to the given item',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    item.prepend(item1);
+
+                    assert(item.prev === item1);
+                }
+            );
+
+            it('should set the given item\'s `next` ' +
+                'property to the operated on item',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    item.prepend(item1);
+
+                    assert(item1.next === item);
+                }
+            );
         });
 
-        describe('append [List.Item#append]', function () {
+        describe('append [LinkedList.Item#append]', function () {
+            it('should throw an error when an invalid ' +
+                'item is given',
+                function () {
+                    var item,
+                        list;
 
-            it('should throw an error when an invalid item is given', function () {
-                var item = new Item(),
-                    list = new List(item);
+                    item = new Item();
+                    list = new LinkedList(item);
 
-                assert.throws(function () {
-                    item.append(null);
-                });
+                    assert(item.list === list);
 
-                assert.throws(function () {
-                    item.append({});
-                });
-            });
+                    assert.throws(function () {
+                        item.append(null);
+                    });
 
-            it('should return false when the operated on instance is not attached', function () {
-                var item = new Item(),
-                    item_ = new Item();
+                    assert.throws(function () {
+                        item.append({});
+                    });
+                }
+            );
 
-                assert(false === item.append(item_));
-            });
+            it('should return false when the operated' +
+                'on instance is not attached',
+                function () {
+                    var item,
+                        item1;
 
-            it('should return the given item when the operated on instance is attached', function () {
-                var item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                (new List()).append(item);
+                    assert(item.append(item1) === false);
+                }
+            );
 
-                assert(item_ === item.append(item_));
-            });
+            it('should return the given item when ' +
+                'the operated on instance is attached',
+                function () {
+                    var item,
+                        item1;
 
-            it('should detach the previous parent list of a given item', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item);
-                list_.append(item_);
+                    (new LinkedList()).append(item);
 
-                item.append(item_);
-                assert(item_.list !== list_);
-            });
+                    assert(item1 === item.append(item1));
+                }
+            );
 
-            it('should attach the given item to the operated on item\'s list', function () {
-                var list = new List(),
-                    list_ = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+            it('should detach the previous parent ' +
+                'list of a given item',
+                function () {
+                    var item,
+                        item1,
+                        list,
+                        list1;
 
-                list.append(item);
-                list_.append(item_);
+                    item = new Item();
+                    item1 = new Item();
 
-                item.append(item_);
-                assert(item_.list === list);
-            });
+                    list = new LinkedList();
+                    list1 = new LinkedList();
 
-            it('should set the given item as the parent list\'s `tail`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    list.append(item);
+                    list1.append(item1);
 
-                list.append(new Item());
-                list.append(item);
+                    item.append(item1);
+                    assert(item1.list !== list1);
+                }
+            );
 
-                item.append(item_);
-                assert(item_ === list.tail);
-            });
+            it('should attach the given item to ' +
+                'the operated on item\'s list',
+                function () {
+                    var item,
+                        item1,
+                        list,
+                        list1;
 
-            it('should set the given item as the parent list\'s `tail` when the operated on item is the current `head`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item);
+                    list = new LinkedList();
+                    list1 = new LinkedList();
 
-                item.append(item_);
-                assert(item_ === list.tail);
-            });
+                    list.append(item);
+                    list1.append(item1);
 
-            it('should set the operated on item\'s `next` property to the given item', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item.append(item1);
+                    assert(item1.list === list);
+                }
+            );
 
-                list.append(item);
-                item.append(item_);
+            it('should set the given item as the ' +
+                'parent list\'s `tail`',
+                function () {
+                    var item,
+                        item1,
+                        list;
 
-                assert(item.next === item_);
-            });
+                    item = new Item();
+                    item1 = new Item();
 
-            it('should set the given item\'s `prev` property to the operated on item', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    list = new LinkedList();
 
-                list.append(item);
-                item.append(item_);
+                    list.append(new Item());
+                    list.append(item);
 
-                assert(item_.prev === item);
-            });
+                    item.append(item1);
+                    assert(item1 === list.tail);
+                }
+            );
 
+            it('should set the given item as the ' +
+                'parent list\'s `tail` when the ' +
+                'operated on item is the current ' +
+                '`head`',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+
+                    item.append(item1);
+                    assert(item1 === list.tail);
+                }
+            );
+
+            it('should set the operated on item\'s ' +
+                '`next` property to the given item',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    item.append(item1);
+
+                    assert(item.next === item1);
+                }
+            );
+
+            it('should set the given item\'s `prev` ' +
+                'property to the operated on item',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    item.append(item1);
+
+                    assert(item1.prev === item);
+                }
+            );
         });
 
-        describe('detach [List.Item#detach]', function () {
-
+        describe('detach [LinkedList.Item#detach]', function () {
             it('should return self', function () {
-                var list = new List(),
-                    item = new Item();
+                var item,
+                    list;
+
+                item = new Item();
+                list = new LinkedList();
 
                 list.append(item);
 
                 assert(item === item.detach());
             });
 
-            it('should return self, even when the item is not attached', function () {
-                var item = new Item();
-                assert(item === item.detach());
-            });
+            it('should return self, even when the item ' +
+                'is not attached',
+                function () {
+                    var item;
 
-            it('should set the item\'s `next` property to the parent list\'s `head` when the item is its current `head`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
-
-                list.append(item);
-                list.append(item_);
-
-                item.detach();
-
-                assert(item_ === list.head);
-            });
-
-            it('should set the item\'s `prev` property to the parent list\'s `tail` when the item is its current `tail`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item();
-
-                list.append(item);
-                list.append(item_);
-                list.append(item__);
-
-                item__.detach();
-
-                assert(item_ === list.tail);
-            });
-
-            it('should set the parent list\'s `tail` to `null` when the item is its current `tail` and its `prev` property is the current `tail`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
-
-                list.append(item);
-                list.append(item_);
-
-                item_.detach();
-
-                assert(null === list.tail);
-            });
-
-            it('should set the previous item\'s `next` property to the current item\'s `next` property', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item();
-
-                list.append(item);
-                list.append(item_);
-                list.append(item__);
-
-                item_.detach();
-
-                assert(item.next === item__);
-            });
-
-            it('should set the next item\'s `prev` property to the current item\'s `prev` property', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item(),
-                    item__ = new Item();
-
-                list.append(item);
-                list.append(item_);
-                list.append(item__);
-
-                item_.detach();
-
-                assert(item__.prev === item);
-            });
-
-            it('should set the item\'s `list` property to `null`', function () {
-                var list = new List(),
                     item = new Item();
 
-                list.append(item);
-                item.detach();
+                    assert(item === item.detach());
+                }
+            );
 
-                assert(null === item.list);
-            });
+            it('should set the item\'s `next` property ' +
+                'to the parent list\'s `head` when the ' +
+                'item is its current `head`',
+                function () {
+                    var item,
+                        item1,
+                        list;
 
-            it('should set the item\'s `prev` property to `null`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item = new Item();
+                    item1 = new Item();
 
-                list.append(item_);
-                list.append(item);
-                item.detach();
+                    list = new LinkedList();
 
-                assert(null === item.prev);
-            });
+                    list.append(item);
+                    list.append(item1);
 
-            it('should set the item\'s `next` property to `null`', function () {
-                var list = new List(),
-                    item = new Item(),
-                    item_ = new Item();
+                    item.detach();
 
-                list.append(item);
-                list.append(item_);
-                item.detach();
+                    assert(item1 === list.head);
+                }
+            );
 
-                assert(null === item.next);
-            });
+            it('should set the item\'s `prev` property ' +
+                'to the parent list\'s `tail` when the ' +
+                'item is its current `tail`',
+                function () {
+                    var item,
+                        item1,
+                        item2,
+                        list;
 
+                    item = new Item();
+                    item1 = new Item();
+                    item2 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    list.append(item1);
+                    list.append(item2);
+
+                    item2.detach();
+
+                    assert(item1 === list.tail);
+                }
+            );
+
+            it('should set the parent list\'s `tail` to ' +
+                '`null` when the item is its current ' +
+                '`tail` and its `prev` property is the ' +
+                'current `tail`',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    list.append(item1);
+
+                    item1.detach();
+
+                    assert(list.tail === null);
+                }
+            );
+
+            it('should set the previous item\'s `next` ' +
+                'property to the current item\'s `next` ' +
+                    'property', function () {
+                        var item,
+                            item1,
+                            item2,
+                            list;
+
+                        item = new Item();
+                        item1 = new Item();
+                        item2 = new Item();
+
+                        list = new LinkedList();
+
+                    list.append(item);
+                    list.append(item1);
+                    list.append(item2);
+
+                    item1.detach();
+
+                    assert(item.next === item2);
+                }
+            );
+
+            it('should set the next item\'s `prev` property to ' +
+                'the current item\'s `prev` property',
+                function () {
+                    var item,
+                        item1,
+                        item2,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+                    item2 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    list.append(item1);
+                    list.append(item2);
+
+                    item1.detach();
+
+                    assert(item2.prev === item);
+                }
+            );
+
+            it('should set the item\'s `list` property to `null`',
+                function () {
+                    var item,
+                        list;
+
+                    item = new Item();
+                    list = new LinkedList();
+
+                    list.append(item);
+                    item.detach();
+
+                    assert(item.list === null);
+                }
+            );
+
+            it('should set the item\'s `prev` property to `null`',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item1);
+                    list.append(item);
+                    item.detach();
+
+                    assert(item.prev === null);
+                }
+            );
+
+            it('should set the item\'s `next` property to `null`',
+                function () {
+                    var item,
+                        item1,
+                        list;
+
+                    item = new Item();
+                    item1 = new Item();
+
+                    list = new LinkedList();
+
+                    list.append(item);
+                    list.append(item1);
+                    item.detach();
+
+                    assert(item.next === null);
+                }
+            );
         });
-
     });
 });
