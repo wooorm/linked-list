@@ -285,7 +285,7 @@ item2.prev === null; //=> true
 
 The items preceding item, and `null` otherwise.
 
-#### LinkedList.Item#list
+#### `LinkedList.Item#list`
 
 ```javascript
 var item = new LinkedList.Item();
