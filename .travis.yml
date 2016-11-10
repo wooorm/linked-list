@@ -1,13 +1,23 @@
 language: node_js
-script: npm run-script test-travis
 node_js:
-- '0.10'
-- '0.11'
-after_script: npm install coveralls@2.10.0 && cat ./coverage/lcov.info | coveralls
+- '4.0'
+- '7.0'
+after_script: bash <(curl -s https://codecov.io/bash)
+sudo: false
 deploy:
-  provider: npm
-  email: tituswormer@gmail.com
-  api_key:
-    secure: RJjlBL2hNZEjoQjsHZQH10Plin9SQtGuRgmplDFkafZO0qlPSV8ghpDmkrpDXj53/zhOCrQ2r/0yJ7584+srv9mBj/vWiZ9JAo7NwCHO5ERWU6cD4syEUQ+q7kqpjXJnXIeD7elZZq4LVGx6GC/mZee/tHAGsL9Zz+ZHT/8wcNA=
-  on:
-    repo: wooorm/linked-list
+  - provider: npm
+    email: tituswormer@gmail.com
+    api_key:
+      secure: OYMdc8faA+3qxdb+snAsLrKRqOIwKWXMhmwH3SQQe+UbXvctE2TAwYoPa7Bou1ij2kqjtVMZ4LUZpuDXn2NP6Ccqf4mDvIYh6NTtMFBrVMVUXAaSOdbp5PqbXPo9xozHwakLMfZH78ni5oo1WD1lgeWY+RYx68QXOGwkczCxKc8=
+    on:
+      tags: true
+      node: '4.0'
+  - provider: releases
+    api_key:
+      secure: TUjXaNrrgIj0pGoQZhqWbxPh8FSc6YtSnF4Vici01xHX8gaGKY97Y/MLKCllloWock6VeQacZtAzEQnJG8IDAADgkCVsRwgaqZurEVhs5nvAAEl8S+fpuJE85LWZxey41/hlTcHFTdZsOof5U4bV8mXraunvYeSJ/7tTwhhjym8=
+    file:
+      - "linked-list.js"
+      - "linked-list.min.js"
+    on:
+      tags: true
+      node: '7.0'
