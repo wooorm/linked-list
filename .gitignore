@@ -1,5 +1,5 @@
 .DS_Store
 *.log
-build/
+.nyc_output/
 coverage/
 node_modules/

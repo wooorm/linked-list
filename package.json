@@ -14,19 +14,24 @@
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "devDependencies": {
     "has": "^1.0.1",
-    "istanbul": "^0.3.0",
-    "mocha": "^2.0.0",
+    "nyc": "^8.4.0",
+    "tape": "^4.6.2",
     "uglify-js": "^2.0.0",
     "xo": "^0.17.0"
   },
   "scripts": {
-    "test-api": "node_modules/.bin/_mocha --reporter spec --check-leaks -u exports test.js",
-    "test-travis": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha --report lcovonly -- --reporter spec --check-leaks -u exports test.js",
-    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- -- test.js",
+    "test-api": "node test",
+    "test-coverage": "nyc --reporter lcov tape test.js",
     "lint": "xo",
-    "test": "npm run link && npm run coverage"
+    "test": "npm run lint && npm run test-coverage"
   },
   "xo": {
     "space": true
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 100,
+    "functions": 100,
+    "branches": 100
   }
 }
