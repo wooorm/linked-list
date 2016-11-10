@@ -28,7 +28,7 @@
     "lint": "xo",
     "test-api": "node test",
     "test-coverage": "nyc --reporter lcov tape test.js",
-    "test": "npm run lint && npm run test-coverage"
+    "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "xo": {
     "space": true,
