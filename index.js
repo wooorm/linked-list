@@ -35,20 +35,13 @@ var errorMessage = 'An argument without append, prepend, ' +
  * implementation of the DOM in JavaScript). */
 function List(/* items... */) {
   if (arguments.length !== 0) {
-    return List.from(arguments);
+    appendAll(this, arguments);
   }
 }
 
 /* Creates a new list from the arguments (each a list item)
  * passed in. */
-function of(/* items... */) {
-  return List.from.call(this, arguments);
-}
-
-/* Creates a new list from the given array-like object
- * (each a list item) passed in. */
-function from(items) {
-  var list = new this();
+function appendAll(list, items) {
   var length = items && items.length;
   var index = -1;
   var item;
@@ -62,6 +55,18 @@ function from(items) {
   }
 
   return list;
+}
+
+/* Creates a new list from the arguments (each a list item)
+ * passed in. */
+function of(/* items... */) {
+  return appendAll(new this(), arguments);
+}
+
+/* Creates a new list from the given array-like object
+ * (each a list item) passed in. */
+function from(items) {
+  return appendAll(new this(), items);
 }
 
 /* Returns the list’s items as an array. This does *not* detach the items. */
