@@ -14,7 +14,7 @@
     "browserify": "^13.1.1",
     "esmangle": "^1.0.1",
     "has": "^1.0.1",
-    "nyc": "^8.4.0",
+    "nyc": "^9.0.1",
     "remark-cli": "^2.1.0",
     "remark-preset-wooorm": "^1.0.0",
     "tape": "^4.6.2",
