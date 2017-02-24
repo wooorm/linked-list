@@ -15,13 +15,13 @@
     "esmangle": "^1.0.1",
     "has": "^1.0.1",
     "nyc": "^10.0.0",
-    "remark-cli": "^2.1.0",
-    "remark-preset-wooorm": "^1.0.0",
+    "remark-cli": "^3.0.0",
+    "remark-preset-wooorm": "^2.0.0",
     "tape": "^4.6.2",
     "xo": "^0.17.0"
   },
   "scripts": {
-    "build-md": "remark . --quiet --frail --output",
+    "build-md": "remark . -qfo",
     "build-bundle": "browserify index.js --bare -s LinkedList > linked-list.js",
     "build-mangle": "esmangle < linked-list.js > linked-list.min.js",
     "build": "npm run build-md && npm run build-bundle && npm run build-mangle",
@@ -43,6 +43,6 @@
     "branches": 100
   },
   "remarkConfig": {
-    "presets": "wooorm"
+    "plugins": ["preset-wooorm"]
   }
 }
