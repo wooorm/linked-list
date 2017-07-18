@@ -10,6 +10,10 @@
   ],
   "repository": "wooorm/linked-list",
   "author": "Titus Wormer <tituswormer@gmail.com>",
+  "files": [
+    "index.js"
+  ],
+  "dependencies": {},
   "devDependencies": {
     "browserify": "^14.0.0",
     "esmangle": "^1.0.1",
