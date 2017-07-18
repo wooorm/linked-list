@@ -8,7 +8,7 @@
     "linked",
     "list"
   ],
-  "repository": "https://github.com/wooorm/linked-list",
+  "repository": "wooorm/linked-list",
   "author": "Titus Wormer <tituswormer@gmail.com>",
   "devDependencies": {
     "browserify": "^14.0.0",
@@ -47,6 +47,8 @@
     "branches": 100
   },
   "remarkConfig": {
-    "plugins": ["preset-wooorm"]
+    "plugins": [
+      "preset-wooorm"
+    ]
   }
 }
