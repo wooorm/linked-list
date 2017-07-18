@@ -32,7 +32,7 @@ Subclassing:
 
 ```javascript
 var inherits = require('inherits');
-var List = require('./');
+var List = require('linked-list');
 
 Tokens.prototype.join = join;
 Token.prototype.toString = toString;
