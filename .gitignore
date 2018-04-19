@@ -5,3 +5,4 @@ coverage/
 node_modules/
 linked-list.js
 linked-list.min.js
+yarn.lock
