@@ -2,7 +2,7 @@
 
 var has = require('has');
 var test = require('tape');
-var LinkedList = require('./');
+var LinkedList = require('.');
 
 var Item = LinkedList.Item;
 
