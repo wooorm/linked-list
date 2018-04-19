@@ -5,19 +5,12 @@ node_js:
 after_script: bash <(curl -s https://codecov.io/bash)
 sudo: false
 deploy:
-  - provider: npm
-    email: tituswormer@gmail.com
-    api_key:
-      secure: OYMdc8faA+3qxdb+snAsLrKRqOIwKWXMhmwH3SQQe+UbXvctE2TAwYoPa7Bou1ij2kqjtVMZ4LUZpuDXn2NP6Ccqf4mDvIYh6NTtMFBrVMVUXAaSOdbp5PqbXPo9xozHwakLMfZH78ni5oo1WD1lgeWY+RYx68QXOGwkczCxKc8=
-    on:
-      tags: true
-      node: '4.0'
-  - provider: releases
-    api_key:
-      secure: TUjXaNrrgIj0pGoQZhqWbxPh8FSc6YtSnF4Vici01xHX8gaGKY97Y/MLKCllloWock6VeQacZtAzEQnJG8IDAADgkCVsRwgaqZurEVhs5nvAAEl8S+fpuJE85LWZxey41/hlTcHFTdZsOof5U4bV8mXraunvYeSJ/7tTwhhjym8=
-    file:
-      - "linked-list.js"
-      - "linked-list.min.js"
-    on:
-      tags: true
-      node: '8.0'
+  provider: releases
+  api_key:
+    secure: TUjXaNrrgIj0pGoQZhqWbxPh8FSc6YtSnF4Vici01xHX8gaGKY97Y/MLKCllloWock6VeQacZtAzEQnJG8IDAADgkCVsRwgaqZurEVhs5nvAAEl8S+fpuJE85LWZxey41/hlTcHFTdZsOof5U4bV8mXraunvYeSJ/7tTwhhjym8=
+  file:
+    - "linked-list.js"
+    - "linked-list.min.js"
+  on:
+    tags: true
+    node: '8.0'
