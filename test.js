@@ -1,8 +1,9 @@
 'use strict';
 
-var has = require('has');
 var test = require('tape');
 var LinkedList = require('.');
+
+var own = {}.hasOwnProperty;
 
 var Item = LinkedList.Item;
 
@@ -25,8 +26,8 @@ test('LinkedList [LinkedList]', function (t) {
       'should return an instance of self when *no* arguments are given'
     );
 
-    st.notOk(has(LinkedList.of(null), 'head'), 'should ignore `null` values');
-    st.notOk(has(LinkedList.of(undefined), 'head'), 'should ignore `undefined` values');
+    st.notOk(own.call(LinkedList.of(null), 'head'), 'should ignore `null` values');
+    st.notOk(own.call(LinkedList.of(undefined), 'head'), 'should ignore `undefined` values');
 
     st.ok(
       (LinkedList.of(new Item())) instanceof LinkedList,
@@ -88,12 +89,12 @@ test('LinkedList [LinkedList]', function (t) {
     );
 
     st.notOk(
-      has(LinkedList.from([null]), 'head'),
+      own.call(LinkedList.from([null]), 'head'),
       'should ignore `null` values'
     );
 
     st.notOk(
-      has(LinkedList.from([undefined]), 'head'),
+      own.call(LinkedList.from([undefined]), 'head'),
       'should ignore `undefined` values'
     );
 
