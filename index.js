@@ -7,6 +7,8 @@ List.Item = ListItem
 
 var ListPrototype = List.prototype
 var ListItemPrototype = ListItem.prototype
+var IterPrototype = Iter.prototype
+var $iterator = Symbol && Symbol.iterator
 
 ListPrototype.tail = ListPrototype.head = null
 
@@ -16,12 +18,16 @@ List.from = from
 ListPrototype.toArray = toArray
 ListPrototype.prepend = prepend
 ListPrototype.append = append
+/* istanbul ignore else */
+if ($iterator) ListPrototype[$iterator] = iterator
 
 ListItemPrototype.next = ListItemPrototype.prev = ListItemPrototype.list = null
 
 ListItemPrototype.prepend = prependItem
 ListItemPrototype.append = appendItem
 ListItemPrototype.detach = detach
+
+IterPrototype.next = next
 
 /* Constants. */
 var errorMessage =
@@ -42,15 +48,28 @@ function List(/* items... */) {
 /* Creates a new list from the arguments (each a list item)
  * passed in. */
 function appendAll(list, items) {
-  var length = items && items.length
-  var index = -1
   var item
 
-  while (++index < length) {
-    item = items[index]
+  if (!items) {
+    return list
+  }
 
-    if (item !== null && item !== undefined) {
-      list.append(item)
+  if (items[$iterator]) {
+    var iter = items[$iterator]()
+
+    while ((item = iter.next())) {
+      list.append(item.value)
+
+      if (item.done) {
+        break
+      }
+    }
+  } else {
+    var length = items.length
+    var index = -1
+
+    while (++index < length) {
+      list.append(items[index])
     }
   }
 
@@ -144,6 +163,11 @@ function append(item) {
   self.head = item
 
   return item
+}
+
+/* Creates an iterator from the list. */
+function iterator() {
+  return new Iter(this.head)
 }
 
 /* Creates a new ListItem: A linked list item is a bit like
@@ -283,4 +307,17 @@ function appendItem(item) {
   }
 
   return item
+}
+
+/* Creates a new `Iter` for looping over the `LinkedList`. */
+function Iter(item) {
+  this.item = item
+}
+
+/* Move the `Iter` to the next item. */
+function next() {
+  this.value = this.item
+  this.done = !this.item
+  this.item = this.item && this.item.next
+  return this
 }
