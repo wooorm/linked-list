@@ -132,6 +132,25 @@ test('LinkedList [LinkedList]', function(t) {
       }
     )
 
+    st.test('should add items from an array with `Symbol.iterator`', function(
+      sst
+    ) {
+      var items = [new Item(), new Item(), new Item()]
+      // Remove iterator to test array branch.
+      items[Symbol.iterator] = undefined
+      var list = LinkedList.from(items)
+
+      sst.equal(list.head, items[0])
+      sst.equal(list.head.next, items[1])
+      sst.equal(list.head.next.next, items[2])
+
+      sst.equal(list.tail, items[2])
+      sst.equal(list.tail.prev, items[1])
+      sst.equal(list.tail.prev.prev, items[0])
+
+      sst.end()
+    })
+
     st.end()
   })
 
@@ -341,6 +360,20 @@ test('LinkedList [LinkedList]', function(t) {
 
       list = new LinkedList(new Item(), new Item(), new Item())
       result = list.toArray()
+
+      sst.equal(result[0], list.head, 'should return a sorted array (1)')
+      sst.equal(result[1], list.head.next, 'should return a sorted array (2)')
+      sst.equal(result[2], list.tail, 'should return a sorted array (3)')
+
+      sst.end()
+    })
+
+    st.test('@@iterator [LinkedList#@@iterator]', function(sst) {
+      var list
+      var result
+
+      list = new LinkedList(new Item(), new Item(), new Item())
+      result = Array.from(list)
 
       sst.equal(result[0], list.head, 'should return a sorted array (1)')
       sst.equal(result[1], list.head.next, 'should return a sorted array (2)')
