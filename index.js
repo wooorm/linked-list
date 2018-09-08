@@ -7,6 +7,10 @@ List.Item = ListItem
 
 var ListPrototype = List.prototype
 var ListItemPrototype = ListItem.prototype
+var IterPrototype = Iter.prototype
+
+/* istanbul ignore next */
+var $iterator = typeof Symbol === 'undefined' ? undefined : Symbol.iterator
 
 ListPrototype.tail = ListPrototype.head = null
 
@@ -17,11 +21,18 @@ ListPrototype.toArray = toArray
 ListPrototype.prepend = prepend
 ListPrototype.append = append
 
+/* istanbul ignore else */
+if ($iterator !== undefined) {
+  ListPrototype[$iterator] = iterator
+}
+
 ListItemPrototype.next = ListItemPrototype.prev = ListItemPrototype.list = null
 
 ListItemPrototype.prepend = prependItem
 ListItemPrototype.append = appendItem
 ListItemPrototype.detach = detach
+
+IterPrototype.next = next
 
 /* Constants. */
 var errorMessage =
@@ -42,19 +53,39 @@ function List(/* items... */) {
 /* Creates a new list from the arguments (each a list item)
  * passed in. */
 function appendAll(list, items) {
-  var length = items && items.length
-  var index = -1
+  var length
+  var index
   var item
+  var iter
 
-  while (++index < length) {
-    item = items[index]
+  if (!items) {
+    return list
+  }
 
-    if (item !== null && item !== undefined) {
-      list.append(item)
+  if ($iterator !== undefined && items[$iterator]) {
+    iter = items[$iterator]()
+    item = {}
+
+    while (!item.done) {
+      item = iter.next()
+      add(item.value)
+    }
+  } else {
+    length = items.length
+    index = -1
+
+    while (++index < length) {
+      add(items[index])
     }
   }
 
   return list
+
+  function add(item) {
+    if (item !== null && item !== undefined) {
+      list.append(item)
+    }
+  }
 }
 
 /* Creates a new list from the arguments (each a list item)
@@ -144,6 +175,11 @@ function append(item) {
   self.head = item
 
   return item
+}
+
+/* Creates an iterator from the list. */
+function iterator() {
+  return new Iter(this.head)
 }
 
 /* Creates a new ListItem: A linked list item is a bit like
@@ -283,4 +319,18 @@ function appendItem(item) {
   }
 
   return item
+}
+
+/* Creates a new `Iter` for looping over the `LinkedList`. */
+function Iter(item) {
+  this.item = item
+}
+
+/* Move the `Iter` to the next item. */
+function next() {
+  var current = this.item
+  this.value = current
+  this.done = !current
+  this.item = current ? current.next : undefined
+  return this
 }
