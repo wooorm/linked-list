@@ -9,7 +9,12 @@
     "list"
   ],
   "repository": "wooorm/linked-list",
+  "bugs": "https://github.com/wooorm/linked-list/issues",
   "author": "Titus Wormer <tituswormer@gmail.com>",
+  "contributors": [
+    "Titus Wormer <tituswormer@gmail.com> (wooorm.com)",
+    "Blake Embrey <hello@blakeembrey.com>"
+  ],
   "files": [
     "index.js"
   ],
