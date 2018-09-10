@@ -2,6 +2,7 @@
   "name": "linked-list",
   "version": "1.0.4",
   "description": "Minimalistic linked lists",
+  "types": "index.d.ts",
   "license": "MIT",
   "keywords": [
     "double",
@@ -16,7 +17,8 @@
     "Blake Embrey <hello@blakeembrey.com>"
   ],
   "files": [
-    "index.js"
+    "index.js",
+    "index.d.ts"
   ],
   "dependencies": {},
   "devDependencies": {
