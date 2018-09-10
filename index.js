@@ -68,24 +68,18 @@ function appendAll(list, items) {
 
     while (!item.done) {
       item = iter.next()
-      add(item.value)
+      list.append(item && item.value)
     }
   } else {
     length = items.length
     index = -1
 
     while (++index < length) {
-      add(items[index])
+      list.append(items[index])
     }
   }
 
   return list
-
-  function add(item) {
-    if (item !== null && item !== undefined) {
-      list.append(item)
-    }
-  }
 }
 
 /* Creates a new list from the arguments (each a list item)
