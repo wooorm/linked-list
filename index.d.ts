@@ -14,13 +14,13 @@ declare class List <T extends List.Item> implements Iterable<T> {
 
 declare namespace List {
   export class Item {
-    prev: Item
-    next: Item
+    prev: this
+    next: this
     list: List<this>
 
     detach(): this
-    prepend<T extends Item>(item: T): T
-    append<T extends Item>(item: T): T
+    prepend<T extends this>(item: T): T
+    append<T extends this>(item: T): T
   }
 }
 
