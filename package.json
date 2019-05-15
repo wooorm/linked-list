@@ -11,9 +11,9 @@
   ],
   "repository": "wooorm/linked-list",
   "bugs": "https://github.com/wooorm/linked-list/issues",
-  "author": "Titus Wormer <tituswormer@gmail.com>",
+  "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
-    "Titus Wormer <tituswormer@gmail.com> (wooorm.com)",
+    "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
     "Blake Embrey <hello@blakeembrey.com>"
   ],
   "files": [
