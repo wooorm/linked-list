@@ -1,4 +1,9 @@
-# linked-list [![Build Status][travis-badge]][travis] [![Coverage Status][codecov-badge]][codecov]
+# linked-list
+
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
 
 Small double [linked list][wiki].
 
@@ -310,13 +315,21 @@ The items parent list, and `null` otherwise.
 
 <!-- Definitions -->
 
-[travis-badge]: https://img.shields.io/travis/wooorm/linked-list.svg
+[build-badge]: https://img.shields.io/travis/wooorm/linked-list.svg
 
-[travis]: https://travis-ci.org/wooorm/linked-list
+[build]: https://travis-ci.org/wooorm/linked-list
 
-[codecov-badge]: https://img.shields.io/codecov/c/github/wooorm/linked-list.svg
+[coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/linked-list.svg
 
-[codecov]: https://codecov.io/github/wooorm/linked-list
+[coverage]: https://codecov.io/github/wooorm/linked-list
+
+[downloads-badge]: https://img.shields.io/npm/dm/linked-list.svg
+
+[downloads]: https://www.npmjs.com/package/linked-list
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/linked-list.svg
+
+[size]: https://bundlephobia.com/result?p=linked-list
 
 [npm]: https://docs.npmjs.com/cli/install
 
