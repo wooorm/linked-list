@@ -14,7 +14,8 @@
   "author": "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
   "contributors": [
     "Titus Wormer <tituswormer@gmail.com> (https://wooorm.com)",
-    "Blake Embrey <hello@blakeembrey.com>"
+    "Blake Embrey <hello@blakeembrey.com>",
+    "Regev Brody <regevbr@gmail.com>"
   ],
   "files": [
     "index.js",
