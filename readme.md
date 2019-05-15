@@ -322,6 +322,6 @@ The items parent list, and `null` otherwise.
 
 [license]: license
 
-[author]: http://wooorm.com
+[author]: https://wooorm.com
 
-[wiki]: http://wikipedia.org/wiki/Linked_list
+[wiki]: https://wikipedia.org/wiki/Linked_list
