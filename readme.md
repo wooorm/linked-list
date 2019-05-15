@@ -94,9 +94,10 @@ LinkedList.from([])
 LinkedList.from([new LinkedList.Item(), new LinkedList.Item()])
 ```
 
-Create a new `this` and adds the given array of items.  Ignores `null`
-or `undefined` values.  Throws an error when a given item has no `detach`,
-`append`, or `prepend` methods.
+Create a new `this` and adds the given array of items.
+Ignores `null` or `undefined` values.
+Throws an error when a given item has no `detach`, `append`, or `prepend`
+methods.
 
 #### `LinkedList.of([items…])`
 
@@ -105,8 +106,8 @@ LinkedList.of()
 LinkedList.of(new LinkedList.Item(), new LinkedList.Item())
 ```
 
-Creates a new Linked List from the given arguments.  Defers to
-`LinkedList.from`.
+Creates a new Linked List from the given arguments.
+Defers to `LinkedList.from`.
 
 #### `LinkedList#append(item)`
 
@@ -123,8 +124,10 @@ list.head === item // => true
 item.list === list // => true
 ```
 
-Appends an item to a list.  Throws an error when the given item has no
-`detach`, `append`, or `prepend` methods.  Returns the given item.
+Appends an item to a list.
+Throws an error when the given item has no `detach`, `append`, or `prepend`
+methods.
+Returns the given item.
 
 #### `LinkedList#prepend(item)`
 
@@ -135,8 +138,10 @@ var item = new LinkedList.Item()
 list.prepend(item)
 ```
 
-Prepends an item to a list.  Throws an error when the given item has
-no `detach`, `append`, or `prepend` methods.  Returns the given item.
+Prepends an item to a list.
+Throws an error when the given item has no `detach`, `append`, or `prepend`
+methods.
+Returns the given item.
 
 #### `LinkedList#toArray()`
 
@@ -181,8 +186,8 @@ list.append(item2)
 list.tail === item2 // => true
 ```
 
-The last item in a list, and `null` otherwise.  Note that a list with only
-one item has **no tail**, only a head.
+The last item in a list, and `null` otherwise.
+Note that a list with only one item has **no tail**, only a head.
 
 ## `LinkedList.Item()`
 
@@ -206,10 +211,11 @@ item1.append(item2)
 item1.next === item2 // => true
 ```
 
-Adds the given item **after** the operated on item in a list.  Throws
-an error when the given item has no `detach`, `append`, or `prepend`
-methods.  Returns false when the operated on item is not attached to
-a list, otherwise the given item.
+Adds the given item **after** the operated on item in a list.
+Throws an error when the given item has no `detach`, `append`, or `prepend`
+methods.
+Returns false when the operated on item is not attached to a list, otherwise the
+given item.
 
 #### `LinkedList.Item#prepend(item)`
 
@@ -225,8 +231,9 @@ item1.prepend(item2)
 item1.prev === item2 // => true
 ```
 
-Adds the given item **before** the operated on item in a list.  Throws an
-error when the given item has no `detach`, `append`, or `prepend` methods.
+Adds the given item **before** the operated on item in a list.
+Throws an error when the given item has no `detach`, `append`, or `prepend`
+methods.
 Returns false when the operated on item is not attached to a list, otherwise
 the given item.
 
@@ -242,9 +249,11 @@ item.detach()
 item.list === null // => true
 ```
 
-Removes the operated on item from its parent list.  Removes references to
-it on its parent `list`, and `prev` and `next` items; relinking them when
-possible.  Returns the operated on item.  Even when it was already detached.
+Removes the operated on item from its parent list.
+Removes references to it on its parent `list`, and `prev` and `next` items;
+relinking them when possible.
+Returns the operated on item.
+Even when it was already detached.
 
 #### `LinkedList.Item#next`
 
