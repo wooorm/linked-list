@@ -26,10 +26,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when *no* arguments are given'
     )
 
-    st.equal(
-      LinkedList.of().count, 0,
-      'should be empty'
-    )
+    st.equal(LinkedList.of().count, 0, 'should be empty')
 
     st.notOk(
       own.call(LinkedList.of(null), 'head'),
@@ -45,10 +42,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when arguments are given (1)'
     )
 
-    st.equal(
-      LinkedList.of(new Item()).count, 1,
-      'should have a proper count'
-    )
+    st.equal(LinkedList.of(new Item()).count, 1, 'should have a proper count')
 
     st.ok(
       C.of(new Item()) instanceof C,
@@ -94,10 +88,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when *no* arguments are given (1)'
     )
 
-    st.equal(
-      LinkedList.from().count, 0,
-      'should be empty'
-    )
+    st.equal(LinkedList.from().count, 0, 'should be empty')
 
     st.ok(
       C.from() instanceof C,
@@ -120,7 +111,8 @@ test('LinkedList [LinkedList]', function(t) {
     )
 
     st.equal(
-      LinkedList.from([new Item()]).count, 1,
+      LinkedList.from([new Item()]).count,
+      1,
       'should have a proper count'
     )
 
@@ -193,10 +185,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should have a `tail` property set to `null`'
     )
 
-    st.equal(
-      new LinkedList().count, 0,
-      'should be empty'
-    )
+    st.equal(new LinkedList().count, 0, 'should be empty')
 
     st.equal(
       typeof new LinkedList().prepend,
@@ -227,13 +216,9 @@ test('LinkedList [LinkedList]', function(t) {
         'should return false when no item is given'
       )
 
-      list = new LinkedList();
-      list.prepend();
-      sst.equal(
-        list.count,
-        0,
-        'should have 0 count of no item is given'
-      )
+      list = new LinkedList()
+      list.prepend()
+      sst.equal(list.count, 0, 'should have 0 count of no item is given')
 
       item = new Item()
 
@@ -253,11 +238,7 @@ test('LinkedList [LinkedList]', function(t) {
       item = new Item()
       list.prepend(item)
 
-      sst.equal(
-        list.count,
-        1,
-        'should have proper count after prepend'
-      )
+      sst.equal(list.count, 1, 'should have proper count after prepend')
 
       sst.equal(list.head, item, 'should set `@head` to the first prependee')
 
@@ -276,11 +257,7 @@ test('LinkedList [LinkedList]', function(t) {
         'should set `@head` to further prependees (1)'
       )
 
-      sst.equal(
-        list.count,
-        2,
-        'should update count after 2nd prepend'
-      )
+      sst.equal(list.count, 2, 'should update count after 2nd prepend')
 
       sst.equal(
         list.tail,
@@ -303,11 +280,7 @@ test('LinkedList [LinkedList]', function(t) {
         'should set `@tail` to the first prependee (2)'
       )
 
-      sst.equal(
-        list.count,
-        3,
-        'should update count after 2nd prepend'
-      )
+      sst.equal(list.count, 3, 'should update count after 2nd prepend')
 
       list = new LinkedList()
       other = new LinkedList()
@@ -347,13 +320,9 @@ test('LinkedList [LinkedList]', function(t) {
         'should return false when no item is given'
       )
 
-      list = new LinkedList();
-      list.append();
-      sst.equal(
-        list.count,
-        0,
-        'should have 0 count of no item is given'
-      )
+      list = new LinkedList()
+      list.append()
+      sst.equal(list.count, 0, 'should have 0 count of no item is given')
 
       item = new Item()
 
@@ -363,14 +332,10 @@ test('LinkedList [LinkedList]', function(t) {
         'should return the given item'
       )
 
-      list = new LinkedList();
-      list.append(item);
+      list = new LinkedList()
+      list.append(item)
 
-      sst.equal(
-        list.count,
-        1,
-        'should have proper count after append'
-      )
+      sst.equal(list.count, 1, 'should have proper count after append')
 
       list = new LinkedList()
 
@@ -393,11 +358,7 @@ test('LinkedList [LinkedList]', function(t) {
       other = new Item()
       list.append(other)
 
-      sst.equal(
-        list.count,
-        2,
-        'should update count after 2nd append'
-      )
+      sst.equal(list.count, 2, 'should update count after 2nd append')
 
       sst.equal(
         list.tail,
@@ -414,11 +375,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       sst.equal(list.head, item, 'should set `@head` to the first appendee (2)')
 
-      sst.equal(
-        list.count,
-        3,
-        'should update count after 2nd append'
-      )
+      sst.equal(list.count, 3, 'should update count after 2nd append')
 
       list = new LinkedList()
       other = new LinkedList()
@@ -530,7 +487,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList();
+    list = new LinkedList()
     list.append(item)
 
     t.equal(
@@ -541,11 +498,7 @@ test('Item [LinkedList.Item]', function(t) {
         'attached'
     )
 
-    t.equal(
-      list.count,
-      2,
-      'should update count after prepend on item'
-    )
+    t.equal(list.count, 2, 'should update count after prepend on item')
 
     item = new Item()
     other = new LinkedList(item)
@@ -632,7 +585,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList();
+    list = new LinkedList()
     list.append(item)
 
     t.equal(
@@ -643,11 +596,7 @@ test('Item [LinkedList.Item]', function(t) {
         'attached'
     )
 
-    t.equal(
-      list.count,
-      2,
-      'should update count after append on item'
-    )
+    t.equal(list.count, 2, 'should update count after append on item')
 
     item = new Item()
     other = new LinkedList(item)
@@ -708,11 +657,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     st.equal(item.detach(), item, 'should return self')
 
-    st.equal(
-      list.count,
-      0,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 0, 'should update count after detached item')
 
     st.equal(
       item.detach(),
@@ -735,11 +680,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     item.detach()
 
-    st.equal(
-      list.count,
-      1,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 1, 'should update count after detached item')
 
     st.equal(
       list.head,
@@ -758,11 +699,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other2.detach()
 
-    st.equal(
-      list.count,
-      2,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 2, 'should update count after detached item')
 
     st.equal(
       list.tail,
@@ -779,11 +716,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(
-      list.count,
-      1,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 1, 'should update count after detached item')
 
     st.equal(
       list.tail,
@@ -802,11 +735,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(
-      list.count,
-      2,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 2, 'should update count after detached item')
 
     st.equal(
       item.next,
@@ -827,11 +756,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(
-      list.count,
-      2,
-      'should update count after detached item'
-    )
+    st.equal(list.count, 2, 'should update count after detached item')
 
     st.equal(
       other2.prev,
