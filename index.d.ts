@@ -4,7 +4,7 @@ declare class List <T extends List.Item> implements Iterable<T> {
 
   head: T | null
   tail: T | null
-  count: number
+  length: number
 
   constructor(...items: T[])
   toArray(): T[]
