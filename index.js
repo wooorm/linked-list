@@ -44,6 +44,9 @@ var errorMessage =
 // Each item (e.g. `head`, `tail`, &c.) knows which item comes before or after
 // it (its more like the implementation of the DOM in JavaScript).
 function List(/* items... */) {
+
+  this.count = 0;
+
   if (arguments.length !== 0) {
     appendAll(this, arguments)
   }
@@ -127,6 +130,7 @@ function prepend(item) {
 
   item.list = self
   self.head = item
+  self.count++;
 
   return item
 }
@@ -165,6 +169,7 @@ function append(item) {
 
   item.list = self
   self.head = item
+  self.count++;
 
   return item
 }
@@ -222,6 +227,8 @@ function detach() {
   // parent list.
   self.prev = self.next = self.list = null
 
+  list.count--;
+
   return self
 }
 
@@ -267,6 +274,8 @@ function prependItem(item) {
     list.tail = self
   }
 
+  list.count++;
+
   return item
 }
 
@@ -305,6 +314,8 @@ function appendItem(item) {
   if (self === list.tail || !list.tail) {
     list.tail = item
   }
+
+  list.count++;
 
   return item
 }
