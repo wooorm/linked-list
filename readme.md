@@ -189,6 +189,24 @@ list.tail === item2 // => true
 The last item in a list, and `null` otherwise.
 Note that a list with only one item has **no tail**, only a head.
 
+#### `LinkedList#size`
+
+```javascript
+var list = new LinkedList()
+var item1 = new LinkedList.Item()
+var item2 = new LinkedList.Item()
+
+list.size === 0 // => true
+
+list.append(item1)
+list.size === 1 // => true
+
+list.append(item2)
+list.size === 2 // => true
+```
+
+The number of items in the list.
+
 ## `LinkedList.Item()`
 
 ```javascript
