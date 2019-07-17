@@ -26,7 +26,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when *no* arguments are given'
     )
 
-    st.equal(LinkedList.of().length, 0, 'should be empty')
+    st.equal(LinkedList.of().size, 0, 'should be empty')
 
     st.notOk(
       own.call(LinkedList.of(null), 'head'),
@@ -42,7 +42,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when arguments are given (1)'
     )
 
-    st.equal(LinkedList.of(new Item()).length, 1, 'should have a proper length')
+    st.equal(LinkedList.of(new Item()).size, 1, 'should have a proper size')
 
     st.ok(
       C.of(new Item()) instanceof C,
@@ -61,7 +61,7 @@ test('LinkedList [LinkedList]', function(t) {
         var item2 = new Item()
         var list = LinkedList.of(item, item1, item2)
 
-        sst.equal(list.length, 3)
+        sst.equal(list.size, 3)
 
         sst.equal(list.head, item)
         sst.equal(list.head.next, item1)
@@ -88,7 +88,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when *no* arguments are given (1)'
     )
 
-    st.equal(LinkedList.from().length, 0, 'should be empty')
+    st.equal(LinkedList.from().size, 0, 'should be empty')
 
     st.ok(
       C.from() instanceof C,
@@ -110,11 +110,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when items are given (1)'
     )
 
-    st.equal(
-      LinkedList.from([new Item()]).length,
-      1,
-      'should have a proper length'
-    )
+    st.equal(LinkedList.from([new Item()]).size, 1, 'should have a proper size')
 
     st.ok(
       C.from([new Item()]) instanceof C,
@@ -134,7 +130,7 @@ test('LinkedList [LinkedList]', function(t) {
         var item2 = new Item()
         var list = LinkedList.from([item, item1, item2])
 
-        sst.equal(list.length, 3)
+        sst.equal(list.size, 3)
 
         sst.equal(list.head, item)
         sst.equal(list.head.next, item1)
@@ -156,7 +152,7 @@ test('LinkedList [LinkedList]', function(t) {
       items[Symbol.iterator] = undefined
       var list = LinkedList.from(items)
 
-      sst.equal(list.length, 3)
+      sst.equal(list.size, 3)
 
       sst.equal(list.head, items[0])
       sst.equal(list.head.next, items[1])
@@ -185,7 +181,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should have a `tail` property set to `null`'
     )
 
-    st.equal(new LinkedList().length, 0, 'should be empty')
+    st.equal(new LinkedList().size, 0, 'should be empty')
 
     st.equal(
       typeof new LinkedList().prepend,
@@ -218,7 +214,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       list = new LinkedList()
       list.prepend()
-      sst.equal(list.length, 0, 'should have 0 length of no item is given')
+      sst.equal(list.size, 0, 'should have 0 size of no item is given')
 
       item = new Item()
 
@@ -238,7 +234,7 @@ test('LinkedList [LinkedList]', function(t) {
       item = new Item()
       list.prepend(item)
 
-      sst.equal(list.length, 1, 'should have proper length after prepend')
+      sst.equal(list.size, 1, 'should have proper size after prepend')
 
       sst.equal(list.head, item, 'should set `@head` to the first prependee')
 
@@ -257,7 +253,7 @@ test('LinkedList [LinkedList]', function(t) {
         'should set `@head` to further prependees (1)'
       )
 
-      sst.equal(list.length, 2, 'should update length after 2nd prepend')
+      sst.equal(list.size, 2, 'should update size after 2nd prepend')
 
       sst.equal(
         list.tail,
@@ -280,7 +276,7 @@ test('LinkedList [LinkedList]', function(t) {
         'should set `@tail` to the first prependee (2)'
       )
 
-      sst.equal(list.length, 3, 'should update length after 2nd prepend')
+      sst.equal(list.size, 3, 'should update size after 2nd prepend')
 
       list = new LinkedList()
       other = new LinkedList()
@@ -288,15 +284,11 @@ test('LinkedList [LinkedList]', function(t) {
 
       list.prepend(item)
       other.prepend(item)
+      sst.equal(list.size, 0, 'should update size after item moved to new list')
       sst.equal(
-        list.length,
-        0,
-        'should update length after item moved to new list'
-      )
-      sst.equal(
-        other.length,
+        other.size,
         1,
-        'should update length after item moved from different list'
+        'should update size after item moved from different list'
       )
       sst.equal(
         list.head,
@@ -322,7 +314,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       list = new LinkedList()
       list.append()
-      sst.equal(list.length, 0, 'should have 0 length of no item is given')
+      sst.equal(list.size, 0, 'should have 0 size of no item is given')
 
       item = new Item()
 
@@ -335,7 +327,7 @@ test('LinkedList [LinkedList]', function(t) {
       list = new LinkedList()
       list.append(item)
 
-      sst.equal(list.length, 1, 'should have proper length after append')
+      sst.equal(list.size, 1, 'should have proper size after append')
 
       list = new LinkedList()
 
@@ -358,7 +350,7 @@ test('LinkedList [LinkedList]', function(t) {
       other = new Item()
       list.append(other)
 
-      sst.equal(list.length, 2, 'should update length after 2nd append')
+      sst.equal(list.size, 2, 'should update size after 2nd append')
 
       sst.equal(
         list.tail,
@@ -375,7 +367,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       sst.equal(list.head, item, 'should set `@head` to the first appendee (2)')
 
-      sst.equal(list.length, 3, 'should update length after 2nd append')
+      sst.equal(list.size, 3, 'should update size after 2nd append')
 
       list = new LinkedList()
       other = new LinkedList()
@@ -384,15 +376,11 @@ test('LinkedList [LinkedList]', function(t) {
       list.append(item)
       other.append(item)
 
+      sst.equal(list.size, 0, 'should update size after item moved to new list')
       sst.equal(
-        list.length,
-        0,
-        'should update length after item moved to new list'
-      )
-      sst.equal(
-        other.length,
+        other.size,
         1,
-        'should update length after item moved from different list'
+        'should update size after item moved from different list'
       )
 
       sst.equal(
@@ -498,7 +486,7 @@ test('Item [LinkedList.Item]', function(t) {
         'attached'
     )
 
-    t.equal(list.length, 2, 'should update length after prepend on item')
+    t.equal(list.size, 2, 'should update size after prepend on item')
 
     item = new Item()
     other = new LinkedList(item)
@@ -507,9 +495,9 @@ test('Item [LinkedList.Item]', function(t) {
     list.head.prepend(item)
 
     t.equal(
-      other.length,
+      other.size,
       0,
-      'should update length after prepend on item to a different list'
+      'should update size after prepend on item to a different list'
     )
 
     t.equal(
@@ -596,7 +584,7 @@ test('Item [LinkedList.Item]', function(t) {
         'attached'
     )
 
-    t.equal(list.length, 2, 'should update length after append on item')
+    t.equal(list.size, 2, 'should update size after append on item')
 
     item = new Item()
     other = new LinkedList(item)
@@ -605,9 +593,9 @@ test('Item [LinkedList.Item]', function(t) {
     list.head.append(item)
 
     t.equal(
-      other.length,
+      other.size,
       0,
-      'should update length after append on item to a different list'
+      'should update size after append on item to a different list'
     )
 
     t.equal(
@@ -657,7 +645,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     st.equal(item.detach(), item, 'should return self')
 
-    st.equal(list.length, 0, 'should update length after detached item')
+    st.equal(list.size, 0, 'should update size after detached item')
 
     st.equal(
       item.detach(),
@@ -666,9 +654,9 @@ test('Item [LinkedList.Item]', function(t) {
     )
 
     st.equal(
-      list.length,
+      list.size,
       0,
-      'should not update length after detaching already detached item'
+      'should not update size after detaching already detached item'
     )
 
     item = new Item()
@@ -680,7 +668,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     item.detach()
 
-    st.equal(list.length, 1, 'should update length after detached item')
+    st.equal(list.size, 1, 'should update size after detached item')
 
     st.equal(
       list.head,
@@ -699,7 +687,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other2.detach()
 
-    st.equal(list.length, 2, 'should update length after detached item')
+    st.equal(list.size, 2, 'should update size after detached item')
 
     st.equal(
       list.tail,
@@ -716,7 +704,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(list.length, 1, 'should update length after detached item')
+    st.equal(list.size, 1, 'should update size after detached item')
 
     st.equal(
       list.tail,
@@ -735,7 +723,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(list.length, 2, 'should update length after detached item')
+    st.equal(list.size, 2, 'should update size after detached item')
 
     st.equal(
       item.next,
@@ -756,7 +744,7 @@ test('Item [LinkedList.Item]', function(t) {
 
     other.detach()
 
-    st.equal(list.length, 2, 'should update length after detached item')
+    st.equal(list.size, 2, 'should update size after detached item')
 
     st.equal(
       other2.prev,
