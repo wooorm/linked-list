@@ -7,17 +7,17 @@
 
 Small double [linked list][wiki].
 
-## Installation
+## Install
 
 [npm][]:
 
-```bash
+```sh
 npm install linked-list
 ```
 
-## Usage
+## Use
 
-```javascript
+```js
 var LinkedList = require('linked-list')
 
 var item1 = new LinkedList.Item()
@@ -35,7 +35,7 @@ list.tail.next // => `null`
 
 Subclassing:
 
-```javascript
+```js
 var inherits = require('inherits')
 var List = require('linked-list')
 
@@ -79,7 +79,7 @@ function toString() {
 
 ### `LinkedList([items…])`
 
-```javascript
+```js
 new LinkedList()
 new LinkedList(new LinkedList.Item(), new LinkedList.Item())
 ```
@@ -88,7 +88,7 @@ Create a new Linked List.
 
 #### `LinkedList.from([items])`
 
-```javascript
+```js
 LinkedList.from()
 LinkedList.from([])
 LinkedList.from([new LinkedList.Item(), new LinkedList.Item()])
@@ -101,7 +101,7 @@ methods.
 
 #### `LinkedList.of([items…])`
 
-```javascript
+```js
 LinkedList.of()
 LinkedList.of(new LinkedList.Item(), new LinkedList.Item())
 ```
@@ -111,7 +111,7 @@ Defers to `LinkedList.from`.
 
 #### `LinkedList#append(item)`
 
-```javascript
+```js
 var list = new LinkedList()
 var item = new LinkedList.Item()
 
@@ -131,7 +131,7 @@ Returns the given item.
 
 #### `LinkedList#prepend(item)`
 
-```javascript
+```js
 var list = new LinkedList()
 var item = new LinkedList.Item()
 
@@ -145,7 +145,7 @@ Returns the given item.
 
 #### `LinkedList#toArray()`
 
-```javascript
+```js
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
 var list = new LinkedList(item1, item2)
@@ -161,7 +161,7 @@ Returns the items in the list in an array.
 
 #### `LinkedList#head`
 
-```javascript
+```js
 var item = new LinkedList.Item()
 var list = new LinkedList(item)
 
@@ -172,7 +172,7 @@ The first item in a list, and `null` otherwise.
 
 #### `LinkedList#tail`
 
-```javascript
+```js
 var list = new LinkedList()
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
@@ -191,7 +191,7 @@ Note that a list with only one item has **no tail**, only a head.
 
 #### `LinkedList#size`
 
-```javascript
+```js
 var list = new LinkedList()
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
@@ -209,7 +209,7 @@ The number of items in the list.
 
 ## `LinkedList.Item()`
 
-```javascript
+```js
 var item = new LinkedList.Item()
 ```
 
@@ -217,7 +217,7 @@ Creates a new Linked List Item.
 
 #### `LinkedList.Item#append(item)`
 
-```javascript
+```js
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
 
@@ -237,7 +237,7 @@ given item.
 
 #### `LinkedList.Item#prepend(item)`
 
-```javascript
+```js
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
 
@@ -257,7 +257,7 @@ the given item.
 
 #### `LinkedList.Item#detach()`
 
-```javascript
+```js
 var item = new LinkedList.Item()
 var list = new LinkedList(item)
 
@@ -275,7 +275,7 @@ Even when it was already detached.
 
 #### `LinkedList.Item#next`
 
-```javascript
+```js
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
 
@@ -297,7 +297,7 @@ The items succeeding item, and `null` otherwise.
 
 #### `LinkedList.Item#prev`
 
-```javascript
+```js
 var item1 = new LinkedList.Item()
 var item2 = new LinkedList.Item()
 
@@ -319,7 +319,7 @@ The items preceding item, and `null` otherwise.
 
 #### `LinkedList.Item#list`
 
-```javascript
+```js
 var item = new LinkedList.Item()
 var list = new LinkedList()
 
