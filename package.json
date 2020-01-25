@@ -2,7 +2,6 @@
   "name": "linked-list",
   "version": "2.1.0",
   "description": "Minimalistic linked lists",
-  "types": "index.d.ts",
   "license": "MIT",
   "keywords": [
     "double",
@@ -25,16 +24,17 @@
     "index.js",
     "index.d.ts"
   ],
+  "types": "index.d.ts",
   "dependencies": {},
   "devDependencies": {
     "browserify": "^16.0.0",
-    "nyc": "^14.0.0",
+    "nyc": "^15.0.0",
     "prettier": "^1.0.0",
-    "remark-cli": "^6.0.0",
-    "remark-preset-wooorm": "^5.0.0",
+    "remark-cli": "^7.0.0",
+    "remark-preset-wooorm": "^6.0.0",
     "tape": "^4.0.0",
     "tinyify": "^2.0.0",
-    "xo": "^0.24.0"
+    "xo": "^0.25.0"
   },
   "scripts": {
     "format": "remark . -qfo && prettier --write \"**/*.js\" && xo --fix",
@@ -57,8 +57,8 @@
     "prettier": true,
     "esnext": false,
     "rules": {
-      "no-multi-assign": "off",
-      "unicorn/prefer-spread": "off"
+      "unicorn/prefer-spread": "off",
+      "no-multi-assign": "off"
     },
     "ignores": [
       "linked-list.js"
