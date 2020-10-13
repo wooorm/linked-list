@@ -187,7 +187,7 @@ function ListItem() {}
 function detach() {
   var self = this
   var list = self.list
-  var prev = self.prev
+  var previous = self.prev
   var next = self.next
 
   if (!list) {
@@ -197,7 +197,7 @@ function detach() {
   // If self is the last item in the parent list, link the lists last item to
   // the previous item.
   if (list.tail === self) {
-    list.tail = prev
+    list.tail = previous
   }
 
   // If self is the first item in the parent list, link the lists first item to
@@ -213,13 +213,13 @@ function detach() {
   }
 
   // If a previous item exists, link its next item to selfs next item.
-  if (prev) {
-    prev.next = next
+  if (previous) {
+    previous.next = next
   }
 
   // If a next item exists, link its previous item to selfs previous item.
   if (next) {
-    next.prev = prev
+    next.prev = previous
   }
 
   // Remove links from self to both the next and previous items, and to the
@@ -239,7 +239,7 @@ function prependItem(item) {
 
   var self = this
   var list = self.list
-  var prev = self.prev
+  var previous = self.prev
 
   // If self is detached, return false.
   if (!list) {
@@ -250,9 +250,9 @@ function prependItem(item) {
   item.detach()
 
   // If self has a previous item...
-  if (prev) {
-    item.prev = prev
-    prev.next = item
+  if (previous) {
+    item.prev = previous
+    previous.next = item
   }
 
   // Connect the prependee.

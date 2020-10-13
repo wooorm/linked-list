@@ -1,3 +1,6 @@
+.nyc_output/
 coverage/
+*.md
+*.json
 linked-list.js
 linked-list.min.js

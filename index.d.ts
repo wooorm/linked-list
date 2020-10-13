@@ -1,4 +1,4 @@
-declare class List <T extends List.Item> implements Iterable<T> {
+declare class List<T extends List.Item> implements Iterable<T> {
   static of<T extends List.Item>(...items: T[]): List<T>
   static from<T extends List.Item>(items: Iterable<T>): List<T>
 

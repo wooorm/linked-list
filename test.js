@@ -7,8 +7,8 @@ var own = {}.hasOwnProperty
 
 var Item = LinkedList.Item
 
-test('LinkedList [LinkedList]', function(t) {
-  t.test('@constructor', function(st) {
+test('LinkedList [LinkedList]', function (t) {
+  t.test('@constructor', function (st) {
     st.equal(typeof LinkedList.Item, 'function', 'should have an `Item` method')
     st.equal(typeof LinkedList.of, 'function', 'should have an `of` method')
     st.equal(typeof LinkedList.from, 'function', 'should have a `from` method')
@@ -16,7 +16,7 @@ test('LinkedList [LinkedList]', function(t) {
     st.end()
   })
 
-  t.test('of [LinkedList.of]', function(st) {
+  t.test('of [LinkedList.of]', function (st) {
     function C() {}
     C.prototype.append = LinkedList.prototype.append
     C.of = LinkedList.of
@@ -49,13 +49,13 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when arguments are given (2)'
     )
 
-    st.throws(function() {
+    st.throws(function () {
       LinkedList.of({})
     }, 'should throw an error when an invalid item is given')
 
     st.test(
       'should add (“append”) items in the order they were given',
-      function(sst) {
+      function (sst) {
         var item = new Item()
         var item1 = new Item()
         var item2 = new Item()
@@ -78,7 +78,7 @@ test('LinkedList [LinkedList]', function(t) {
     st.end()
   })
 
-  t.test('from [LinkedList.from]', function(st) {
+  t.test('from [LinkedList.from]', function (st) {
     function C() {}
     C.prototype.append = LinkedList.prototype.append
     C.from = LinkedList.from
@@ -118,13 +118,13 @@ test('LinkedList [LinkedList]', function(t) {
       'should return an instance of self when items are given (2)'
     )
 
-    st.throws(function() {
+    st.throws(function () {
       LinkedList.from([{}])
     }, 'should throw an error when an invalid item is given')
 
     st.test(
       'should add (“append”) items in the order they were given',
-      function(sst) {
+      function (sst) {
         var item = new Item()
         var item1 = new Item()
         var item2 = new Item()
@@ -144,7 +144,7 @@ test('LinkedList [LinkedList]', function(t) {
       }
     )
 
-    st.test('should add items from an array with `Symbol.iterator`', function(
+    st.test('should add items from an array with `Symbol.iterator`', function (
       sst
     ) {
       var items = [new Item(), new Item(), new Item()]
@@ -168,7 +168,7 @@ test('LinkedList [LinkedList]', function(t) {
     st.end()
   })
 
-  t.test('@instance', function(st) {
+  t.test('@instance', function (st) {
     st.equal(
       new LinkedList().head,
       null,
@@ -201,7 +201,7 @@ test('LinkedList [LinkedList]', function(t) {
       'should have an `toArray` method'
     )
 
-    st.test('prepend [LinkedList#prepend]', function(sst) {
+    st.test('prepend [LinkedList#prepend]', function (sst) {
       var list
       var item
       var other
@@ -226,7 +226,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       list = new LinkedList()
 
-      sst.throws(function() {
+      sst.throws(function () {
         list.prepend({})
       }, 'should throw an error when an invalid item is given')
 
@@ -301,7 +301,7 @@ test('LinkedList [LinkedList]', function(t) {
       sst.end()
     })
 
-    st.test('append [LinkedList#append]', function(sst) {
+    st.test('append [LinkedList#append]', function (sst) {
       var list
       var item
       var other
@@ -331,7 +331,7 @@ test('LinkedList [LinkedList]', function(t) {
 
       list = new LinkedList()
 
-      sst.throws(function() {
+      sst.throws(function () {
         list.append({})
       }, 'should throw an error when an invalid item is given')
 
@@ -394,7 +394,7 @@ test('LinkedList [LinkedList]', function(t) {
       sst.end()
     })
 
-    st.test('toArray [LinkedList#toArray]', function(sst) {
+    st.test('toArray [LinkedList#toArray]', function (sst) {
       var list
       var result
 
@@ -419,7 +419,7 @@ test('LinkedList [LinkedList]', function(t) {
       sst.end()
     })
 
-    st.test('@@iterator [LinkedList#@@iterator]', function(sst) {
+    st.test('@@iterator [LinkedList#@@iterator]', function (sst) {
       var list
       var result
 
@@ -439,7 +439,7 @@ test('LinkedList [LinkedList]', function(t) {
   t.end()
 })
 
-test('Item [LinkedList.Item]', function(t) {
+test('Item [LinkedList.Item]', function (t) {
   t.equal(new Item().list, null, 'should have a `list` property set to `null`')
   t.equal(new Item().prev, null, 'should have a `prev` property set to `null`')
   t.equal(new Item().next, null, 'should have a `next` property set to `null`')
@@ -451,7 +451,7 @@ test('Item [LinkedList.Item]', function(t) {
   t.equal(typeof new Item().append, 'function', 'should have a `append` method')
   t.equal(typeof new Item().detach, 'function', 'should have a `detach` method')
 
-  t.test('prepend [LinkedList.Item#prepend]', function(st) {
+  t.test('prepend [LinkedList.Item#prepend]', function (st) {
     var item = new Item()
     var other = new Item()
     var list
@@ -465,11 +465,11 @@ test('Item [LinkedList.Item]', function(t) {
     t.equal(item.prev, null, 'should do nothing if `item` is detached (1)')
     t.equal(other.next, null, 'should do nothing if `item` is detached (2)')
 
-    t.throws(function() {
+    t.throws(function () {
       item.prepend(null)
     }, 'should throw an error when an invalid item is given (1)')
 
-    t.throws(function() {
+    t.throws(function () {
       item.prepend({})
     }, 'should throw an error when an invalid item is given (2)')
 
@@ -549,7 +549,7 @@ test('Item [LinkedList.Item]', function(t) {
     st.end()
   })
 
-  t.test('append [LinkedList.Item#append]', function(st) {
+  t.test('append [LinkedList.Item#append]', function (st) {
     var item = new Item()
     var other = new Item()
     var list
@@ -563,11 +563,11 @@ test('Item [LinkedList.Item]', function(t) {
     t.equal(item.prev, null, 'should do nothing if `item` is detached (1)')
     t.equal(other.next, null, 'should do nothing if `item` is detached (2)')
 
-    t.throws(function() {
+    t.throws(function () {
       item.append(null)
     }, 'should throw an error when an invalid item is given (1)')
 
-    t.throws(function() {
+    t.throws(function () {
       item.append({})
     }, 'should throw an error when an invalid item is given (2)')
 
@@ -635,7 +635,7 @@ test('Item [LinkedList.Item]', function(t) {
     st.end()
   })
 
-  t.test('detach [LinkedList.Item#detach]', function(st) {
+  t.test('detach [LinkedList.Item#detach]', function (st) {
     var item = new Item()
     var list = new LinkedList()
     var other
