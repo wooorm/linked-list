@@ -57,8 +57,8 @@
     "prettier": true,
     "esnext": false,
     "rules": {
-      "unicorn/prefer-spread": "off",
-      "no-multi-assign": "off"
+      "no-multi-assign": "off",
+      "unicorn/explicit-length-check": "off"
     },
     "ignores": [
       "*.ts",

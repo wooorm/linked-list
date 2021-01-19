@@ -3,8 +3,6 @@
 // Expose.
 module.exports = List
 
-List.Item = ListItem
-
 var ListPrototype = List.prototype
 var ListItemPrototype = ListItem.prototype
 var IterPrototype = Iter.prototype
@@ -12,31 +10,23 @@ var IterPrototype = Iter.prototype
 /* istanbul ignore next */
 var $iterator = typeof Symbol === 'undefined' ? undefined : Symbol.iterator
 
-ListPrototype.tail = ListPrototype.head = null
-
+List.Item = ListItem
 List.of = of
 List.from = from
 
+ListPrototype.tail = ListPrototype.head = null
 ListPrototype.toArray = toArray
 ListPrototype.prepend = prepend
 ListPrototype.append = append
-
 /* istanbul ignore else */
-if ($iterator !== undefined) {
-  ListPrototype[$iterator] = iterator
-}
+if ($iterator !== undefined) ListPrototype[$iterator] = iterator
 
 ListItemPrototype.next = ListItemPrototype.prev = ListItemPrototype.list = null
-
 ListItemPrototype.prepend = prependItem
 ListItemPrototype.append = appendItem
 ListItemPrototype.detach = detach
 
 IterPrototype.next = next
-
-// Constants.
-var errorMessage =
-  'An argument without append, prepend, or detach methods was given to `List'
 
 // Creates a new List: A linked list is a bit like an Array, but knows nothing
 // about how many items are in it, and knows only about its first (`head`) and
@@ -46,14 +36,13 @@ var errorMessage =
 function List(/* items... */) {
   this.size = 0
 
-  if (arguments.length > 0) {
+  if (arguments.length) {
     appendAll(this, arguments)
   }
 }
 
 // Creates a new list from the arguments (each a list item) passed in.
 function appendAll(list, items) {
-  var length
   var index
   var item
   var iter
@@ -71,10 +60,9 @@ function appendAll(list, items) {
       list.append(item && item.value)
     }
   } else {
-    length = items.length
     index = -1
 
-    while (++index < length) {
+    while (++index < items.length) {
       list.append(items[index])
     }
   }
@@ -110,26 +98,24 @@ function toArray() {
 // Prepends the given item to the list.
 // `item` will be the new first item (`head`).
 function prepend(item) {
-  var self = this
-  var head = self.head
-
   if (!item) {
     return false
   }
 
   if (!item.append || !item.prepend || !item.detach) {
-    throw new Error(errorMessage + '#prepend`.')
+    throw new Error(
+      'An argument without append, prepend, or detach methods was given to `List#prepend`.'
+    )
   }
 
-  if (head) {
-    return head.prepend(item)
+  if (this.head) {
+    return this.head.prepend(item)
   }
 
   item.detach()
-
-  item.list = self
-  self.head = item
-  self.size++
+  item.list = this
+  this.head = item
+  this.size++
 
   return item
 }
@@ -143,32 +129,28 @@ function append(item) {
   }
 
   if (!item.append || !item.prepend || !item.detach) {
-    throw new Error(errorMessage + '#append`.')
+    throw new Error(
+      'An argument without append, prepend, or detach methods was given to `List#append`.'
+    )
   }
-
-  var self = this
-  var head = self.head
-  var tail = self.tail
 
   // If self has a last item, defer appending to the last items append method,
   // and return the result.
-  if (tail) {
-    return tail.append(item)
+  if (this.tail) {
+    return this.tail.append(item)
   }
 
   // If self has a first item, defer appending to the first items append method,
   // and return the result.
-  if (head) {
-    return head.append(item)
+  if (this.head) {
+    return this.head.append(item)
   }
 
   // …otherwise, there is no `tail` or `head` item yet.
-
   item.detach()
-
-  item.list = self
-  self.head = item
-  self.size++
+  item.list = this
+  this.head = item
+  this.size++
 
   return item
 }
@@ -185,25 +167,22 @@ function ListItem() {}
 
 // Detaches the item operated on from its parent list.
 function detach() {
-  var self = this
-  var list = self.list
-  var previous = self.prev
-  var next = self.next
+  var list = this.list
 
   if (!list) {
-    return self
+    return this
   }
 
   // If self is the last item in the parent list, link the lists last item to
   // the previous item.
-  if (list.tail === self) {
-    list.tail = previous
+  if (list.tail === this) {
+    list.tail = this.prev
   }
 
   // If self is the first item in the parent list, link the lists first item to
   // the next item.
-  if (list.head === self) {
-    list.head = next
+  if (list.head === this) {
+    list.head = this.next
   }
 
   // If both the last and first items in the parent list are the same, remove
@@ -213,33 +192,33 @@ function detach() {
   }
 
   // If a previous item exists, link its next item to selfs next item.
-  if (previous) {
-    previous.next = next
+  if (this.prev) {
+    this.prev.next = this.next
   }
 
   // If a next item exists, link its previous item to selfs previous item.
-  if (next) {
-    next.prev = previous
+  if (this.next) {
+    this.next.prev = this.prev
   }
 
   // Remove links from self to both the next and previous items, and to the
   // parent list.
-  self.prev = self.next = self.list = null
+  this.prev = this.next = this.list = null
 
   list.size--
 
-  return self
+  return this
 }
 
 // Prepends the given item *before* the item operated on.
 function prependItem(item) {
-  if (!item || !item.append || !item.prepend || !item.detach) {
-    throw new Error(errorMessage + 'Item#prepend`.')
-  }
+  var list = this.list
 
-  var self = this
-  var list = self.list
-  var previous = self.prev
+  if (!item || !item.append || !item.prepend || !item.detach) {
+    throw new Error(
+      'An argument without append, prepend, or detach methods was given to `ListItem#prepend`.'
+    )
+  }
 
   // If self is detached, return false.
   if (!list) {
@@ -250,27 +229,27 @@ function prependItem(item) {
   item.detach()
 
   // If self has a previous item...
-  if (previous) {
-    item.prev = previous
-    previous.next = item
+  if (this.prev) {
+    item.prev = this.prev
+    this.prev.next = item
   }
 
   // Connect the prependee.
-  item.next = self
+  item.next = this
   item.list = list
 
   // Set the previous item of self to the prependee.
-  self.prev = item
+  this.prev = item
 
   // If self is the first item in the parent list, link the lists first item to
   // the prependee.
-  if (self === list.head) {
+  if (this === list.head) {
     list.head = item
   }
 
   // If the the parent list has no last item, link the lists last item to self.
   if (!list.tail) {
-    list.tail = self
+    list.tail = this
   }
 
   list.size++
@@ -280,13 +259,13 @@ function prependItem(item) {
 
 // Appends the given item *after* the item operated on.
 function appendItem(item) {
-  if (!item || !item.append || !item.prepend || !item.detach) {
-    throw new Error(errorMessage + 'Item#append`.')
-  }
+  var list = this.list
 
-  var self = this
-  var list = self.list
-  var next = self.next
+  if (!item || !item.append || !item.prepend || !item.detach) {
+    throw new Error(
+      'An argument without append, prepend, or detach methods was given to `ListItem#append`.'
+    )
+  }
 
   if (!list) {
     return false
@@ -296,21 +275,21 @@ function appendItem(item) {
   item.detach()
 
   // If self has a next item…
-  if (next) {
-    item.next = next
-    next.prev = item
+  if (this.next) {
+    item.next = this.next
+    this.next.prev = item
   }
 
   // Connect the appendee.
-  item.prev = self
+  item.prev = this
   item.list = list
 
   // Set the next item of self to the appendee.
-  self.next = item
+  this.next = item
 
   // If the the parent list has no last item or if self is the parent lists last
   // item, link the lists last item to the appendee.
-  if (self === list.tail || !list.tail) {
+  if (this === list.tail || !list.tail) {
     list.tail = item
   }
 
@@ -326,9 +305,8 @@ function Iter(item) {
 
 // Move the `Iter` to the next item.
 function next() {
-  var current = this.item
-  this.value = current
-  this.done = !current
-  this.item = current ? current.next : undefined
+  this.value = this.item
+  this.done = !this.item
+  this.item = this.item ? this.item.next : undefined
   return this
 }
