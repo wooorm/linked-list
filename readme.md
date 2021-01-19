@@ -342,9 +342,9 @@ The items parent list, and `null` otherwise.
 
 <!-- Definitions -->
 
-[build-badge]: https://img.shields.io/travis/wooorm/linked-list.svg
+[build-badge]: https://github.com/wooorm/linked-list/workflows/main/badge.svg
 
-[build]: https://travis-ci.org/wooorm/linked-list
+[build]: https://github.com/wooorm/linked-list/actions
 
 [coverage-badge]: https://img.shields.io/codecov/c/github/wooorm/linked-list.svg
 
