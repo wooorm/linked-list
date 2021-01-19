@@ -144,26 +144,27 @@ test('LinkedList [LinkedList]', function (t) {
       }
     )
 
-    t.test('should add items from an array with `Symbol.iterator`', function (
-      t
-    ) {
-      var items = [new Item(), new Item(), new Item()]
-      // Remove iterator to test array branch.
-      items[Symbol.iterator] = undefined
-      var list = LinkedList.from(items)
+    t.test(
+      'should add items from an array with `Symbol.iterator`',
+      function (t) {
+        var items = [new Item(), new Item(), new Item()]
+        // Remove iterator to test array branch.
+        items[Symbol.iterator] = undefined
+        var list = LinkedList.from(items)
 
-      t.equal(list.size, 3)
+        t.equal(list.size, 3)
 
-      t.equal(list.head, items[0])
-      t.equal(list.head.next, items[1])
-      t.equal(list.head.next.next, items[2])
+        t.equal(list.head, items[0])
+        t.equal(list.head.next, items[1])
+        t.equal(list.head.next.next, items[2])
 
-      t.equal(list.tail, items[2])
-      t.equal(list.tail.prev, items[1])
-      t.equal(list.tail.prev.prev, items[0])
+        t.equal(list.tail, items[2])
+        t.equal(list.tail.prev, items[1])
+        t.equal(list.tail.prev.prev, items[0])
 
-      t.end()
-    })
+        t.end()
+      }
+    )
 
     t.end()
   })

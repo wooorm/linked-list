@@ -46,7 +46,7 @@ var errorMessage =
 function List(/* items... */) {
   this.size = 0
 
-  if (arguments.length !== 0) {
+  if (arguments.length > 0) {
     appendAll(this, arguments)
   }
 }
