@@ -1,48 +1,38 @@
-'use strict'
-
-var test = require('tape')
-var LinkedList = require('.')
+import test from 'tape'
+import {List, Item} from './index.js'
 
 var own = {}.hasOwnProperty
 
-var Item = LinkedList.Item
-
-test('LinkedList [LinkedList]', function (t) {
+test('List [List]', function (t) {
   t.test('@constructor', function (t) {
-    t.equal(typeof LinkedList.Item, 'function', 'should have an `Item` method')
-    t.equal(typeof LinkedList.of, 'function', 'should have an `of` method')
-    t.equal(typeof LinkedList.from, 'function', 'should have a `from` method')
+    t.equal(typeof List.of, 'function', 'should have an `of` method')
+    t.equal(typeof List.from, 'function', 'should have a `from` method')
 
     t.end()
   })
 
-  t.test('of [LinkedList.of]', function (t) {
-    function C() {}
-    C.prototype.append = LinkedList.prototype.append
-    C.of = LinkedList.of
+  t.test('of [List.of]', function (t) {
+    class C extends List {}
 
     t.ok(
-      LinkedList.of() instanceof LinkedList,
+      List.of() instanceof List,
       'should return an instance of self when *no* arguments are given'
     )
 
-    t.equal(LinkedList.of().size, 0, 'should be empty')
+    t.equal(List.of().size, 0, 'should be empty')
 
+    t.notOk(own.call(List.of(null), 'head'), 'should ignore `null` values')
     t.notOk(
-      own.call(LinkedList.of(null), 'head'),
-      'should ignore `null` values'
-    )
-    t.notOk(
-      own.call(LinkedList.of(undefined), 'head'),
+      own.call(List.of(undefined), 'head'),
       'should ignore `undefined` values'
     )
 
     t.ok(
-      LinkedList.of(new Item()) instanceof LinkedList,
+      List.of(new Item()) instanceof List,
       'should return an instance of self when arguments are given (1)'
     )
 
-    t.equal(LinkedList.of(new Item()).size, 1, 'should have a proper size')
+    t.equal(List.of(new Item()).size, 1, 'should have a proper size')
 
     t.ok(
       C.of(new Item()) instanceof C,
@@ -50,7 +40,7 @@ test('LinkedList [LinkedList]', function (t) {
     )
 
     t.throws(function () {
-      LinkedList.of({})
+      List.of({})
     }, 'should throw an error when an invalid item is given')
 
     t.test(
@@ -59,7 +49,7 @@ test('LinkedList [LinkedList]', function (t) {
         var item = new Item()
         var item1 = new Item()
         var item2 = new Item()
-        var list = LinkedList.of(item, item1, item2)
+        var list = List.of(item, item1, item2)
 
         t.equal(list.size, 3)
 
@@ -78,48 +68,43 @@ test('LinkedList [LinkedList]', function (t) {
     t.end()
   })
 
-  t.test('from [LinkedList.from]', function (t) {
-    function C() {}
-    C.prototype.append = LinkedList.prototype.append
-    C.from = LinkedList.from
+  t.test('from [List.from]', function (t) {
+    class C extends List {}
 
     t.ok(
-      LinkedList.from() instanceof LinkedList,
+      List.from() instanceof List,
       'should return an instance of self when *no* arguments are given (1)'
     )
 
-    t.equal(LinkedList.from().size, 0, 'should be empty')
+    t.equal(List.from().size, 0, 'should be empty')
 
     t.ok(
       C.from() instanceof C,
       'should return an instance of self when *no* arguments are given (2)'
     )
 
-    t.notOk(
-      own.call(LinkedList.from([null]), 'head'),
-      'should ignore `null` values'
-    )
+    t.notOk(own.call(List.from([null]), 'head'), 'should ignore `null` values')
 
     t.notOk(
-      own.call(LinkedList.from([undefined]), 'head'),
+      own.call(List.from([undefined]), 'head'),
       'should ignore `undefined` values'
     )
 
     t.ok(
-      LinkedList.from([new Item()]) instanceof LinkedList,
+      List.from([new Item()]) instanceof List,
       'should return an instance of self when items are given (1)'
     )
 
-    t.equal(LinkedList.from([new Item()]).size, 1, 'should have a proper size')
+    t.equal(List.from([new Item()]).size, 1, 'should have a proper size')
 
     t.ok(
       C.from([new Item()]) instanceof C,
-      LinkedList.from([new Item()]) instanceof LinkedList,
+      List.from([new Item()]) instanceof List,
       'should return an instance of self when items are given (2)'
     )
 
     t.throws(function () {
-      LinkedList.from([{}])
+      List.from([{}])
     }, 'should throw an error when an invalid item is given')
 
     t.test(
@@ -128,7 +113,7 @@ test('LinkedList [LinkedList]', function (t) {
         var item = new Item()
         var item1 = new Item()
         var item2 = new Item()
-        var list = LinkedList.from([item, item1, item2])
+        var list = List.from([item, item1, item2])
 
         t.equal(list.size, 3)
 
@@ -150,7 +135,7 @@ test('LinkedList [LinkedList]', function (t) {
         var items = [new Item(), new Item(), new Item()]
         // Remove iterator to test array branch.
         items[Symbol.iterator] = undefined
-        var list = LinkedList.from(items)
+        var list = List.from(items)
 
         t.equal(list.size, 3)
 
@@ -171,67 +156,63 @@ test('LinkedList [LinkedList]', function (t) {
 
   t.test('@instance', function (t) {
     t.equal(
-      new LinkedList().head,
+      new List().head,
       null,
       'should have a `head` property set to `null`'
     )
 
     t.equal(
-      new LinkedList().tail,
+      new List().tail,
       null,
       'should have a `tail` property set to `null`'
     )
 
-    t.equal(new LinkedList().size, 0, 'should be empty')
+    t.equal(new List().size, 0, 'should be empty')
 
     t.equal(
-      typeof new LinkedList().prepend,
+      typeof new List().prepend,
       'function',
       'should have a `prepend` method'
     )
 
     t.equal(
-      typeof new LinkedList().append,
+      typeof new List().append,
       'function',
       'should have an `append` method'
     )
 
     t.equal(
-      typeof new LinkedList().toArray,
+      typeof new List().toArray,
       'function',
       'should have an `toArray` method'
     )
 
-    t.test('prepend [LinkedList#prepend]', function (t) {
+    t.test('prepend [List#prepend]', function (t) {
       var list
       var item
       var other
 
       t.equal(
-        new LinkedList().prepend(),
+        new List().prepend(),
         false,
         'should return false when no item is given'
       )
 
-      list = new LinkedList()
+      list = new List()
       list.prepend()
       t.equal(list.size, 0, 'should have 0 size of no item is given')
 
       item = new Item()
 
-      t.equal(
-        new LinkedList().prepend(item),
-        item,
-        'should return the given item'
-      )
+      t.equal(new List().prepend(item), item, 'should return the given item')
 
-      list = new LinkedList()
+      list = new List()
 
       t.throws(function () {
         list.prepend({})
       }, 'should throw an error when an invalid item is given')
 
-      list = new LinkedList()
+      list = new List()
       item = new Item()
       list.prepend(item)
 
@@ -239,7 +220,7 @@ test('LinkedList [LinkedList]', function (t) {
 
       t.equal(list.head, item, 'should set `@head` to the first prependee')
 
-      list = new LinkedList()
+      list = new List()
       item = new Item()
       list.prepend(item)
 
@@ -267,8 +248,8 @@ test('LinkedList [LinkedList]', function (t) {
 
       t.equal(list.size, 3, 'should update size after 2nd prepend')
 
-      list = new LinkedList()
-      other = new LinkedList()
+      list = new List()
+      other = new List()
       item = new Item()
 
       list.prepend(item)
@@ -290,47 +271,43 @@ test('LinkedList [LinkedList]', function (t) {
       t.end()
     })
 
-    t.test('append [LinkedList#append]', function (t) {
+    t.test('append [List#append]', function (t) {
       var list
       var item
       var other
 
       t.equal(
-        new LinkedList().append(),
+        new List().append(),
         false,
         'should return false when no item is given'
       )
 
-      list = new LinkedList()
+      list = new List()
       list.append()
       t.equal(list.size, 0, 'should have 0 size of no item is given')
 
       item = new Item()
 
-      t.equal(
-        new LinkedList().append(item),
-        item,
-        'should return the given item'
-      )
+      t.equal(new List().append(item), item, 'should return the given item')
 
-      list = new LinkedList()
+      list = new List()
       list.append(item)
 
       t.equal(list.size, 1, 'should have proper size after append')
 
-      list = new LinkedList()
+      list = new List()
 
       t.throws(function () {
         list.append({})
       }, 'should throw an error when an invalid item is given')
 
-      list = new LinkedList()
+      list = new List()
       item = new Item()
       list.append(item)
 
       t.equal(list.head, item, 'should set `@head` to the first appendee')
 
-      list = new LinkedList()
+      list = new List()
       item = new Item()
       list.append(item)
 
@@ -354,8 +331,8 @@ test('LinkedList [LinkedList]', function (t) {
 
       t.equal(list.size, 3, 'should update size after 2nd append')
 
-      list = new LinkedList()
-      other = new LinkedList()
+      list = new List()
+      other = new List()
       item = new Item()
 
       list.append(item)
@@ -379,22 +356,22 @@ test('LinkedList [LinkedList]', function (t) {
       t.end()
     })
 
-    t.test('toArray [LinkedList#toArray]', function (t) {
+    t.test('toArray [List#toArray]', function (t) {
       var list
       var result
 
       t.ok(
-        Array.isArray(new LinkedList(new Item()).toArray()),
+        Array.isArray(new List(new Item()).toArray()),
         'should return an array'
       )
 
       t.ok(
-        Array.isArray(new LinkedList().toArray()),
+        Array.isArray(new List().toArray()),
         'should return an array, even when ' +
           'the operated on list has no items'
       )
 
-      list = new LinkedList(new Item(), new Item(), new Item())
+      list = new List(new Item(), new Item(), new Item())
       result = list.toArray()
 
       t.equal(result[0], list.head, 'should return a sorted array (1)')
@@ -404,11 +381,11 @@ test('LinkedList [LinkedList]', function (t) {
       t.end()
     })
 
-    t.test('@@iterator [LinkedList#@@iterator]', function (t) {
+    t.test('@@iterator [List#@@iterator]', function (t) {
       var list
       var result
 
-      list = new LinkedList(new Item(), new Item(), new Item())
+      list = new List(new Item(), new Item(), new Item())
       result = Array.from(list)
 
       t.equal(result[0], list.head, 'should return a sorted array (1)')
@@ -424,7 +401,7 @@ test('LinkedList [LinkedList]', function (t) {
   t.end()
 })
 
-test('Item [LinkedList.Item]', function (t) {
+test('Item [List.Item]', function (t) {
   t.equal(new Item().list, null, 'should have a `list` property set to `null`')
   t.equal(new Item().prev, null, 'should have a `prev` property set to `null`')
   t.equal(new Item().next, null, 'should have a `next` property set to `null`')
@@ -436,7 +413,7 @@ test('Item [LinkedList.Item]', function (t) {
   t.equal(typeof new Item().append, 'function', 'should have a `append` method')
   t.equal(typeof new Item().detach, 'function', 'should have a `detach` method')
 
-  t.test('prepend [LinkedList.Item#prepend]', function (t) {
+  t.test('prepend [List.Item#prepend]', function (t) {
     var item = new Item()
     var other = new Item()
     var list
@@ -460,7 +437,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
     list.append(item)
 
     t.equal(
@@ -474,8 +451,8 @@ test('Item [LinkedList.Item]', function (t) {
     t.equal(list.size, 2, 'should update size after prepend on item')
 
     item = new Item()
-    other = new LinkedList(item)
-    list = new LinkedList(new Item())
+    other = new List(item)
+    list = new List(new Item())
 
     list.head.prepend(item)
 
@@ -534,7 +511,7 @@ test('Item [LinkedList.Item]', function (t) {
     t.end()
   })
 
-  t.test('append [LinkedList.Item#append]', function (t) {
+  t.test('append [List.Item#append]', function (t) {
     var item = new Item()
     var other = new Item()
     var list
@@ -558,7 +535,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
     list.append(item)
 
     t.equal(
@@ -572,8 +549,8 @@ test('Item [LinkedList.Item]', function (t) {
     t.equal(list.size, 2, 'should update size after append on item')
 
     item = new Item()
-    other = new LinkedList(item)
-    list = new LinkedList(new Item())
+    other = new List(item)
+    list = new List(new Item())
 
     list.head.append(item)
 
@@ -620,9 +597,9 @@ test('Item [LinkedList.Item]', function (t) {
     t.end()
   })
 
-  t.test('detach [LinkedList.Item#detach]', function (t) {
+  t.test('detach [List.Item#detach]', function (t) {
     var item = new Item()
-    var list = new LinkedList()
+    var list = new List()
     var other
     var other2
 
@@ -646,7 +623,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)
@@ -664,7 +641,7 @@ test('Item [LinkedList.Item]', function (t) {
     item = new Item()
     other = new Item()
     other2 = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)
@@ -682,7 +659,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)
@@ -700,7 +677,7 @@ test('Item [LinkedList.Item]', function (t) {
     item = new Item()
     other = new Item()
     other2 = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)
@@ -721,7 +698,7 @@ test('Item [LinkedList.Item]', function (t) {
     item = new Item()
     other = new Item()
     other2 = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)
@@ -739,7 +716,7 @@ test('Item [LinkedList.Item]', function (t) {
     )
 
     item = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     item.detach()
@@ -748,7 +725,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(other)
     list.append(item)
@@ -758,7 +735,7 @@ test('Item [LinkedList.Item]', function (t) {
 
     item = new Item()
     other = new Item()
-    list = new LinkedList()
+    list = new List()
 
     list.append(item)
     list.append(other)

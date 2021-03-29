@@ -1,6 +1,4 @@
-'use strict'
-
-// Creates a new `Iterator` for looping over the `LinkedList`.
+// Creates a new `Iterator` for looping over the `List`.
 class Iterator {
   constructor(item) {
     this.item = item
@@ -15,17 +13,17 @@ class Iterator {
   }
 }
 
-// Creates a new ListItem:
-// An item is a bit like DOM node: It knows only about its "parent" (`list`),
+// Creates a new `Item`:
+// An item is a bit like DOM node: It knows only about its “parent” (`list`),
 // the item before it (`prev`), and the item after it (`next`).
-class ListItem {
+export class Item {
   // Prepends the given item *before* the item operated on.
   prepend(item) {
     var list = this.list
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
-        'An argument without append, prepend, or detach methods was given to `ListItem#prepend`.'
+        'An argument without append, prepend, or detach methods was given to `Item#prepend`.'
       )
     }
 
@@ -72,7 +70,7 @@ class ListItem {
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
-        'An argument without append, prepend, or detach methods was given to `ListItem#append`.'
+        'An argument without append, prepend, or detach methods was given to `Item#append`.'
       )
     }
 
@@ -153,17 +151,17 @@ class ListItem {
   }
 }
 
-ListItem.prototype.next = ListItem.prototype.prev = ListItem.prototype.list = null
+Item.prototype.next = Item.prototype.prev = Item.prototype.list = null
 
 // Creates a new List: A linked list is a bit like an Array, but knows nothing
 // about how many items are in it, and knows only about its first (`head`) and
 // last (`tail`) items.
 // Each item (e.g. `head`, `tail`, &c.) knows which item comes before or after
 // it (its more like the implementation of the DOM in JavaScript).
-class List {
+export class List {
   // Creates a new list from the arguments (each a list item) passed in.
-  static of(/* items... */) {
-    return appendAll(new this(), arguments)
+  static of(...items) {
+    return appendAll(new this(), items)
   }
 
   // Creates a new list from the given array-like object (each a list item) passed
@@ -172,12 +170,8 @@ class List {
     return appendAll(new this(), items)
   }
 
-  constructor(/* items... */) {
-    this.size = 0
-
-    if (arguments.length) {
-      appendAll(this, arguments)
-    }
+  constructor(...items) {
+    appendAll(this, items)
   }
 
   // Returns the list’s items as an array.
@@ -260,12 +254,10 @@ class List {
   }
 }
 
-List.Item = ListItem
+List.prototype.size = 0
 List.prototype.tail = List.prototype.head = null
 
-module.exports = List
-
-// Creates a new list from the arguments (each a list item) passed in.
+// Creates a new list from the items passed in.
 function appendAll(list, items) {
   var index
   var item

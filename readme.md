@@ -9,6 +9,9 @@ Small double [linked list][wiki].
 
 ## Install
 
+This package is ESM only: Node 12+ is needed to use it and it must be `import`ed
+instead of `require`d.
+
 [npm][]:
 
 ```sh
@@ -18,12 +21,12 @@ npm install linked-list
 ## Use
 
 ```js
-var LinkedList = require('linked-list')
+import {List, Item} from 'linked-list'
 
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
-var item3 = new LinkedList.Item()
-var list = new LinkedList(item1, item2, item3)
+var item1 = new Item()
+var item2 = new Item()
+var item3 = new Item()
+var list = new List(item1, item2, item3)
 
 list.head // => item1
 list.head.next // => item2
@@ -36,62 +39,58 @@ list.tail.next // => `null`
 Subclassing:
 
 ```js
-var inherits = require('inherits')
-var List = require('linked-list')
+import {List, Item} from 'linked-list'
 
-Tokens.prototype.join = join
-Token.prototype.toString = toString
+class Tokens extends List {
+  join(delimiter) {
+    return this.toArray().join(delimiter)
+  }
+}
 
-inherits(Tokens, List)
-inherits(Token, List.Item)
+class Token extends Item {
+  constructor(value) {
+    super()
+    this.value = value
+  }
+
+  toString() {
+    return this.value
+  }
+}
 
 var dogs = new Token('dogs')
 var and = new Token('&')
 var cats = new Token('cats')
 var tokens = new Tokens(dogs, and, cats)
 
-tokens.join(' ') // => 'dogs & cats'
+console.log(tokens.join(' ')) // => 'dogs & cats'
 
 and.prepend(cats)
 and.append(dogs)
 
-tokens.join(' ') + '!' // => 'cats & dogs!'
-
-function Tokens() {
-  List.apply(this, arguments)
-}
-
-function Token(value) {
-  this.value = value
-  List.Item.apply(this, arguments)
-}
-
-function join(delimiter) {
-  return this.toArray().join(delimiter)
-}
-
-function toString() {
-  return this.value
-}
+console.log(tokens.join(' ') + '!') // => 'cats & dogs!'
 ```
 
 ## API
 
-### `LinkedList([items…])`
+This package exports the following identifiers: `List`, `Item`.
+There is no default export.
+
+### `List([items…])`
 
 ```js
-new LinkedList()
-new LinkedList(new LinkedList.Item(), new LinkedList.Item())
+new List()
+new List(new Item(), new Item())
 ```
 
-Create a new Linked List.
+Create a new linked list.
 
-#### `LinkedList.from([items])`
+#### `List.from([items])`
 
 ```js
-LinkedList.from()
-LinkedList.from([])
-LinkedList.from([new LinkedList.Item(), new LinkedList.Item()])
+List.from()
+List.from([])
+List.from([new Item(), new Item()])
 ```
 
 Create a new `this` and adds the given array of items.
@@ -99,21 +98,21 @@ Ignores `null` or `undefined` values.
 Throws an error when a given item has no `detach`, `append`, or `prepend`
 methods.
 
-#### `LinkedList.of([items…])`
+#### `List.of([items…])`
 
 ```js
-LinkedList.of()
-LinkedList.of(new LinkedList.Item(), new LinkedList.Item())
+List.of()
+List.of(new Item(), new Item())
 ```
 
-Creates a new Linked List from the given arguments.
-Defers to `LinkedList.from`.
+Creates a new linked list from the given arguments.
+Defers to `List.from`.
 
-#### `LinkedList#append(item)`
+#### `List#append(item)`
 
 ```js
-var list = new LinkedList()
-var item = new LinkedList.Item()
+var list = new List()
+var item = new Item()
 
 list.head === null // => true
 item.list === null // => true
@@ -129,11 +128,11 @@ Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
 Returns the given item.
 
-#### `LinkedList#prepend(item)`
+#### `List#prepend(item)`
 
 ```js
-var list = new LinkedList()
-var item = new LinkedList.Item()
+var list = new List()
+var item = new Item()
 
 list.prepend(item)
 ```
@@ -143,12 +142,12 @@ Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
 Returns the given item.
 
-#### `LinkedList#toArray()`
+#### `List#toArray()`
 
 ```js
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
-var list = new LinkedList(item1, item2)
+var item1 = new Item()
+var item2 = new Item()
+var list = new List(item1, item2)
 var array = list.toArray()
 
 array[0] === item1 // => true
@@ -159,23 +158,23 @@ array[1].prev === item1 // => true
 
 Returns the items in the list in an array.
 
-#### `LinkedList#head`
+#### `List#head`
 
 ```js
-var item = new LinkedList.Item()
-var list = new LinkedList(item)
+var item = new Item()
+var list = new List(item)
 
 list.head === item // => true
 ```
 
 The first item in a list, and `null` otherwise.
 
-#### `LinkedList#tail`
+#### `List#tail`
 
 ```js
-var list = new LinkedList()
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var list = new List()
+var item1 = new Item()
+var item2 = new Item()
 
 list.tail === null // => true
 
@@ -189,12 +188,12 @@ list.tail === item2 // => true
 The last item in a list, and `null` otherwise.
 Note that a list with only one item has **no tail**, only a head.
 
-#### `LinkedList#size`
+#### `List#size`
 
 ```js
-var list = new LinkedList()
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var list = new List()
+var item1 = new Item()
+var item2 = new Item()
 
 list.size === 0 // => true
 
@@ -207,21 +206,21 @@ list.size === 2 // => true
 
 The number of items in the list.
 
-## `LinkedList.Item()`
+### `Item()`
 
 ```js
-var item = new LinkedList.Item()
+var item = new Item()
 ```
 
-Creates a new Linked List Item.
+Creates a new linked list Item.
 
-#### `LinkedList.Item#append(item)`
+#### `Item#append(item)`
 
 ```js
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var item1 = new Item()
+var item2 = new Item()
 
-new LinkedList().append(item1)
+new List().append(item1)
 
 item1.next === null // => true
 
@@ -235,13 +234,13 @@ methods.
 Returns false when the operated on item is not attached to a list, otherwise the
 given item.
 
-#### `LinkedList.Item#prepend(item)`
+#### `Item#prepend(item)`
 
 ```js
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var item1 = new Item()
+var item2 = new Item()
 
-new LinkedList().append(item1)
+new List().append(item1)
 
 item1.prev === null // => true
 
@@ -255,11 +254,11 @@ methods.
 Returns false when the operated on item is not attached to a list, otherwise
 the given item.
 
-#### `LinkedList.Item#detach()`
+#### `Item#detach()`
 
 ```js
-var item = new LinkedList.Item()
-var list = new LinkedList(item)
+var item = new Item()
+var list = new List(item)
 
 item.list === list // => true
 
@@ -273,13 +272,13 @@ relinking them when possible.
 Returns the operated on item.
 Even when it was already detached.
 
-#### `LinkedList.Item#next`
+#### `Item#next`
 
 ```js
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var item1 = new Item()
+var item2 = new Item()
 
-new LinkedList(item1)
+new List(item1)
 
 item1.next === null // => true
 item2.next === null // => true
@@ -295,13 +294,13 @@ item1.next === null // => true
 
 The items succeeding item, and `null` otherwise.
 
-#### `LinkedList.Item#prev`
+#### `Item#prev`
 
 ```js
-var item1 = new LinkedList.Item()
-var item2 = new LinkedList.Item()
+var item1 = new Item()
+var item2 = new Item()
 
-new LinkedList(item)
+new List(item)
 
 item1.prev === null // => true
 item2.prev === null // => true
@@ -317,11 +316,11 @@ item2.prev === null // => true
 
 The items preceding item, and `null` otherwise.
 
-#### `LinkedList.Item#list`
+#### `Item#list`
 
 ```js
-var item = new LinkedList.Item()
-var list = new LinkedList()
+var item = new Item()
+var list = new List()
 
 item.list === null // => true
 
