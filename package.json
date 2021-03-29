@@ -54,8 +54,9 @@
   },
   "xo": {
     "prettier": true,
-    "esnext": false,
     "rules": {
+      "no-var": "off",
+      "prefer-arrow-callback": "off",
       "no-multi-assign": "off",
       "unicorn/explicit-length-check": "off"
     },
