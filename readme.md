@@ -300,14 +300,14 @@ The items succeeding item, and `null` otherwise.
 var item1 = new Item()
 var item2 = new Item()
 
-new List(item)
+new List(item1)
 
 item1.prev === null // => true
 item2.prev === null // => true
 
 item1.append(item2)
 
-item1.prev === item1 // => true
+item1.prev === item2 // => true
 
 item2.detach()
 
