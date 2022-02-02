@@ -31,6 +31,9 @@ export class Item {
     if (!list) {
       return false
     }
+    if (this === item) {
+      return false;
+    }
 
     // Detach the prependee.
     item.detach()
@@ -76,6 +79,9 @@ export class Item {
 
     if (!list) {
       return false
+    }
+    if (this === item) {
+      return false;
     }
 
     // Detach the appendee.
