@@ -1,15 +1,15 @@
-import test from 'tape'
-import {List, Item} from './index.js'
+import test from 'tape';
+import {Item, List} from './index.js';
 
-var own = {}.hasOwnProperty
+var own = {}.hasOwnProperty;
 
 test('List [List]', function (t) {
   t.test('@constructor', function (t) {
-    t.equal(typeof List.of, 'function', 'should have an `of` method')
-    t.equal(typeof List.from, 'function', 'should have a `from` method')
+    t.equal(typeof List.of, 'function', 'should have an `of` method');
+    t.equal(typeof List.from, 'function', 'should have a `from` method');
 
-    t.end()
-  })
+    t.end();
+  });
 
   t.test('of [List.of]', function (t) {
     class C extends List {}
@@ -432,23 +432,32 @@ test('Item [List.Item]', function (t) {
     }, 'should throw an error when an invalid item is given (1)')
 
     t.throws(function () {
-      item.prepend({})
-    }, 'should throw an error when an invalid item is given (2)')
+      item.prepend({});
+    }, 'should throw an error when an invalid item is given (2)');
 
-    item = new Item()
-    other = new Item()
-    list = new List()
-    list.append(item)
+    item = new Item();
+    other = new Item();
+    list = new List();
+    list.append(item);
+
+    t.equal(
+      item.prepend(item),
+      false,
+      'should return false when the item tries to prepend itself',
+    );
+
+    t.equal(item.prev, null, 'should do nothing if single `item` (1)');
+    t.equal(item.next, null, 'should do nothing if single `item` (2)');
 
     t.equal(
       item.prepend(other),
       other,
       'should return the given item when ' +
-        'the operated on instance is ' +
-        'attached'
-    )
+      'the operated on instance is ' +
+      'attached',
+    );
 
-    t.equal(list.size, 2, 'should update size after prepend on item')
+    t.equal(list.size, 2, 'should update size after prepend on item');
 
     item = new Item()
     other = new List(item)
@@ -530,23 +539,32 @@ test('Item [List.Item]', function (t) {
     }, 'should throw an error when an invalid item is given (1)')
 
     t.throws(function () {
-      item.append({})
-    }, 'should throw an error when an invalid item is given (2)')
+      item.append({});
+    }, 'should throw an error when an invalid item is given (2)');
 
-    item = new Item()
-    other = new Item()
-    list = new List()
-    list.append(item)
+    item = new Item();
+    other = new Item();
+    list = new List();
+    list.append(item);
+
+    t.equal(
+      item.append(item),
+      false,
+      'should return false when the item tries to append itself',
+    );
+
+    t.equal(item.prev, null, 'should do nothing if single `item` (1)');
+    t.equal(item.next, null, 'should do nothing if single `item` (2)');
 
     t.equal(
       item.append(other),
       other,
       'should return the given item when ' +
-        'the operated on instance is ' +
-        'attached'
-    )
+      'the operated on instance is ' +
+      'attached',
+    );
 
-    t.equal(list.size, 2, 'should update size after append on item')
+    t.equal(list.size, 2, 'should update size after append on item');
 
     item = new Item()
     other = new List(item)
