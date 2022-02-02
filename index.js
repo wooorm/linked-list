@@ -23,24 +23,26 @@ export class Item {
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
-        'An argument without append, prepend, or detach methods was given to `Item#prepend`.'
-      )
+        'An argument without append, prepend, or detach methods was given to `Item#prepend`.',
+      );
     }
 
     // If self is detached, return false.
     if (!list) {
-      return false
+      return false;
     }
+
+    // Prevent broken pointers
     if (this === item) {
       return false;
     }
 
     // Detach the prependee.
-    item.detach()
+    item.detach();
 
     // If self has a previous item...
     if (this.prev) {
-      item.prev = this.prev
+      item.prev = this.prev;
       this.prev.next = item
     }
 
@@ -73,23 +75,25 @@ export class Item {
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
-        'An argument without append, prepend, or detach methods was given to `Item#append`.'
-      )
+        'An argument without append, prepend, or detach methods was given to `Item#append`.',
+      );
     }
 
     if (!list) {
-      return false
+      return false;
     }
+
+    // Prevent broken pointers
     if (this === item) {
       return false;
     }
 
     // Detach the appendee.
-    item.detach()
+    item.detach();
 
     // If self has a next item…
     if (this.next) {
-      item.next = this.next
+      item.next = this.next;
       this.next.prev = item
     }
 
