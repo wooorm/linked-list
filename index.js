@@ -27,13 +27,8 @@ export class Item {
       )
     }
 
-    // If self is detached, return false.
-    if (!list) {
-      return false
-    }
-
-    // Prevent broken pointers
-    if (this === item) {
+    // If self is detached or prepending ourselves, return false.
+    if (!list || this === item) {
       return false
     }
 
@@ -79,12 +74,8 @@ export class Item {
       )
     }
 
-    if (!list) {
-      return false
-    }
-
-    // Prevent broken pointers
-    if (this === item) {
+    // If self is detached or appending ourselves, return false.
+    if (!list || this === item) {
       return false
     }
 
