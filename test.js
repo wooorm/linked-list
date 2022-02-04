@@ -441,6 +441,15 @@ test('Item [List.Item]', function (t) {
     list.append(item)
 
     t.equal(
+      item.prepend(item),
+      false,
+      'should return false when the item tries to prepend itself'
+    )
+
+    t.equal(item.prev, null, 'should do nothing if single `item` (1)')
+    t.equal(item.next, null, 'should do nothing if single `item` (2)')
+
+    t.equal(
       item.prepend(other),
       other,
       'should return the given item when ' +
@@ -537,6 +546,15 @@ test('Item [List.Item]', function (t) {
     other = new Item()
     list = new List()
     list.append(item)
+
+    t.equal(
+      item.append(item),
+      false,
+      'should return false when the item tries to append itself'
+    )
+
+    t.equal(item.prev, null, 'should do nothing if single `item` (1)')
+    t.equal(item.next, null, 'should do nothing if single `item` (2)')
 
     t.equal(
       item.append(other),
