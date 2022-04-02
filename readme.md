@@ -44,17 +44,17 @@ In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
 npm install linked-list
 ```
 
-In Deno with [Skypack][]:
+In Deno with [`esm.sh`][esmsh]:
 
 ```js
-import {List, Item} from 'https://cdn.skypack.dev/linked-list@3?dts'
+import {List, Item} from 'https://esm.sh/linked-list@3'
 ```
 
-In browsers with [Skypack][]:
+In browsers with [`esm.sh`][esmsh]:
 
 ```html
 <script type="module">
-  import {List, Item} from 'https://cdn.skypack.dev/linked-list@3?min'
+  import {List, Item} from 'https://esm.sh/linked-list@3?bundle'
 </script>
 ```
 
@@ -419,7 +419,7 @@ See [How to Contribute to Open Source][contribute].
 
 [npm]: https://docs.npmjs.com/cli/install
 
-[skypack]: https://www.skypack.dev
+[esmsh]: https://esm.sh
 
 [license]: license
 
