@@ -42,6 +42,7 @@ test('List [List]', async function (t) {
     )
 
     assert.throws(function () {
+      // @ts-expect-error: non-item.
       List.of({})
     }, 'should throw an error when an invalid item is given')
 
@@ -107,6 +108,7 @@ test('List [List]', async function (t) {
     )
 
     assert.throws(function () {
+      // @ts-expect-error: non-item.
       List.from([{}])
     }, 'should throw an error when an invalid item is given')
 
@@ -133,7 +135,7 @@ test('List [List]', async function (t) {
     await t.test(
       'should add items from an array with `Symbol.iterator`',
       function () {
-        const items = [new Item(), new Item(), new Item()]
+        const items = [new Item(), new Item(), null, new Item()]
         // Remove iterator to test array branch.
         // @ts-expect-error: that’s the test.
         items[Symbol.iterator] = undefined
@@ -141,11 +143,15 @@ test('List [List]', async function (t) {
 
         assert.equal(list.size, 3)
 
+        assert(list.head, 'should have a `head`')
         assert.equal(list.head, items[0])
+        assert(list.head.next, 'should have a `head.next`')
         assert.equal(list.head.next, items[1])
-        assert.equal(list.head.next.next, items[2])
+        assert.equal(list.head.next.next, items[3])
 
-        assert.equal(list.tail, items[2])
+        assert(list.tail, 'should have a `tail`')
+        assert.equal(list.tail, items[3])
+        assert(list.tail.prev, 'should have a `tail.prev`')
         assert.equal(list.tail.prev, items[1])
         assert.equal(list.tail.prev.prev, items[0])
       }
@@ -153,11 +159,8 @@ test('List [List]', async function (t) {
   })
 
   await t.test('@instance', async function (t) {
-    assert.equal(
-      new List().head,
-      null,
-      'should have a `head` property set to `null`'
-    )
+    const list = new List()
+    assert.equal(list.head, null, 'should have a `head` property set to `null`')
 
     assert.equal(
       new List().tail,
@@ -207,6 +210,7 @@ test('List [List]', async function (t) {
       list = new List()
 
       assert.throws(function () {
+        // @ts-expect-error: non-item.
         list.prepend({})
       }, 'should throw an error when an invalid item is given')
 
@@ -318,6 +322,7 @@ test('List [List]', async function (t) {
       list = new List()
 
       assert.throws(function () {
+        // @ts-expect-error: non-item.
         list.append({})
       }, 'should throw an error when an invalid item is given')
 
@@ -530,6 +535,7 @@ test('Item [List.Item]', async function (t) {
     const otherList = new List(item)
     list = new List(new Item())
 
+    assert(list.head, 'should attach given item')
     list.head.prepend(item)
 
     assert.equal(
@@ -556,6 +562,7 @@ test('Item [List.Item]', async function (t) {
       'should set the given item as the parent list’s `head` when the operated on item is the current `head`'
     )
 
+    assert(list.tail, 'should attach given item')
     assert.equal(
       list.tail,
       list.head.next,
@@ -640,6 +647,7 @@ test('Item [List.Item]', async function (t) {
     const otherList = new List(item)
     list = new List(new Item())
 
+    assert(list.head, 'should attach given item')
     list.head.append(item)
 
     assert.equal(

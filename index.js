@@ -1,15 +1,31 @@
-// Creates a new `Iterator` for looping over the `List`.
-class Iterator {
+/**
+ * Creates a new `Iterator` for looping over the `List`.
+ *
+ * @template {Item} [T=Item]
+ */
+class ItemIterator {
+  /**
+   * @param {T|null} item
+   */
   constructor(item) {
+    /** @type {T|null} */
     this.item = item
   }
 
-  // Move the `Iterator` to the next item.
+  /**
+   * Move the `Iterator` to the next item.
+   *
+   * @returns {IteratorResult<T, null>}
+   */
   next() {
-    this.value = this.item
-    this.done = !this.item
-    this.item = this.item ? this.item.next : undefined
-    return this
+    const value = this.item
+
+    if (value) {
+      this.item = value.next
+      return {value, done: false}
+    }
+
+    return {value: null, done: true}
   }
 }
 
@@ -17,7 +33,23 @@ class Iterator {
 // An item is a bit like DOM node: It knows only about its “parent” (`list`),
 // the item before it (`prev`), and the item after it (`next`).
 export class Item {
-  // Prepends the given item *before* the item operated on.
+  constructor() {
+    /* eslint-disable no-unused-expressions */
+    /** @type {List<this>|null} */
+    this.list
+    /** @type {this|null} */
+    this.prev
+    /** @type {this|null} */
+    this.next
+    /* eslint-enable no-unused-expressions */
+  }
+
+  /**
+   * Prepends the given item *before* the item operated on.
+   *
+   * @param {this} item
+   * @returns {this|false}
+   */
   prepend(item) {
     const list = this.list
 
@@ -64,7 +96,12 @@ export class Item {
     return item
   }
 
-  // Appends the given item *after* the item operated on.
+  /**
+   * Appends the given item *after* the item operated on.
+   *
+   * @param {this} item
+   * @returns {this|false}
+   */
   append(item) {
     const list = this.list
 
@@ -106,7 +143,11 @@ export class Item {
     return item
   }
 
-  // Detaches the item operated on from its parent list.
+  /**
+   * Detaches the item operated on from its parent list.
+   *
+   * @returns {this}
+   */
   detach() {
     const list = this.list
 
@@ -154,35 +195,77 @@ export class Item {
   }
 }
 
+// type-coverage:ignore-next-line
 Item.prototype.next = null
+// type-coverage:ignore-next-line
 Item.prototype.prev = null
+// type-coverage:ignore-next-line
 Item.prototype.list = null
 
-// Creates a new List: A linked list is a bit like an Array, but knows nothing
-// about how many items are in it, and knows only about its first (`head`) and
-// last (`tail`) items.
-// Each item (e.g. `head`, `tail`, &c.) knows which item comes before or after
-// it (its more like the implementation of the DOM in JavaScript).
+/**
+ * Creates a new List: A linked list is a bit like an Array, but knows nothing
+ * about how many items are in it, and knows only about its first (`head`) and
+ * last (`tail`) items.
+ * Each item (e.g. `head`, `tail`, &c.) knows which item comes before or after
+ * it (its more like the implementation of the DOM in JavaScript).
+ *
+ * @template {Item} [T=Item]
+ * @implements {Iterable<T>}
+ */
 export class List {
-  // Creates a new list from the arguments (each a list item) passed in.
+  /**
+   * Creates a new list from the arguments (each a list item) passed in.
+   *
+   * @template {Item} [T=Item]
+   * @param {Array<T|null|undefined>} items
+   * @returns {List<T>}
+   */
   static of(...items) {
-    return appendAll(new this(), items)
+    /** @type {List<T>} */
+    const list = new this()
+    return appendAll(list, items)
   }
 
-  // Creates a new list from the given array-like object (each a list item) passed
-  // in.
+  /**
+   * Creates a new list from the given array-like object (each a list item) passed
+   * in.
+   *
+   * @template {Item} [T=Item]
+   * @param {Array<T|null|undefined>} [items]
+   */
   static from(items) {
-    return appendAll(new this(), items)
+    /** @type {List<T>} */
+    const list = new this()
+    return appendAll(list, items)
   }
 
+  /**
+   * Creates a new list from the given array-like object (each a list item) passed
+   * in.
+   *
+   * @param {Array<T|null|undefined>} items
+   */
   constructor(...items) {
+    /* eslint-disable no-unused-expressions */
+    /** @type {number} */
+    this.size
+    /** @type {T|null} */
+    this.head
+    /** @type {T|null} */
+    this.tail
+    /* eslint-enable no-unused-expressions */
+
     appendAll(this, items)
   }
 
-  // Returns the list’s items as an array.
-  // This does *not* detach the items.
+  /**
+   * Returns the list’s items as an array.
+   *
+   * This does *not* detach the items.
+   */
   toArray() {
     let item = this.head
+    /** @type {Array<T>} */
     const result = []
 
     while (item) {
@@ -193,8 +276,14 @@ export class List {
     return result
   }
 
-  // Prepends the given item to the list.
-  // `item` will be the new first item (`head`).
+  /**
+   * Prepends the given item to the list.
+   *
+   * `item` will be the new first item (`head`).
+   *
+   * @param {T|null|undefined} [item]
+   * @returns {T|false}
+   */
   prepend(item) {
     if (!item) {
       return false
@@ -218,9 +307,15 @@ export class List {
     return item
   }
 
-  // Appends the given item to the list.
-  // `item` will be the new last item (`tail`) if the list had a first item, and
-  // its first item (`head`) otherwise.
+  /**
+   * Appends the given item to the list.
+   *
+   * `item` will be the new last item (`tail`) if the list had a first item,
+   * and its first item (`head`) otherwise.
+   *
+   * @param {T|null|undefined} [item]
+   * @returns {T|false}
+   */
   append(item) {
     if (!item) {
       return false
@@ -253,39 +348,51 @@ export class List {
     return item
   }
 
-  // Creates an iterator from the list.
+  /**
+   * Creates an iterator from the list.
+   *
+   * @returns {ItemIterator<T>}
+   */
   [Symbol.iterator]() {
-    return new Iterator(this.head)
+    return new ItemIterator(this.head)
   }
 }
 
+// type-coverage:ignore-next-line
 List.prototype.size = 0
+// type-coverage:ignore-next-line
 List.prototype.tail = null
+// type-coverage:ignore-next-line
 List.prototype.head = null
 
-// Creates a new list from the items passed in.
+/**
+ * Creates a new list from the items passed in.
+ *
+ * @template {List<T>} TheList
+ * @template {Item} [T=Item]
+ * @param {TheList} list
+ * @param {Array<T|null|undefined>|undefined} [items]
+ * @returns {TheList}
+ */
 function appendAll(list, items) {
-  let index
-  let item
-  let iterator
-
   if (!items) {
     return list
   }
 
   if (items[Symbol.iterator]) {
-    iterator = items[Symbol.iterator]()
-    item = {}
+    const iterator = items[Symbol.iterator]()
+    /** @type {IteratorResult<T|null|undefined, null>} */
+    let result
 
-    while (!item.done) {
-      item = iterator.next()
-      list.append(item && item.value)
+    while ((result = iterator.next()) && !result.done) {
+      list.append(result.value)
     }
   } else {
-    index = -1
+    let index = -1
 
     while (++index < items.length) {
-      list.append(items[index])
+      const item = items[index]
+      list.append(item)
     }
   }
 

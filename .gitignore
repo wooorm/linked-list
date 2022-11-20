@@ -1,7 +1,7 @@
 .DS_Store
 *.log
+*.d.ts
 .idea
 coverage/
 node_modules/
-test.d.ts
 yarn.lock
