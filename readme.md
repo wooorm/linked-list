@@ -38,7 +38,7 @@ and items.
 ## Install
 
 This package is [ESM only][esm].
-In Node.js (version 12.20+, 14.14+, or 16.0+), install with [npm][]:
+In Node.js (version 14.14+, 16.0+), install with [npm][]:
 
 ```sh
 npm install linked-list
@@ -63,10 +63,10 @@ In browsers with [`esm.sh`][esmsh]:
 ```js
 import {List, Item} from 'linked-list'
 
-var item1 = new Item()
-var item2 = new Item()
-var item3 = new Item()
-var list = new List(item1, item2, item3)
+const item1 = new Item()
+const item2 = new Item()
+const item3 = new Item()
+const list = new List(item1, item2, item3)
 
 list.head // => item1
 list.head.next // => item2
@@ -82,12 +82,14 @@ Subclassing:
 import {List, Item} from 'linked-list'
 
 class Tokens extends List {
+  /** @param {string} delimiter */
   join(delimiter) {
     return this.toArray().join(delimiter)
   }
 }
 
 class Token extends Item {
+  /** @param {string} value */
   constructor(value) {
     super()
     this.value = value
@@ -98,10 +100,10 @@ class Token extends Item {
   }
 }
 
-var dogs = new Token('dogs')
-var and = new Token('&')
-var cats = new Token('cats')
-var tokens = new Tokens(dogs, and, cats)
+const dogs = new Token('dogs')
+const and = new Token('&')
+const cats = new Token('cats')
+const tokens = new Tokens(dogs, and, cats)
 
 console.log(tokens.join(' ')) // => 'dogs & cats'
 
@@ -113,7 +115,7 @@ console.log(tokens.join(' ') + '!') // => 'cats & dogs!'
 
 ## API
 
-This package exports the following identifiers: `List`, `Item`.
+This package exports the identifiers `List` and `Item`.
 There is no default export.
 
 ### `List([items…])`
@@ -123,7 +125,11 @@ new List()
 new List(new Item(), new Item())
 ```
 
-Create a new linked list.
+Create a new list from the given items.
+
+Ignores `null` or `undefined` values.
+Throws an error when a given item has no `detach`, `append`, or `prepend`
+methods.
 
 #### `List.from([items])`
 
@@ -133,7 +139,8 @@ List.from([])
 List.from([new Item(), new Item()])
 ```
 
-Create a new `this` and adds the given array of items.
+Create a new `this` from the given array of items.
+
 Ignores `null` or `undefined` values.
 Throws an error when a given item has no `detach`, `append`, or `prepend`
 methods.
@@ -145,25 +152,29 @@ List.of()
 List.of(new Item(), new Item())
 ```
 
-Creates a new linked list from the given arguments.
-Defers to `List.from`.
+Create a new `this` from the given arguments.
+
+Ignores `null` or `undefined` values.
+Throws an error when a given item has no `detach`, `append`, or `prepend`
+methods.
 
 #### `List#append(item)`
 
 ```js
-var list = new List()
-var item = new Item()
+const list = new List()
+const item = new Item()
 
-list.head === null // => true
-item.list === null // => true
+console.log(list.head === null) // => true
+console.log(item.list === null) // => true
 
 list.append(item)
 
-list.head === item // => true
-item.list === list // => true
+console.log(list.head === item) // => true
+console.log(item.list === list) // => true
 ```
 
-Appends an item to a list.
+Append an item to a list.
+
 Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
 Returns the given item.
@@ -171,13 +182,14 @@ Returns the given item.
 #### `List#prepend(item)`
 
 ```js
-var list = new List()
-var item = new Item()
+const list = new List()
+const item = new Item()
 
 list.prepend(item)
 ```
 
-Prepends an item to a list.
+Prepend an item to a list.
+
 Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
 Returns the given item.
@@ -185,63 +197,69 @@ Returns the given item.
 #### `List#toArray()`
 
 ```js
-var item1 = new Item()
-var item2 = new Item()
-var list = new List(item1, item2)
-var array = list.toArray()
+const item1 = new Item()
+const item2 = new Item()
+const list = new List(item1, item2)
+const array = list.toArray()
 
-array[0] === item1 // => true
-array[1] === item2 // => true
-array[0].next === item2 // => true
-array[1].prev === item1 // => true
+console.log(array[0] === item1) // => true
+console.log(array[1] === item2) // => true
+console.log(array[0].next === item2) // => true
+console.log(array[1].prev === item1) // => true
 ```
 
-Returns the items in the list in an array.
+Returns the items of the list as an array.
+
+This does *not* detach the items.
+
+> **Note**: `List` also implements an iterator.
+> That means you can also do `[...list]` to get an array.
 
 #### `List#head`
 
 ```js
-var item = new Item()
-var list = new List(item)
+const item = new Item()
+const list = new List(item)
 
-list.head === item // => true
+console.log(list.head === item) // => true
 ```
 
-The first item in a list, and `null` otherwise.
+The first item in a list or `null` otherwise.
 
 #### `List#tail`
 
 ```js
-var list = new List()
-var item1 = new Item()
-var item2 = new Item()
+const list = new List()
+const item1 = new Item()
+const item2 = new Item()
 
-list.tail === null // => true
+console.log(list.tail === null) // => true
 
 list.append(item1)
-list.tail === null // => true, see note.
+console.log(list.tail === null) // => true, see note.
 
 list.append(item2)
-list.tail === item2 // => true
+console.log(list.tail === item2) // => true
 ```
 
-The last item in a list, and `null` otherwise.
-Note that a list with only one item has **no tail**, only a head.
+The last item in a list and `null` otherwise.
+
+> 👉 **Note**: a list with only one item has **no tail**, only a head.
 
 #### `List#size`
 
 ```js
-var list = new List()
-var item1 = new Item()
-var item2 = new Item()
+const list = new List()
+const item1 = new Item()
+const item2 = new Item()
 
-list.size === 0 // => true
+console.log(list.size === 0) // => true
 
 list.append(item1)
-list.size === 1 // => true
+console.log(list.size === 1) // => true
 
 list.append(item2)
-list.size === 2 // => true
+console.log(list.size === 2) // => true
 ```
 
 The number of items in the list.
@@ -249,141 +267,144 @@ The number of items in the list.
 ### `Item()`
 
 ```js
-var item = new Item()
+const item = new Item()
 ```
 
-Creates a new linked list Item.
+Create a new linked list item.
 
 #### `Item#append(item)`
 
 ```js
-var item1 = new Item()
-var item2 = new Item()
+const item1 = new Item()
+const item2 = new Item()
 
 new List().append(item1)
 
-item1.next === null // => true
+console.log(item1.next === null) // => true
 
 item1.append(item2)
-item1.next === item2 // => true
+console.log(item1.next === item2) // => true
 ```
 
-Adds the given item **after** the operated on item in a list.
+Add the given item **after** the operated on item in a list.
+
 Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
-Returns false when the operated on item is not attached to a list, otherwise the
-given item.
+Returns `false` when the operated on item is not attached to a list, otherwise
+the given item.
 
 #### `Item#prepend(item)`
 
 ```js
-var item1 = new Item()
-var item2 = new Item()
+const item1 = new Item()
+const item2 = new Item()
 
 new List().append(item1)
 
-item1.prev === null // => true
+console.log(item1.prev === null) // => true
 
 item1.prepend(item2)
-item1.prev === item2 // => true
+console.log(item1.prev === item2) // => true
 ```
 
-Adds the given item **before** the operated on item in a list.
+Add the given item **before** the operated on item in a list.
+
 Throws an error when the given item has no `detach`, `append`, or `prepend`
 methods.
-Returns false when the operated on item is not attached to a list, otherwise
+Returns `false` when the operated on item is not attached to a list, otherwise
 the given item.
 
 #### `Item#detach()`
 
 ```js
-var item = new Item()
-var list = new List(item)
+const item = new Item()
+const list = new List(item)
 
-item.list === list // => true
+console.log(item.list === list) // => true
 
 item.detach()
-item.list === null // => true
+console.log(item.list === null) // => true
 ```
 
-Removes the operated on item from its parent list.
-Removes references to it on its parent `list`, and `prev` and `next` items;
-relinking them when possible.
+Remove the operated on item from its parent list.
+
+Removes references to it on its parent `list`, and `prev` and `next` items.
+Relinks all references.
 Returns the operated on item.
 Even when it was already detached.
 
 #### `Item#next`
 
 ```js
-var item1 = new Item()
-var item2 = new Item()
+const item1 = new Item()
+const item2 = new Item()
 
-new List(item1)
+const list = new List(item1)
 
-item1.next === null // => true
-item2.next === null // => true
+console.log(item1.next === null) // => true
+console.log(item2.next === null) // => true
 
 item1.append(item2)
 
-item1.next === item2 // => true
+console.log(item1.next === item2) // => true
 
 item1.detach()
 
-item1.next === null // => true
+console.log(item1.next === null) // => true
 ```
 
-The items succeeding item, and `null` otherwise.
+The following item or `null` otherwise.
 
 #### `Item#prev`
 
 ```js
-var item1 = new Item()
-var item2 = new Item()
+const item1 = new Item()
+const item2 = new Item()
 
-new List(item1)
+const list = new List(item1)
 
-item1.prev === null // => true
-item2.prev === null // => true
+console.log(item1.prev === null) // => true
+console.log(item2.prev === null) // => true
 
 item1.append(item2)
 
-item1.prev === item2 // => true
+console.log(item2.prev === item1) // => true
 
 item2.detach()
 
-item2.prev === null // => true
+console.log(item2.prev === null) // => true
 ```
 
-The items preceding item, and `null` otherwise.
+The preceding item or `null` otherwise.
 
 #### `Item#list`
 
 ```js
-var item = new Item()
-var list = new List()
+const item = new Item()
+const list = new List()
 
-item.list === null // => true
+console.log(item.list === null) // => true
 
 list.append(item)
 
-item.list === list // => true
+console.log(item.list === list) // => true
 
 item.detach()
 
-item.list === null // => true
+console.log(item.list === null) // => true
 ```
 
-The items parent list, and `null` otherwise.
+The list this item belongs to or `null` otherwise.
 
 ## Types
 
 This package is fully typed with [TypeScript][].
-There are no extra exported types.
+It exports no additional types.
 
 ## Compatibility
 
 This package is at least compatible with all maintained versions of Node.js.
-As of now, that is Node.js 12.20+, 14.14+, and 16.0+.
+As of now, that is Node.js 14.14+ and 16.0+.
 It also works in Deno and modern browsers.
 
 ## Security
