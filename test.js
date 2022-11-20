@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import test from 'node:test'
 import {List, Item} from './index.js'
 
-var own = {}.hasOwnProperty
+const own = {}.hasOwnProperty
 
 test('List [List]', async function (t) {
   await t.test('@constructor', function () {
@@ -48,10 +48,10 @@ test('List [List]', async function (t) {
     await t.test(
       'should add (“append”) items in the order they were given',
       function () {
-        var item = new Item()
-        var item1 = new Item()
-        var item2 = new Item()
-        var list = List.of(item, item1, item2)
+        const item = new Item()
+        const item1 = new Item()
+        const item2 = new Item()
+        const list = List.of(item, item1, item2)
 
         assert.equal(list.size, 3)
 
@@ -113,10 +113,10 @@ test('List [List]', async function (t) {
     await t.test(
       'should add (“append”) items in the order they were given',
       function () {
-        var item = new Item()
-        var item1 = new Item()
-        var item2 = new Item()
-        var list = List.from([item, item1, item2])
+        const item = new Item()
+        const item1 = new Item()
+        const item2 = new Item()
+        const list = List.from([item, item1, item2])
 
         assert.equal(list.size, 3)
 
@@ -133,11 +133,11 @@ test('List [List]', async function (t) {
     await t.test(
       'should add items from an array with `Symbol.iterator`',
       function () {
-        var items = [new Item(), new Item(), new Item()]
+        const items = [new Item(), new Item(), new Item()]
         // Remove iterator to test array branch.
         // @ts-expect-error: that’s the test.
         items[Symbol.iterator] = undefined
-        var list = List.from(items)
+        const list = List.from(items)
 
         assert.equal(list.size, 3)
 
@@ -186,9 +186,6 @@ test('List [List]', async function (t) {
     )
 
     await t.test('prepend [List#prepend]', function () {
-      var item
-      var other
-
       assert.equal(
         new List().prepend(),
         false,
@@ -199,7 +196,7 @@ test('List [List]', async function (t) {
       list.prepend()
       assert.equal(list.size, 0, 'should have 0 size of no item is given')
 
-      item = new Item()
+      let item = new Item()
 
       assert.equal(
         new List().prepend(item),
@@ -231,7 +228,7 @@ test('List [List]', async function (t) {
         'shouldn’t set `@tail` to the first prependee'
       )
 
-      other = new Item()
+      let other = new Item()
       list.prepend(other)
 
       assert.equal(
@@ -266,18 +263,18 @@ test('List [List]', async function (t) {
       assert.equal(list.size, 3, 'should update size after 2nd prepend')
 
       list = new List()
-      other = new List()
+      const otherList = new List()
       item = new Item()
 
       list.prepend(item)
-      other.prepend(item)
+      otherList.prepend(item)
       assert.equal(
         list.size,
         0,
         'should update size after item moved to new list'
       )
       assert.equal(
-        other.size,
+        otherList.size,
         1,
         'should update size after item moved from different list'
       )
@@ -287,13 +284,14 @@ test('List [List]', async function (t) {
         'should detach the previous parent list of a prependee'
       )
 
-      assert.equal(other.head, item, 'should attach a prependee to a new list')
+      assert.equal(
+        otherList.head,
+        item,
+        'should attach a prependee to a new list'
+      )
     })
 
     await t.test('append [List#append]', function () {
-      var item
-      var other
-
       assert.equal(
         new List().append(),
         false,
@@ -304,7 +302,7 @@ test('List [List]', async function (t) {
       list.append()
       assert.equal(list.size, 0, 'should have 0 size of no item is given')
 
-      item = new Item()
+      let item = new Item()
 
       assert.equal(
         new List().append(item),
@@ -339,7 +337,7 @@ test('List [List]', async function (t) {
         'shouldn’t set `@tail` to the first appendee'
       )
 
-      other = new Item()
+      let other = new Item()
       list.append(other)
 
       assert.equal(list.size, 2, 'should update size after 2nd append')
@@ -374,11 +372,11 @@ test('List [List]', async function (t) {
       assert.equal(list.size, 3, 'should update size after 2nd append')
 
       list = new List()
-      other = new List()
+      const otherList = new List()
       item = new Item()
 
       list.append(item)
-      other.append(item)
+      otherList.append(item)
 
       assert.equal(
         list.size,
@@ -386,7 +384,7 @@ test('List [List]', async function (t) {
         'should update size after item moved to new list'
       )
       assert.equal(
-        other.size,
+        otherList.size,
         1,
         'should update size after item moved from different list'
       )
@@ -397,13 +395,14 @@ test('List [List]', async function (t) {
         'should detach the previous parent list of an appendee'
       )
 
-      assert.equal(other.head, item, 'should attach an appendee to a new list')
+      assert.equal(
+        otherList.head,
+        item,
+        'should attach an appendee to a new list'
+      )
     })
 
     await t.test('toArray [List#toArray]', function () {
-      var list
-      var result
-
       assert.ok(
         Array.isArray(new List(new Item()).toArray()),
         'should return an array'
@@ -415,8 +414,8 @@ test('List [List]', async function (t) {
           'the operated on list has no items'
       )
 
-      list = new List(new Item(), new Item(), new Item())
-      result = list.toArray()
+      const list = new List(new Item(), new Item(), new Item())
+      const result = list.toArray()
 
       assert.equal(result[0], list.head, 'should return a sorted array (1)')
       assert.equal(
@@ -429,11 +428,8 @@ test('List [List]', async function (t) {
     })
 
     await t.test('@@iterator [List#@@iterator]', function () {
-      var list
-      var result
-
-      list = new List(new Item(), new Item(), new Item())
-      result = Array.from(list)
+      const list = new List(new Item(), new Item(), new Item())
+      const result = Array.from(list)
 
       assert.equal(result[0], list.head, 'should return a sorted array (1)')
       assert.equal(
@@ -480,9 +476,8 @@ test('Item [List.Item]', async function (t) {
   )
 
   await t.test('prepend [List.Item#prepend]', function () {
-    var item = new Item()
-    var other = new Item()
-    var list
+    let item = new Item()
+    let other = new Item()
 
     assert.equal(
       item.prepend(other),
@@ -509,7 +504,7 @@ test('Item [List.Item]', async function (t) {
 
     item = new Item()
     other = new Item()
-    list = new List()
+    let list = new List()
     list.append(item)
 
     assert.equal(
@@ -535,7 +530,6 @@ test('Item [List.Item]', async function (t) {
     const otherList = new List(item)
     list = new List(new Item())
 
-    // @ts-expect-error: exists.
     list.head.prepend(item)
 
     assert.equal(
@@ -592,9 +586,8 @@ test('Item [List.Item]', async function (t) {
   })
 
   await t.test('append [List.Item#append]', function () {
-    var item = new Item()
-    var other = new Item()
-    var list
+    let item = new Item()
+    let other = new Item()
 
     assert.equal(
       item.append(other),
@@ -621,7 +614,7 @@ test('Item [List.Item]', async function (t) {
 
     item = new Item()
     other = new Item()
-    list = new List()
+    let list = new List()
     list.append(item)
 
     assert.equal(
@@ -647,7 +640,6 @@ test('Item [List.Item]', async function (t) {
     const otherList = new List(item)
     list = new List(new Item())
 
-    // @ts-expect-error: exists.
     list.head.append(item)
 
     assert.equal(
@@ -682,22 +674,18 @@ test('Item [List.Item]', async function (t) {
 
     const otherItem = list.head
     item = new Item()
-    // @ts-expect-error: exists.
     otherItem.append(item)
 
     assert.equal(list.head, otherItem, 'should not remove the head')
 
-    // @ts-expect-error: exists.
     assert.equal(otherItem.next, item, 'should set `next` on the context')
 
     assert.equal(item.prev, otherItem, 'should set `prev` on the appendee')
   })
 
   await t.test('detach [List.Item#detach]', function () {
-    var item = new Item()
-    var list = new List()
-    var other
-    var other2
+    let item = new Item()
+    let list = new List()
 
     list.append(item)
 
@@ -718,7 +706,7 @@ test('Item [List.Item]', async function (t) {
     )
 
     item = new Item()
-    other = new Item()
+    let other = new Item()
     list = new List()
 
     list.append(item)
@@ -736,7 +724,7 @@ test('Item [List.Item]', async function (t) {
 
     item = new Item()
     other = new Item()
-    other2 = new Item()
+    let other2 = new Item()
     list = new List()
 
     list.append(item)

@@ -19,7 +19,7 @@ class Iterator {
 export class Item {
   // Prepends the given item *before* the item operated on.
   prepend(item) {
-    var list = this.list
+    const list = this.list
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
@@ -66,7 +66,7 @@ export class Item {
 
   // Appends the given item *after* the item operated on.
   append(item) {
-    var list = this.list
+    const list = this.list
 
     if (!item || !item.append || !item.prepend || !item.detach) {
       throw new Error(
@@ -108,7 +108,7 @@ export class Item {
 
   // Detaches the item operated on from its parent list.
   detach() {
-    var list = this.list
+    const list = this.list
 
     if (!list) {
       return this
@@ -144,7 +144,9 @@ export class Item {
 
     // Remove links from self to both the next and previous items, and to the
     // parent list.
-    this.prev = this.next = this.list = null
+    this.prev = null
+    this.next = null
+    this.list = null
 
     list.size--
 
@@ -152,7 +154,9 @@ export class Item {
   }
 }
 
-Item.prototype.next = Item.prototype.prev = Item.prototype.list = null
+Item.prototype.next = null
+Item.prototype.prev = null
+Item.prototype.list = null
 
 // Creates a new List: A linked list is a bit like an Array, but knows nothing
 // about how many items are in it, and knows only about its first (`head`) and
@@ -178,8 +182,8 @@ export class List {
   // Returns the list’s items as an array.
   // This does *not* detach the items.
   toArray() {
-    var item = this.head
-    var result = []
+    let item = this.head
+    const result = []
 
     while (item) {
       result.push(item)
@@ -256,13 +260,14 @@ export class List {
 }
 
 List.prototype.size = 0
-List.prototype.tail = List.prototype.head = null
+List.prototype.tail = null
+List.prototype.head = null
 
 // Creates a new list from the items passed in.
 function appendAll(list, items) {
-  var index
-  var item
-  var iterator
+  let index
+  let item
+  let iterator
 
   if (!items) {
     return list

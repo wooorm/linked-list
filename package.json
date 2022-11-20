@@ -57,14 +57,8 @@
   "xo": {
     "prettier": true,
     "rules": {
-      "no-var": "off",
-      "prefer-arrow-callback": "off",
-      "no-multi-assign": "off"
-    },
-    "ignores": [
-      "*.ts",
-      "linked-list.js"
-    ]
+      "@typescript-eslint/ban-types": "off"
+    }
   },
   "remarkConfig": {
     "plugins": [
