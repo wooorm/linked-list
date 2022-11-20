@@ -3,4 +3,5 @@
 .idea
 coverage/
 node_modules/
+test.d.ts
 yarn.lock

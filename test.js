@@ -12,6 +12,9 @@ test('List [List]', function (t) {
   })
 
   t.test('of [List.of]', function (t) {
+    /**
+     * @extends {List<Item>}
+     */
     class C extends List {}
 
     t.ok(
@@ -54,11 +57,15 @@ test('List [List]', function (t) {
         t.equal(list.size, 3)
 
         t.equal(list.head, item)
+        // @ts-expect-error: exists.
         t.equal(list.head.next, item1)
+        // @ts-expect-error: exists.
         t.equal(list.head.next.next, item2)
 
         t.equal(list.tail, item2)
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev, item1)
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev.prev, item)
 
         t.end()
@@ -69,6 +76,9 @@ test('List [List]', function (t) {
   })
 
   t.test('from [List.from]', function (t) {
+    /**
+     * @extends {List<Item>}
+     */
     class C extends List {}
 
     t.ok(
@@ -99,7 +109,6 @@ test('List [List]', function (t) {
 
     t.ok(
       C.from([new Item()]) instanceof C,
-      List.from([new Item()]) instanceof List,
       'should return an instance of self when items are given (2)'
     )
 
@@ -118,11 +127,15 @@ test('List [List]', function (t) {
         t.equal(list.size, 3)
 
         t.equal(list.head, item)
+        // @ts-expect-error: exists.
         t.equal(list.head.next, item1)
+        // @ts-expect-error: exists.
         t.equal(list.head.next.next, item2)
 
         t.equal(list.tail, item2)
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev, item1)
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev.prev, item)
 
         t.end()
@@ -134,17 +147,22 @@ test('List [List]', function (t) {
       function (t) {
         var items = [new Item(), new Item(), new Item()]
         // Remove iterator to test array branch.
+        // @ts-expect-error: that’s the test.
         items[Symbol.iterator] = undefined
         var list = List.from(items)
 
         t.equal(list.size, 3)
 
         t.equal(list.head, items[0])
+        // @ts-expect-error: exists.
         t.equal(list.head.next, items[1])
+        // @ts-expect-error: exists.
         t.equal(list.head.next.next, items[2])
 
         t.equal(list.tail, items[2])
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev, items[1])
+        // @ts-expect-error: exists.
         t.equal(list.tail.prev.prev, items[0])
 
         t.end()
@@ -188,7 +206,6 @@ test('List [List]', function (t) {
     )
 
     t.test('prepend [List#prepend]', function (t) {
-      var list
       var item
       var other
 
@@ -198,7 +215,7 @@ test('List [List]', function (t) {
         'should return false when no item is given'
       )
 
-      list = new List()
+      let list = new List()
       list.prepend()
       t.equal(list.size, 0, 'should have 0 size of no item is given')
 
@@ -272,7 +289,6 @@ test('List [List]', function (t) {
     })
 
     t.test('append [List#append]', function (t) {
-      var list
       var item
       var other
 
@@ -282,7 +298,7 @@ test('List [List]', function (t) {
         'should return false when no item is given'
       )
 
-      list = new List()
+      let list = new List()
       list.append()
       t.equal(list.size, 0, 'should have 0 size of no item is given')
 
@@ -375,6 +391,7 @@ test('List [List]', function (t) {
       result = list.toArray()
 
       t.equal(result[0], list.head, 'should return a sorted array (1)')
+      // @ts-expect-error: exists.
       t.equal(result[1], list.head.next, 'should return a sorted array (2)')
       t.equal(result[2], list.tail, 'should return a sorted array (3)')
 
@@ -389,6 +406,7 @@ test('List [List]', function (t) {
       result = Array.from(list)
 
       t.equal(result[0], list.head, 'should return a sorted array (1)')
+      // @ts-expect-error: exists.
       t.equal(result[1], list.head.next, 'should return a sorted array (2)')
       t.equal(result[2], list.tail, 'should return a sorted array (3)')
 
@@ -428,10 +446,12 @@ test('Item [List.Item]', function (t) {
     t.equal(other.next, null, 'should do nothing if `item` is detached (2)')
 
     t.throws(function () {
+      // @ts-expect-error: invalid value.
       item.prepend(null)
     }, 'should throw an error when an invalid item is given (1)')
 
     t.throws(function () {
+      // @ts-expect-error: invalid value.
       item.prepend({})
     }, 'should throw an error when an invalid item is given (2)')
 
@@ -460,19 +480,20 @@ test('Item [List.Item]', function (t) {
     t.equal(list.size, 2, 'should update size after prepend on item')
 
     item = new Item()
-    other = new List(item)
+    const otherList = new List(item)
     list = new List(new Item())
 
+    // @ts-expect-error: exists.
     list.head.prepend(item)
 
     t.equal(
-      other.size,
+      otherList.size,
       0,
       'should update size after prepend on item to a different list'
     )
 
     t.equal(
-      other.head,
+      otherList.head,
       null,
       'should detach the previous parent list of a given item'
     )
@@ -491,31 +512,36 @@ test('Item [List.Item]', function (t) {
 
     t.equal(
       list.tail,
+      // @ts-expect-error: exists.
       list.head.next,
       'should set the operated on item as the parent list’s `tail` when the operated on item is the current `head`'
     )
 
     t.equal(
+      // @ts-expect-error: exists.
       list.tail.prev,
       item,
       'should set the operated on item’s `prev` property to the given item'
     )
 
     t.equal(
+      // @ts-expect-error: exists.
       list.head.next,
       list.tail,
       'should set the given item’s `next` property to the operated on item'
     )
 
-    other = list.tail
+    const otherItem = list.tail
     item = new Item()
-    other.prepend(item)
+    // @ts-expect-error: exists.
+    otherItem.prepend(item)
 
-    t.equal(list.tail, other, 'should not remove the tail')
+    t.equal(list.tail, otherItem, 'should not remove the tail')
 
-    t.equal(item.next, other, 'should set `next` on the prependee')
+    t.equal(item.next, otherItem, 'should set `next` on the prependee')
 
-    t.equal(other.prev, item, 'should set `prev` on the context')
+    // @ts-expect-error: exists.
+    t.equal(otherItem.prev, item, 'should set `prev` on the context')
 
     t.end()
   })
@@ -535,10 +561,12 @@ test('Item [List.Item]', function (t) {
     t.equal(other.next, null, 'should do nothing if `item` is detached (2)')
 
     t.throws(function () {
+      // @ts-expect-error: invalid value.
       item.append(null)
     }, 'should throw an error when an invalid item is given (1)')
 
     t.throws(function () {
+      // @ts-expect-error: invalid value.
       item.append({})
     }, 'should throw an error when an invalid item is given (2)')
 
@@ -567,19 +595,20 @@ test('Item [List.Item]', function (t) {
     t.equal(list.size, 2, 'should update size after append on item')
 
     item = new Item()
-    other = new List(item)
+    const otherList = new List(item)
     list = new List(new Item())
 
+    // @ts-expect-error: exists.
     list.head.append(item)
 
     t.equal(
-      other.size,
+      otherList.size,
       0,
       'should update size after append on item to a different list'
     )
 
     t.equal(
-      other.head,
+      otherList.head,
       null,
       'should detach the previous parent list of a given item'
     )
@@ -597,20 +626,23 @@ test('Item [List.Item]', function (t) {
     )
 
     t.equal(
+      // @ts-expect-error: exists.
       list.tail.prev,
       list.head,
       'should keep the operated on item as the parent list’s `head` when the operated on item is the current `head`'
     )
 
-    other = list.head
+    const otherItem = list.head
     item = new Item()
-    other.append(item)
+    // @ts-expect-error: exists.
+    otherItem.append(item)
 
-    t.equal(list.head, other, 'should not remove the head')
+    t.equal(list.head, otherItem, 'should not remove the head')
 
-    t.equal(other.next, item, 'should set `next` on the context')
+    // @ts-expect-error: exists.
+    t.equal(otherItem.next, item, 'should set `next` on the context')
 
-    t.equal(item.prev, other, 'should set `prev` on the appendee')
+    t.equal(item.prev, otherItem, 'should set `prev` on the appendee')
 
     t.end()
   })
