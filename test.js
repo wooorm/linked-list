@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import test from 'node:test'
-import { List, Item } from './index.js'
+import {List, Item} from './index.js'
 
 const own = {}.hasOwnProperty
 
@@ -14,7 +14,7 @@ test('List [List]', async function (t) {
     /**
      * @extends {List<Item>}
      */
-    class C extends List { }
+    class C extends List {}
 
     assert.ok(
       List.of() instanceof List,
@@ -71,7 +71,7 @@ test('List [List]', async function (t) {
     /**
      * @extends {List<Item>}
      */
-    class C extends List { }
+    class C extends List {}
 
     assert.ok(
       List.from() instanceof List,
@@ -416,7 +416,7 @@ test('List [List]', async function (t) {
       assert.ok(
         Array.isArray(new List().toArray()),
         'should return an array, even when ' +
-        'the operated on list has no items'
+          'the operated on list has no items'
       )
 
       const list = new List(new Item(), new Item(), new Item())
@@ -449,8 +449,10 @@ test('List [List]', async function (t) {
         if (i === 0) {
           list.head?.prepend(new Item())
         }
+
         count++
       }
+
       assert.equal(
         count,
         4,
@@ -537,8 +539,8 @@ test('Item [List.Item]', async function (t) {
       item.prepend(other),
       other,
       'should return the given item when ' +
-      'the operated on instance is ' +
-      'attached'
+        'the operated on instance is ' +
+        'attached'
     )
 
     assert.equal(list.size, 2, 'should update size after prepend on item')
@@ -649,8 +651,8 @@ test('Item [List.Item]', async function (t) {
       item.append(other),
       other,
       'should return the given item when ' +
-      'the operated on instance is ' +
-      'attached'
+        'the operated on instance is ' +
+        'attached'
     )
 
     assert.equal(list.size, 2, 'should update size after append on item')
@@ -795,8 +797,8 @@ test('Item [List.Item]', async function (t) {
       item.next,
       other2,
       'should set the previous item’s `next` ' +
-      'property to the current item’s `next` ' +
-      'property'
+        'property to the current item’s `next` ' +
+        'property'
     )
 
     item = new Item()
@@ -816,7 +818,7 @@ test('Item [List.Item]', async function (t) {
       other2.prev,
       item,
       'should set the next item’s `prev` property to ' +
-      'the current item’s `prev` property'
+        'the current item’s `prev` property'
     )
 
     item = new Item()
