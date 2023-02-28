@@ -12,19 +12,25 @@ class ItemIterator {
   constructor(item) {
     /** @type {T|null} */
     this.item = item
+    /** @type {Number} */
+    this.first = 1
   }
 
   /**
-   * Move to the next item.
    *
    * @returns {IteratorResult<T, null>}
    */
   next() {
-    const value = this.item
+    // If there's something to iterate over
+    if (this.item) {
+      // Handle first item
+      if (this.first && this.first--) return {value: this.item, done: false}
 
-    if (value) {
-      this.item = value.next
-      return {value, done: false}
+      // Handle next items
+      if (this.item.next) {
+        this.item = this.item.next
+        return {value: this.item, done: false}
+      }
     }
 
     return {value: null, done: true}
