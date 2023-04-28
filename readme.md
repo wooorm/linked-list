@@ -264,6 +264,29 @@ console.log(list.size === 2) // => true
 
 The number of items in the list.
 
+#### `List#sort`
+
+```js
+const item1 = new Item()
+item1.value = "a"
+const item2 = new Item()
+item2.value = "bb"
+const item3 = new Item()
+item3.value = "ccc"
+
+const list = List.of(item3, item1, item2)
+console.log(list.toArray().map(item => item.value)) // ["ccc", "a", "bb"]
+
+list.sort((item1, item2) => {return item1.value.length < item2.value.length})
+console.log(list.toArray().map(item => item.value)) // ["a", "bb", "ccc"]
+
+list.sort((item1, item2) => {return item1.value.length > item2.value.length})
+console.log(list.toArray().map(item => item.value)) // ["ccc", "bb", "a"]
+```
+
+Sorts the items using [merge sort algorithm][mergesort] (O(nlogn)).
+Comparisons between items are made by calling the provided `comparator`.
+
 ### `Item()`
 
 ```js
@@ -453,3 +476,5 @@ See [How to Contribute to Open Source][contribute].
 [contribute]: https://opensource.guide/how-to-contribute/
 
 [wiki]: https://wikipedia.org/wiki/Linked_list
+
+[mergesort]: https://en.wikipedia.org/wiki/Merge_sort
