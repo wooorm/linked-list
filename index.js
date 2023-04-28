@@ -419,6 +419,127 @@ export class List {
   [Symbol.iterator]() {
     return new ItemIterator(this.head)
   }
+
+  /**
+   * Sorts the list items with {@link https://en.wikipedia.org/wiki/Merge_sort merge algorithm} (O(nlogn)).
+   *
+   * Comparisons between items are made by calling the provided `comparator`.
+   *
+   * @param {function(T, T): boolean} comparator
+   */
+  sort(comparator) {
+    /**
+     * Splits the list to two halves
+     *
+     * @param {T | null} head
+     * @returns {[T | null, T | null]}
+     */
+    const split = function (head) {
+      // Find an element in the middle of the list.
+      // Based on Floyd's Tortoise and Hare Algorithm
+
+      let slow = head
+
+      // @ts-ignore
+      let fast = head.next
+
+      while (fast !== null) {
+        fast = fast.next
+        if (fast) {
+          // @ts-ignore
+          slow = slow.next
+          fast = fast.next
+        }
+      }
+
+      // Head of the second list after splitting
+      // @ts-ignore
+      const head2 = slow.next
+
+      // @ts-ignore - disconnecting items
+      slow.next = null
+
+      // There's no need to update prev reference here (it will be updated while merging), unless you modify the sort method to traverse the list backwards. Leaving it commented out for now.
+      // @ts-ignore - disconnecting items
+      // head2.prev = null;
+
+      return [head, head2]
+    }
+
+    /**
+     * Merges two lists into one based on the provided comparator
+     *
+     * @param {T | null} head1
+     * @param {T | null} head2
+     * @returns {T | null}
+     */
+    const merge = function (head1, head2) {
+      /** @type {T | null} */
+      let result = null
+
+      // If one of provided lists is empty, there's nothing to merge.
+      // The only possibility for that here is for the head1 to be null (because of the way the splitting algorithm works).
+      if (head1 === null) {
+        // @ts-ignore
+        return head2
+      }
+
+      head1.prev = null
+
+      // @ts-ignore
+      head2.prev = null
+
+      // @ts-ignore
+      if (comparator(head1, head2)) {
+        result = head1
+        // @ts-ignore
+        result.next = merge(head1.next, head2)
+      } else {
+        result = head2
+        // @ts-ignore
+        result.next = merge(head2.next, head1)
+      }
+
+      // @ts-ignore
+      result.next.prev = result
+
+      return result
+    }
+
+    /**
+     * Sorts the sublits (recursive)
+     *
+     * @param {T | null} head
+     * @returns {T | null}
+     */
+    const sortRecursive = function (head) {
+      // @ts-ignore
+      if (head.next === null) {
+        return head
+      }
+
+      let [subHead1, subHead2] = split(head)
+
+      subHead1 = sortRecursive(subHead1)
+      subHead2 = sortRecursive(subHead2)
+
+      head = merge(subHead1, subHead2)
+
+      return head
+    }
+
+    if (this.head === null) return
+    this.head = sortRecursive(this.head)
+
+    // Final iteration to find the new tail
+    this.tail = this.head
+
+    // @ts-ignore
+    while (this.tail.next !== null) {
+      // @ts-ignore
+      this.tail = this.tail.next
+    }
+  }
 }
 
 // type-coverage:ignore-next-line

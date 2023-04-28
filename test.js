@@ -445,6 +445,158 @@ test('List [List]', async function (t) {
       )
       assert.equal(result[2], list.tail, 'should return a sorted array (3)')
     })
+
+    await t.test('sort [List#sort]', function () {
+      const list = new List()
+      list.sort((item1, item2) => {
+        // @ts-expect-error: exists.
+        return item1.exampleVal < item2.exampleVal
+      })
+      assert.equal(
+        list.head,
+        null,
+        'sorting an empty list should have no effect on head'
+      )
+      assert.equal(
+        list.tail,
+        null,
+        'sorting an empty list should have no effect on tail'
+      )
+
+      const i1 = new Item()
+      // @ts-expect-error: exists.
+      i1.exampleVal = 1
+
+      list.append(i1)
+      list.sort((i1, i2) => {
+        // @ts-expect-error: exists.
+        return i1.exampleVal < i2.exampleVal
+      })
+
+      assert.equal(
+        list.head,
+        i1,
+        'sorting a list with one item should have no effect on head'
+      )
+      assert.equal(
+        list.tail,
+        i1,
+        'sorting a list with one item should have no effect on tail'
+      )
+      assert.equal(
+        i1.prev,
+        null,
+        'sorting a list with one item should have no effect on items refs (prev)'
+      )
+      assert.equal(
+        i1.next,
+        null,
+        'sorting a list with one item should have no effect on items refs (next)'
+      )
+
+      const i2 = new Item()
+      // @ts-expect-error: exists.
+      i2.exampleVal = 2
+
+      list.append(i2)
+      list.sort((i1, i2) => {
+        // @ts-expect-error: exists.
+        return i1.exampleVal > i2.exampleVal
+      })
+
+      assert.equal(
+        list.head,
+        i2,
+        'sorting a list with even no. items should properly set the head ref'
+      )
+      assert.equal(
+        list.tail,
+        i1,
+        'sorting a list with even no. items should properly set the tail ref'
+      )
+
+      assert.equal(
+        i2.prev,
+        null,
+        'sorting a list with even no. items should properly set the refs (head.prev)'
+      )
+      assert.equal(
+        i2.next,
+        i1,
+        'sorting a list with even no. items should properly set the refs (head.next)'
+      )
+
+      assert.equal(
+        i1.prev,
+        i2,
+        'sorting a list with even no. items should properly set the refs (tail.prev)'
+      )
+      assert.equal(
+        i1.next,
+        null,
+        'sorting a list with even no. items should properly set the refs (tail.next)'
+      )
+
+      const i3 = new Item()
+      // @ts-expect-error: exists.
+      i3.exampleVal = 3
+
+      i1.detach()
+      i2.detach()
+
+      list.append(i2)
+      list.append(i3)
+      list.append(i1)
+
+      list.sort((i1, i2) => {
+        // @ts-expect-error: exists.
+        return i1.exampleVal < i2.exampleVal
+      })
+
+      assert.equal(
+        list.head,
+        i1,
+        'sorting a list with odd no. items should properly set the head ref'
+      )
+      assert.equal(
+        list.tail,
+        i3,
+        'sorting a list with odd no. items should properly set the tail ref'
+      )
+
+      assert.equal(
+        i1.prev,
+        null,
+        'sorting a list with odd no. items should properly set the refs (head.prev)'
+      )
+      assert.equal(
+        i1.next,
+        i2,
+        'sorting a list with odd no. items should properly set the refs (head.next)'
+      )
+
+      assert.equal(
+        i2.prev,
+        i1,
+        'sorting a list with odd no. items should properly set the refs (midItem.prev)'
+      )
+      assert.equal(
+        i2.next,
+        i3,
+        'sorting a list with odd no. items should properly set the refs (midItem.next)'
+      )
+
+      assert.equal(
+        i3.prev,
+        i2,
+        'sorting a list with odd no. items should properly set the refs (tail.prev)'
+      )
+      assert.equal(
+        i3.next,
+        null,
+        'sorting a list with odd no. items should properly set the refs (tail.next)'
+      )
+    })
   })
 })
 
